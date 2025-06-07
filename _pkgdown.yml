@@ -1,2 +1,4 @@
 destination: public
 url: https://rock.opens.science
+template:
+  bootstrap: 5
