@@ -1,7 +1,7 @@
 Package: rock
 Title: Reproducible Open Coding Kit
-Version: 0.9.1
-Date: 2025-06-07
+Version: 0.9.2
+Date: 2025-06-08
 Authors@R: 
     c(person(given = "Gjalt-Jorn",
              family = "Peters",
@@ -19,7 +19,7 @@ Description: The Reproducible Open Coding Kit ('ROCK', and this package, 'rock')
   human- and machine-readable, in the spirit of MarkDown and 'YAML'. The idea is
   that this makes it relatively easy to write other functions and packages
   to process 'ROCK' files. The 'rock' package contains functions for coding,
-  collecting and showing codes fragments, prettifying sources, as well as a
+  collecting and showing coded fragments, prettifying sources, as well as a
   number of advanced analyses such as the Qualitative Network Approach and
   Qualitative/Unified Exploration of State Transitions. The 'ROCK' and
   this 'rock' package are described in the ROCK book (Zörgő & Peters,
@@ -27,7 +27,7 @@ Description: The Reproducible Open Coding Kit ('ROCK', and this package, 'rock')
   (2024) <doi:10.1080/21642850.2022.2119144> and Peters, Zörgő and van der
   Maas (2022) <doi:10.31234/osf.io/cvf52>, and more information and
   tutorials are available at <https://rock.science>.
-BugReports: https://gitlab.com/r-packages/rock/-/issues
+BugReports: https://codeberg.org/R-packages/rock/issues
 URL: https://rock.opens.science
 License: GPL-3
 Encoding: UTF-8
