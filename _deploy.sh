@@ -15,6 +15,10 @@ cd ~/deploy_rock.opens.science
 pwd
 echo $PATH
 
+echo Deleting old public directory before creating new site...
+
+rm -rf ~/deploy_rock.opens.science/public
+
 echo Running PkgDown in deployment directory...
 
 /usr/local/bin/R -e "pkgdown::build_site();"
