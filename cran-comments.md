@@ -1,3 +1,19 @@
+[ v.0.9.4 ]
+
+Hey there,
+
+One last bit of detritus caused a problem, removed that now.
+
+Sorry for the inconvenience!
+
+Kind regards,
+
+Gjalt-Jorn
+
+
+-----
+
+
 [ v.0.9.3 ]
 
 Hey there,
