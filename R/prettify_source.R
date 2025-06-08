@@ -158,7 +158,7 @@ prettify_source <- function(x,
   } else if (identical(Sys.getenv("IN_PKGDOWN"), "true")) {
 
     return(
-      htmltools::HTML(res)
+      htmltools::renderDocument(res)
     );
 
   } else {
