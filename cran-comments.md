@@ -1,4 +1,17 @@
+[ v.0.9.2 ]
+
 Hey there,
+
+Fixed a typo and broken URL, sorry for the inconvenience!
+
+Kind regards,
+
+Gjalt-Jorn
+
+
+-----
+
+[ v.0.9.1 ]
 
 I've fixed the issues Beni pointed out (thank you!); ready for CRAN again.
 
