@@ -2,3 +2,13 @@ destination: public
 url: https://rock.opens.science
 template:
   bootstrap: 5
+
+# reference:
+#   - title: Basics
+#     desc:  The basis {rock} functions
+#     contents:
+#       - cleaning_sources
+#       - wordwrap_source
+#       - prepending_uids
+#       - parsing_sources
+#       - collect_coded_fragments
