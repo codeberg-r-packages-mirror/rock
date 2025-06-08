@@ -159,15 +159,20 @@ prettify_source <- function(x,
 
     if (requireNamespace("pkgdown", quietly = TRUE)) {
 
-      return(
-        pkgdown::pkgdown_print(
-          htmltools::renderDocument(
-            htmltools::HTML(
-              res
-            )
-          )
-        )
-      );
+      res <-
+        htmltools::HTML(
+          res
+        );
+
+      # return(
+      #   pkgdown::pkgdown_print(
+      #     res
+      #   )
+      # );
+
+      class(res) <- "prettified_ROCK_source";
+
+      return(res);
 
     }
 
@@ -183,6 +188,20 @@ prettify_source <- function(x,
     }
     return(invisible(res));
 
+  }
+
+}
+
+
+#' @export
+pkgdown_print.prettified_ROCK_source <- function(x, visible = TRUE) {
+
+  if (!visible) {
+    return(invisible());
+  } else {
+    cat(
+      x, sep="\n"
+    )
   }
 
 }
