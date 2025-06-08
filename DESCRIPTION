@@ -1,16 +1,16 @@
 Package: rock
 Title: Reproducible Open Coding Kit
-Version: 0.9.3
+Version: 0.9.4
 Date: 2025-06-08
 Authors@R: 
     c(person(given = "Gjalt-Jorn",
              family = "Peters",
-             role = c("aut", "cre", "ctb", "cph"),
+             role = c("aut", "cre", "cph"),
              email = "rock@opens.science",
              comment = c(ORCID = "0000-0002-0336-9589")),
       person(given = "Szilvia",
              family = "Zörgő",
-             role = c("aut", "ctb"),
+             role = c("aut"),
              comment = c(ORCID = "0000-0002-6916-2097")))
 Maintainer: Gjalt-Jorn Peters <rock@opens.science>
 Description: The Reproducible Open Coding Kit ('ROCK', and this package, 'rock')

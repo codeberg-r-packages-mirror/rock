@@ -7,18 +7,41 @@
 #' standard format.
 #'
 #' @param x The date and time to use.
+#' @param addDelimiters If `TRUE`, add the delimiters (by default, `[[` and
+#' `]]`).
 #'
+#' @inheritParams prepend_tssid_to_source
 #' @returns The tssid
 #' @export
 #'
-#' @examples generate_tssid();
-generate_tssid <- function(x = Sys.time()) {
+#' @examples rock::generate_tssid();
+generate_tssid <- function(x = Sys.time(),
+                           addDelimiters = FALSE,
+                           designationSymbol = "=") {
 
-  return(
+  res <-
     format(
       as.POSIXct(x, tz = "UTC"),
       "%Y%m%dT%H%MZ"
-    )
+    );
+
+  if (addDelimiters) {
+
+    codeDelimiters <- rock::opts$get(codeDelimiters);
+
+    res <-
+      paste0(
+        codeDelimiters[1],
+        "tssid",
+        designationSymbol,
+        res,
+        codeDelimiters[2]
+      );
+
+  }
+
+  return(
+    res
   );
 
 }

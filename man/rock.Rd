@@ -45,11 +45,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Gjalt-Jorn Peters \email{rock@opens.science} (\href{https://orcid.org/0000-0002-0336-9589}{ORCID}) [contributor, copyright holder]
+\strong{Maintainer}: Gjalt-Jorn Peters \email{rock@opens.science} (\href{https://orcid.org/0000-0002-0336-9589}{ORCID}) [copyright holder]
 
 Authors:
 \itemize{
-  \item Szilvia Zörgő (\href{https://orcid.org/0000-0002-6916-2097}{ORCID}) [contributor]
+  \item Szilvia Zörgő (\href{https://orcid.org/0000-0002-6916-2097}{ORCID})
 }
 
 }

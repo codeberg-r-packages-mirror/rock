@@ -193,28 +193,28 @@ prettify_source <- function(x,
 }
 
 
-#' @export
-pkgdown_print.prettified_ROCK_source <- function(x, visible = TRUE) {
-
-  if (!visible) {
-    return(invisible());
-  } else {
-    cat(
-      x, sep="\n"
-    )
-  }
-
-}
-
-#' @export
-print.prettified_ROCK_source <- function(x, visible = TRUE) {
-
-  if (!visible) {
-    return(invisible());
-  } else {
-    cat(
-      x, sep="\n"
-    )
-  }
-
-}
+# #' @export
+# pkgdown_print.prettified_ROCK_source <- function(x, visible = TRUE) {
+#
+#   if (!visible) {
+#     return(invisible());
+#   } else {
+#     cat(
+#       x, sep="\n"
+#     )
+#   }
+#
+# }
+#
+# #' @export
+# print.prettified_ROCK_source <- function(x, visible = TRUE) {
+#
+#   if (!visible) {
+#     return(invisible());
+#   } else {
+#     cat(
+#       x, sep="\n"
+#     )
+#   }
+#
+# }

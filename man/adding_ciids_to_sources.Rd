@@ -68,7 +68,7 @@ of the \code{input} directory}
 Invisibly, the coded source object.
 }
 \description{
-These functions add lines with class instance idenfitiers to the beginning
+These functions add lines with class instance identifiers to the beginning
 of one or more sources that were read with one of the
 \code{loading_sources} functions.
 }
@@ -92,7 +92,7 @@ loadedExample <-
     c("codeId" = "iz0dn96")
   );
 
-### Show line 71
+### Show lines 1-5
 cat(loadedExample[1:5]);
 
 }

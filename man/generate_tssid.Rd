@@ -4,10 +4,16 @@
 \alias{generate_tssid}
 \title{Generate a TSSID}
 \usage{
-generate_tssid(x = Sys.time())
+generate_tssid(x = Sys.time(), addDelimiters = FALSE, designationSymbol = "=")
 }
 \arguments{
 \item{x}{The date and time to use.}
+
+\item{addDelimiters}{If \code{TRUE}, add the delimiters (by default, \code{[[} and
+\verb{]]}).}
+
+\item{designationSymbol}{The symbol to use to designate an instance
+identifier for a class (can be "\code{=}" or "\code{:}" as per the ROCK standard).}
 }
 \value{
 The tssid
@@ -20,5 +26,5 @@ the time and date of an interview) in the UTC timezone and in ISO 8601
 standard format.
 }
 \examples{
-generate_tssid();
+rock::generate_tssid();
 }

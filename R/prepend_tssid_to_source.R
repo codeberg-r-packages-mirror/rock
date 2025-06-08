@@ -1,17 +1,21 @@
-#' Prepend lines with one or more class instance identifiers to one or more sources
+#' Prepend a line with a TSSID to a source
 #'
-#' These functions add lines with class instance identifiers to the beginning
-#' of one or more sources that were read with one of the
-#' `loading_sources` functions.
+#' This function adds a line with a TSSID (a time-stamped source identifier)
+#' to the beginning of a source that was read with one of
+#' the `loading_sources` functions. When combined with UIDs, TSSIDs are
+#' virtually unique references to a specific data fragment.
 #'
-#' @param input The source, or list of sources, as
-#' produced by one of the `loading_sources` functions.
-#' @param ciids A named character vector, where each element's name
-#' is the class identifier (e.g. "codeId" or "participantId") and each
-#' element is the class instance identifier.
+#' TSSIDs are a date and time in the UTC timezone, consisting of eight digits
+#' (four for the year, two for the month, and two for the day), a `T`, four
+#' digits (two for the hour and two for the minute), and a `Z` (to designate
+#' that the time is specified in the UTC timezone). TSSIDs are valid ISO8601
+#' standard date/times.
+#'
+#' @param input The source, as produced by one of the `loading_sources`
+#' functions, or a path to an existing file that is then imported.
+#' @param moment Optionally, the moment as a character value of the form
+#' `2025-05-28 11:30 CEST` (so, `YYYY-MM-DD HH-MM`).
 #' @param output If specified, the coded source will be written here.
-#' @param allOnOneLine Whether to add all class instance identifiers to one
-#' line (`TRUE`) or add then on successive lines (`FALSE`).
 #' @param designationSymbol The symbol to use to designate an instance
 #' identifier for a class (can be "`=`" or "`:`" as per the ROCK standard).
 #' @param preventOverwriting Whether to prevent overwriting existing files.
@@ -21,7 +25,6 @@
 #' @param silent Whether to be chatty or quiet.
 #'
 #' @return Invisibly, the coded source object.
-#' @rdname adding_ciids_to_sources
 #' @examples ### Get path to example source
 #' examplePath <-
 #'   system.file("extdata", package="rock");
@@ -36,19 +39,18 @@
 #'
 #' ### Add a coder identifier
 #' loadedExample <-
-#'   rock::prepend_ciids_to_source(
+#'   rock::prepend_tssid_to_source(
 #'     loadedExample,
-#'     c("codeId" = "iz0dn96")
+#'     moment = "2025-05-28 11:30 CEST"
 #'   );
 #'
-#' ### Show lines 1-5
-#' cat(loadedExample[1:5]);
+#' ### Show the first line
+#' cat(loadedExample[1]);
 #'
 #' @export
-prepend_ciids_to_source <- function(input,
-                                    ciids,
+prepend_tssid_to_source <- function(input,
+                                    moment = format(Sys.time(), "%Y-%m-%d %H:%M"),
                                     output = NULL,
-                                    allOnOneLine = FALSE,
                                     designationSymbol = "=",
                                     preventOverwriting = rock::opts$get('preventOverwriting'),
                                     rlWarn = rock::opts$get(rlWarn),
@@ -72,21 +74,28 @@ prepend_ciids_to_source <- function(input,
 
   codeDelimiters <- rock::opts$get(codeDelimiters);
 
-  ciidsToPrepend <-
+  tssidToPrepend <-
+    rock::generate_tssid(
+      format(
+        as.POSIXct(
+          moment
+        ),
+        "%Y-%m-%d %H:%M:%S %Z",
+        tz="UTC"
+      )
+    );
+
+  tssidToPrepend <-
     paste0(
       codeDelimiters[1],
-      names(ciids),
+      "tssid",
       designationSymbol,
-      (ciids),
+      tssidToPrepend,
       codeDelimiters[2]
-    )
-
-  if (allOnOneLine) {
-    ciidsToPrepend <- paste(ciidsToPrepend, collapse=" ");
-  }
+    );
 
   res <-
-    c(ciidsToPrepend,
+    c(tssidToPrepend,
       "",
       input
     );
