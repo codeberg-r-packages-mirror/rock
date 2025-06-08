@@ -55,6 +55,7 @@ Suggests:
     limonaid (>= 25.5),
     openxlsx (>= 4.2),
     pdftools,
+    pkgdown (>= 2.0.0),
     preregr (>= 0.1.9),
     readxl,
     rmarkdown,

@@ -157,9 +157,19 @@ prettify_source <- function(x,
 
   } else if (identical(Sys.getenv("IN_PKGDOWN"), "true")) {
 
-    return(
-      htmltools::renderDocument(res)
-    );
+    if (requireNamespace("pkgdown", quietly = TRUE)) {
+
+      return(
+        pkgdown_print(
+          htmltools::renderDocument(
+            htmltools::html(
+              res
+            )
+          )
+        )
+      );
+
+    }
 
   } else {
 
