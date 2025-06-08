@@ -20,6 +20,8 @@
 #' exampleFile <-
 #'   file.path(examplePath, "example-1.rock");
 #'
+#' ### Prettify source; if using RStudio, by default
+#' ### the prettified source is shown in the viewer.
 #' rock::prettify_source(
 #'   exampleFile
 #' );
@@ -152,6 +154,12 @@ prettify_source <- function(x,
                            "\n\n"));
 
     return(res);
+
+  } else if (identical(Sys.getenv("IN_PKGDOWN"), "true")) {
+
+    return(
+      htmltools::HTML(res)
+    );
 
   } else {
 
