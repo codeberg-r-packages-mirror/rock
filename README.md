@@ -16,7 +16,7 @@ CRAN](https://cranlogs.r-pkg.org/badges/grand-total/rock?color=brightgreen)](htt
 <!-- [![Dependency status](https://tinyverse.netlify.com/badge/rock)](https://CRAN.R-project.org/package=rock) -->
 <!-- badges: end -->
 
-# <img src='man/figures/hex-logo.png' align="right" height="200" /> rock 📦
+# <img src='man/figures/logo.png' align="right" height="200" /> rock 📦
 
 ## Reproducible Open Coding Kit
 

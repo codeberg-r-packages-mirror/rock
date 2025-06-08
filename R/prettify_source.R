@@ -160,21 +160,19 @@ prettify_source <- function(x,
 
   } else if (requireNamespace("pkgdown", quietly = TRUE) && pkgdown::in_pkgdown()) {
 
-    res <- htmltools::HTML(res);
+    # res <- htmltools::HTML(res);
+    # class(res) <- c("prettified_ROCK_source", class(res));
+    # pkgdown::pkgdown_print(res);
 
-    # return(
-    #   paste0(
-    #     "This example prints the HTML result in the viewer. However, ",
-    #     "for some reason PkgDown refuses to pretty print the HTML, despite ",
-    #     "it being a `htmltools::HTML()` result passed to a custom printing function. ",
-    #     "Therefore, you can check the example in the vignette at ",
-    #     "https://rock.opens.science/articles/rock.html"
-    #   )
-    # );
-
-    class(res) <- c("prettified_ROCK_source", class(res));
-
-    pkgdown::pkgdown_print(res);
+    return(
+      paste0(
+        "This example prints the HTML result in the viewer. However, ",
+        "for some reason PkgDown refuses to pretty print the HTML, despite ",
+        "it being a `htmltools::HTML()` result passed to a custom printing function. ",
+        "Therefore, you can check the example in the vignette at ",
+        "https://rock.opens.science/articles/rock.html"
+      )
+    );
 
   } else {
 
