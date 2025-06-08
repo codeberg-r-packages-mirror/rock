@@ -162,7 +162,7 @@ prettify_source <- function(x,
       return(
         pkgdown::pkgdown_print(
           htmltools::renderDocument(
-            htmltools::html(
+            htmltools::HTML(
               res
             )
           )
