@@ -54,7 +54,7 @@ Here, you can quickly recognize the code, which has been placed in a blue block.
 
 The ROCK standard supports a number of types of codes, attributes, comments, and other things. Below, you can see a prettified example source that shows many of these.
 
-Codes in a flat or hierarchical organizational mode are in blue blocks again; value codes (for magnitude coding) are in yellow blocks; and class instance identifiers are in pink blocks. Utterance identifiers are in grey blocks (see [rock::prepending_uids]), section breaks (used for segmentation) have a light blue/purplish background. Finally, embedded YAML chunks have a green background.
+Codes in a flat or hierarchical organizational mode are in blue blocks again; value codes (for magnitude coding) are in yellow blocks; and class instance identifiers are in pink blocks. Utterance identifiers are in grey blocks (see [rock::prepend_ids_to_source()]), section breaks (used for segmentation) have a light blue/purplish background. Finally, embedded YAML chunks have a green background.
 
 -----
 
