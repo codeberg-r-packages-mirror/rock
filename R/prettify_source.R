@@ -160,7 +160,7 @@ prettify_source <- function(x,
     if (requireNamespace("pkgdown", quietly = TRUE)) {
 
       return(
-        pkgdown_print(
+        pkgdown::pkgdown_print(
           htmltools::renderDocument(
             htmltools::html(
               res
