@@ -33,7 +33,7 @@ And the end.
 
 -----
 
-The `{rock}` package can parse sources like this, and then allows you to do what you can do with conventional (often proprietary) software for qualitative analysis. For example, it can prettify the source to be displayed like this:
+The `{rock}` package can parse sources like this, and then allows you to do what you can do with conventional (often proprietary) software for qualitative analysis. For example, it can prettify the source to be displayed like this: ^[Note that this uses HTML and so isn't visible in the PDF version of this vignette.]
 
 -----
 
@@ -52,7 +52,9 @@ rock::prettify_source(
 
 Here, you can quickly recognize the code, which has been placed in a blue block.
 
-The ROCK standard supports a number of types of codes, attributes, comments, and other things. This is prettified example source that shows many of these. Codes in a flat or hierarchical organizational mode are in blue blocks again; value codes (for magnitude coding) are in yellow blocks; and class instance identifiers are in pink blocks. Utterance identifiers are in grey blocks (see [prepending_uids]), section breaks (used for segmentation) have a light blue/purplish background. Finally, embedded YAML chunks have a green background.
+The ROCK standard supports a number of types of codes, attributes, comments, and other things. Below, you can see a prettified example source that shows many of these.
+
+Codes in a flat or hierarchical organizational mode are in blue blocks again; value codes (for magnitude coding) are in yellow blocks; and class instance identifiers are in pink blocks. Utterance identifiers are in grey blocks (see [rock::prepending_uids]), section breaks (used for segmentation) have a light blue/purplish background. Finally, embedded YAML chunks have a green background.
 
 -----
 
