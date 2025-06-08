@@ -1,3 +1,18 @@
+[ v.0.9.5 ]
+
+Hey there,
+
+Shit, forgot that ShortDOIs are also not allowed by the Readme.md file... Fixed now.
+
+Sorry for the inconvenience!
+
+Kind regards,
+
+Gjalt-Jorn
+
+
+-----
+
 [ v.0.9.4 ]
 
 Hey there,
