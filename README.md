@@ -3,10 +3,6 @@
 
 <!-- badges: start -->
 
-[![Pipeline
-status](https://gitlab.com/r-packages/rock/badges/prod/pipeline.svg)](https://gitlab.com/r-packages/rock/-/commits/prod)
-[![Coverage
-status](https://codecov.io/gl/r-packages/rock/branch/prod/graph/badge.svg)](https://app.codecov.io/gl/r-packages/rock?branch=prod)
 [![Version on
 CRAN](https://www.r-pkg.org/badges/version/rock?color=brightgreen)](https://cran.r-project.org/package=rock)
 [![Version on
@@ -21,8 +17,7 @@ CRAN](https://cranlogs.r-pkg.org/badges/grand-total/rock?color=brightgreen)](htt
 ## Reproducible Open Coding Kit
 
 The pkgdown website for this project is located at
-<https://rock.opens.science>. If there is a development version of the
-documentation, that is available at <https://r-packages.gitlab.io/rock>.
+<https://rock.opens.science>.
 
 <!--------------------------------------------->
 
@@ -30,17 +25,21 @@ documentation, that is available at <https://r-packages.gitlab.io/rock>.
 
 <!--------------------------------------------->
 
-The Reproducible Open Coding Kit (ROCK, and this package, `rock`) was
+The Reproducible Open Coding Kit (‘ROCK’, and this package, ‘rock’) was
 developed to facilitate reproducible and open coding, specifically
-geared towards qualitative research methods. Although it is a
-general-purpose toolkit, three specific applications have been
-implemented, specifically an interface to the `rENA` package that
-implements Epistemic Network Analysis (ENA), means to process notes from
-Cognitive Interviews (CIs), and means to work with a decentralized
-construct taxonomy (DCT).
-
-More ROCK-related resources are available through
-<https://rock.science>.
+geared towards qualitative research methods. It was developed to be both
+human- and machine-readable, in the spirit of MarkDown and ‘YAML’. The
+idea is that this makes it relatively easy to write other functions and
+packages to process ‘ROCK’ files. The ‘rock’ package contains functions
+for basic coding and analysis, such as collecting and showing coded
+fragments and prettifying sources, as well as a number of advanced
+analyses such as the Qualitative Network Approach and
+Qualitative/Unified Exploration of State Transitions. The ‘ROCK’ and
+this ‘rock’ package are described in the ROCK book (Zörgő & Peters,
+2022; <https://rockbook.org>, in Zörgő & Peters (2024;
+[doi.org/jrfb](https://doi.org/jrfb)), and Peters, Zörgő and van der
+Maas (2022; [doi.org/hwzj](https://doi.org/hwzj)), and more information
+and tutorials are available at <https://rock.science>.
 
 <!--------------------------------------------->
 
@@ -58,21 +57,14 @@ install.packages('rock');
 ```
 
 You can install the development version of `rock` from
-[GitLab](https://about.gitlab.com/) with:
+[Codeberg](https://codeberg.org) with:
 
 ``` r
-remotes::install_gitlab('r-packages/rock');
+remotes::install_git('https://codeberg.org/r-packages/rock');
 ```
 
 (assuming you have `remotes` installed; otherwise, install that first
-using the `install.packages` function)
-
-If you really want to install the most cutting edge version, install the
-‘dev’ branch of this repository:
-
-``` r
-remotes::install_gitlab('r-packages/rock@dev');
-```
+using the `install.packages()` function)
 
 <!--------------------------------------------->
 

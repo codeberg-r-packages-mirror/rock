@@ -8,9 +8,6 @@ echo - - - STARTING DEPLOYMENT SCRIPT at $(date) - - -
 
 cd ~/deploy_rock.opens.science
 
-pwd
-echo $PATH
-
 echo Deleting old public directory before creating new site...
 
 rm -rf ~/deploy_rock.opens.science/public
@@ -23,12 +20,10 @@ echo Done with PkgDown. Removing old site contents...
 
 rm -rf ~/rock.opens.science/*.*
 rm -rf ~/rock.opens.science/*
-rm -f ~/rock.opens.science/.htaccess
 
 echo Deleted old contents. Copying new contents.
 
 cp -RT public ~/rock.opens.science
-cp -f .htaccess ~/rock.opens.science
 
 echo Done copying over new website.
 

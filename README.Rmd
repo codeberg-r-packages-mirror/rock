@@ -49,8 +49,7 @@ cranTotal_badge <-
 
 ```
 
-<!-- badges: start -->[![Pipeline status](`r gitLab_ci_badge`)](`r gitLab_ci_url`)
-[![Coverage status](`r codecov_badge`)](`r codecov_url`)
+<!-- badges: start -->
 [![Version on CRAN](`r cranVersion_badge`)](`r cran_url`)
 [![Version on CRAN](`r cranLastMonth_badge`)](`r cran_url`)
 [![Version on CRAN](`r cranTotal_badge`)](`r cran_url`)
@@ -61,22 +60,27 @@ cranTotal_badge <-
 
 ## `r packageSubtitle`
 
-The pkgdown website for this project is located at `r pkgdown_url_prod`. If there is a development version of the documentation, that is available at `r pkgdown_url_dev`.
+The pkgdown website for this project is located at `r pkgdown_url_prod`.
 
 <!--------------------------------------------->
 <!-- Start of a custom bit for every package -->
 <!--------------------------------------------->
 
-The Reproducible Open Coding Kit (ROCK, and this package, `rock`)
+The Reproducible Open Coding Kit ('ROCK', and this package, 'rock')
 was developed to facilitate reproducible and open coding, specifically
-geared towards qualitative research methods. Although it is a
-general-purpose toolkit, three specific applications have been
-implemented, specifically an interface to the `rENA` package that
-implements Epistemic Network Analysis (ENA), means to process notes
-from Cognitive Interviews (CIs), and means to work with a decentralized
-construct taxonomy (DCT).
-
-More ROCK-related resources are available through [https://rock.science](https://rock.science).
+geared towards qualitative research methods. It was developed to be both
+human- and machine-readable, in the spirit of MarkDown and 'YAML'. The idea is
+that this makes it relatively easy to write other functions and packages
+to process 'ROCK' files. The 'rock' package contains functions for basic
+coding and analysis, such as collecting and showing coded fragments and
+prettifying sources, as well as a number of advanced analyses such as the
+Qualitative Network Approach and Qualitative/Unified Exploration of State
+Transitions. The 'ROCK' and this 'rock' package are described in the ROCK
+book (Zörgő & Peters, 2022; [https://rockbook.org](https://rockbook.org),
+in Zörgő & Peters (2024; [doi.org/jrfb](https://doi.org/jrfb)), and
+Peters, Zörgő and van der Maas (2022; [doi.org/hwzj](https://doi.org/hwzj)),
+and more information and tutorials are available
+at [https://rock.science](https://rock.science).
 
 <!--------------------------------------------->
 <!--  End of a custom bit for every package  -->
@@ -92,23 +96,15 @@ install.packages('", packagename, "');
 ```"));
 ```
 
-You can install the development version of ``r packagename`` from [GitLab](https://about.gitlab.com/) with:
+You can install the development version of ``r packagename`` from [Codeberg](https://codeberg.org) with:
 
 ```{r echo=FALSE, comment="", results="asis"}
 cat(paste0("``` r
-remotes::install_gitlab('r-packages/", packagename, "');
+remotes::install_git('https://codeberg.org/r-packages/", packagename, "');
 ```"));
 ```
 
-(assuming you have `remotes` installed; otherwise, install that first using the `install.packages` function)
-
-If you really want to install the most cutting edge version, install the 'dev' branch of this repository:
-
-```{r echo=FALSE, comment="", results="asis"}
-cat(paste0("``` r
-remotes::install_gitlab('r-packages/", packagename, "@dev');
-```"));
-```
+(assuming you have `remotes` installed; otherwise, install that first using the `install.packages()` function)
 
 <!--------------------------------------------->
 <!-- Start of a custom bit for every package -->
