@@ -37,9 +37,10 @@ analyses such as the Qualitative Network Approach and
 Qualitative/Unified Exploration of State Transitions. The ‘ROCK’ and
 this ‘rock’ package are described in the ROCK book (Zörgő & Peters,
 2022; <https://rockbook.org>, in Zörgő & Peters (2024;
-[doi.org/jrfb](https://doi.org/jrfb)), and Peters, Zörgő and van der
-Maas (2022; [doi.org/hwzj](https://doi.org/hwzj)), and more information
-and tutorials are available at <https://rock.science>.
+[doi.org/jrfb](https://doi.org/10.1080/21642850.2022.2119144)), and
+Peters, Zörgő and van der Maas (2022;
+[doi.org/hwzj](https://doi.org/10.31234/OSF.IO/CVF52)), and more
+information and tutorials are available at <https://rock.science>.
 
 <!--------------------------------------------->
 
