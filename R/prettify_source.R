@@ -165,14 +165,14 @@ prettify_source <- function(x,
     # pkgdown::pkgdown_print(res);
 
     return(
-      paste0(
-        "This example prints the HTML result in the viewer.\n",
-        "However, for some reason PkgDown refuses to pretty\n",
-        "print the HTML, despite it being a `htmltools::HTML()`\n",
-        "result passed to a custom printing function. Therefore,\n",
-        "you can check the example in the vignette at\n",
-        "https://rock.opens.science/articles/rock.html\n",
-        "\nIf you happen to know a solution, please let me know!"
+      c(
+        "This example prints the HTML result in the viewer.",
+        "However, for some reason PkgDown refuses to pretty",
+        "print the HTML, despite it being a `htmltools::HTML()`",
+        "result passed to a custom printing function. Therefore,",
+        "you can check the example in the vignette at",
+        "https://rock.opens.science/articles/rock.html",
+        "If you happen to know a solution, please let me know!"
       )
     );
 
