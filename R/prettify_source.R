@@ -160,11 +160,9 @@ prettify_source <- function(x,
 
   } else if (requireNamespace("pkgdown", quietly = TRUE) && pkgdown::in_pkgdown()) {
 
-    return(
-      htmltools::tags$div(
-        htmltools::HTML(
-          res
-        )
+    pkgdown::pkgdown_print(
+      htmltools::HTML(
+        res
       )
     );
 

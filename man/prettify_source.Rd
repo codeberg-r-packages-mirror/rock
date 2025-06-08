@@ -66,6 +66,7 @@ A character vector with the prettified source
 }
 \description{
 This function adds HTML tags to a source to allow pretty printing/viewing.
+For an example, visit \url{https://rock.opens.science/articles/rock.html}.
 }
 \examples{
 ### Get path to example source
@@ -76,8 +77,10 @@ examplePath <-
 exampleFile <-
   file.path(examplePath, "example-1.rock");
 
-### Prettify source; if using RStudio, by default
-### the prettified source is shown in the viewer.
+### Prettify source; if using RStudio, by default the
+### prettified source is shown in the viewer. You can
+### view the output of this example in the "rock" vignette
+### at https://rock.opens.science/articles/rock.html
 rock::prettify_source(
   exampleFile
 );
