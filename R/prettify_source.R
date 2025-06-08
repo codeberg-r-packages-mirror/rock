@@ -1,6 +1,7 @@
 #' Prettify a source in HTML
 #'
 #' This function adds HTML tags to a source to allow pretty printing/viewing.
+#' For an example, visit <https://rock.opens.science/articles/rock.html>.
 #'
 #' @param x The source, as imported with [rock::load_source()] or as a path
 #' to a file.
@@ -20,8 +21,10 @@
 #' exampleFile <-
 #'   file.path(examplePath, "example-1.rock");
 #'
-#' ### Prettify source; if using RStudio, by default
-#' ### the prettified source is shown in the viewer.
+#' ### Prettify source; if using RStudio, by default the
+#' ### prettified source is shown in the viewer. You can
+#' ### view the output of this example in the "rock" vignette
+#' ### at https://rock.opens.science/articles/rock.html
 #' rock::prettify_source(
 #'   exampleFile
 #' );
@@ -159,7 +162,9 @@ prettify_source <- function(x,
 
     return(
       htmltools::tags$div(
-        res
+        htmltools::HTML(
+          res
+        )
       )
     );
 

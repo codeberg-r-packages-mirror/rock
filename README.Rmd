@@ -57,7 +57,7 @@ cranTotal_badge <-
 <!-- [![Dependency status](`r dependency_badge`)](`r dependency_url`) -->
 <!-- badges: end -->
 
-# <img src='img/hex-logo.png' align="right" height="200" /> `r paste(packagename, "\U1F4E6")`
+# <img src='man/figures/hex-logo.png' align="right" height="200" /> `r paste(packagename, "\U1F4E6")`
 
 ## `r packageSubtitle`
 

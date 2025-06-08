@@ -1,5 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 <!-- badges: start -->
 
 [![Pipeline
@@ -15,7 +16,7 @@ CRAN](https://cranlogs.r-pkg.org/badges/grand-total/rock?color=brightgreen)](htt
 <!-- [![Dependency status](https://tinyverse.netlify.com/badge/rock)](https://CRAN.R-project.org/package=rock) -->
 <!-- badges: end -->
 
-# <img src='img/hex-logo.png' align="right" height="200" /> rock 📦
+# <img src='man/figures/hex-logo.png' align="right" height="200" /> rock 📦
 
 ## Reproducible Open Coding Kit
 
@@ -24,7 +25,9 @@ The pkgdown website for this project is located at
 documentation, that is available at <https://r-packages.gitlab.io/rock>.
 
 <!--------------------------------------------->
+
 <!-- Start of a custom bit for every package -->
+
 <!--------------------------------------------->
 
 The Reproducible Open Coding Kit (ROCK, and this package, `rock`) was
@@ -40,7 +43,9 @@ More ROCK-related resources are available through
 <https://rock.science>.
 
 <!--------------------------------------------->
+
 <!--  End of a custom bit for every package  -->
+
 <!--------------------------------------------->
 
 ## Installation
@@ -70,12 +75,21 @@ remotes::install_gitlab('r-packages/rock@dev');
 ```
 
 <!--------------------------------------------->
+
 <!-- Start of a custom bit for every package -->
+
 <!--------------------------------------------->
+
 <!-- ## References -->
+
 <!-- van Woerkum, C. and Aarts, N. (2012), ‘Accountability: New challenges, new forms’, *Journal of Organizational Transformation & Social Change*, 9, pp. 271–283, \doi{10.1386/jots.9.3.271_1}. -->
+
 <!--------------------------------------------->
+
 <!--  End of a custom bit for every package  -->
+
 <!--------------------------------------------->
+
 <!--  https://stackoverflow.com/questions/4822471/count-number-of-lines-in-a-git-repository    -->
+
 <!--  cloc $(git ls-files) -->

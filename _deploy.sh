@@ -25,8 +25,6 @@ echo Running PkgDown in deployment directory...
 
 echo Done with PkgDown. Copying old iROCK to a subdirectory of "public"...
 
-mkdir -p public/iROCK
-cp -R iROCK public
 mkdir -p public/img
 cp img/hex-logo.png public/img/hex-logo.png
 

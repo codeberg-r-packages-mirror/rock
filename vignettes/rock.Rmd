@@ -31,22 +31,34 @@ and some more.       [[look_a_code]]
 And the end.
 ```
 
-THe `{rock}` package can parse sources like this, and then allows you to do what you can do with conventional (often proprietary) software for qualitative analysis. For example, it can prettify the source. To illustrate this, we first store the contents as a ROCK source:
+-----
 
-```{r}
+The `{rock}` package can parse sources like this, and then allows you to do what you can do with conventional (often proprietary) software for qualitative analysis. For example, it can prettify the source to be displayed like this:. To illustrate this, we first store the contents as a ROCK source:
+
+```{r, echo=FALSE, results='asis'}
 exampleROCK <-
   rock::as.rock_source(c(
     "Some example text,",
     "and some more.       [[look_a_code]]",
     "And the end."));
-```
-
-Then we prettify it:
-
-```{r, results='asis'}
 rock::prettify_source(
   exampleROCK
 );
 ```
 
-A more extensive introduction is available in the blog post at [https://sciencer.eu/posts/2024-12-rock-basics.html](https://sciencer.eu/posts/2024-12-rock-basics.html). IN addition, the ROCK website, [https://rock.science](https://rock.science), links to a number of tutorials and workshops.
+-----
+
+The ROCK standard supports a number of types of codes, attributes, comments, and other things:
+
+```{r, echo=FALSE, results='asis'}
+rock::prettify_source(
+  system.file(
+    "extdata", "example-1.rock",
+    package="rock"
+  )
+);
+```
+
+-----
+
+A more extensive introduction is available in the blog post at [https://sciencer.eu/posts/2024-12-rock-basics.html](https://sciencer.eu/posts/2024-12-rock-basics.html). In addition, the ROCK website, [https://rock.science](https://rock.science), links to a number of tutorials and workshops.
