@@ -76,6 +76,8 @@ examplePath <-
 exampleFile <-
   file.path(examplePath, "example-1.rock");
 
+### Prettify source; if using RStudio, by default
+### the prettified source is shown in the viewer.
 rock::prettify_source(
   exampleFile
 );

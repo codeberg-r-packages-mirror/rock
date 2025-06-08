@@ -40,7 +40,7 @@ For analysis, \code{\link[=create_cooccurrence_matrix]{create_cooccurrence_matri
 Useful links:
 \itemize{
   \item \url{https://rock.opens.science}
-  \item Report bugs at \url{https://gitlab.com/r-packages/rock/-/issues}
+  \item Report bugs at \url{https://codeberg.org/R-packages/rock/issues}
 }
 
 }
