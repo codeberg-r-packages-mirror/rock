@@ -160,6 +160,8 @@ prettify_source <- function(x,
 
   } else if (requireNamespace("pkgdown", quietly = TRUE) && pkgdown::in_pkgdown()) {
 
+    res <- htmltools::HTML(res);
+
     # return(
     #   paste0(
     #     "This example prints the HTML result in the viewer. However, ",
@@ -170,15 +172,9 @@ prettify_source <- function(x,
     #   )
     # );
 
-    # pkgdown_print(
-    #   htmltools::HTML(
-    #     res
-    #   )
-    # );
+    class(res) <- c("prettified_ROCK_source", class(res));
 
-    class(res) <- "prettified_ROCK_source";
-
-    res;
+    pkgdown::pkgdown_print(res);
 
   } else {
 
