@@ -2,23 +2,23 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="261.16284mm"
    height="261.16284mm"
    viewBox="0 0 261.16284 261.16284"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
    sodipodi:docname="irock-logo.svg"
-   inkscape:export-filename="B:\Data\R\rock\img\irock-logo-400.png"
-   inkscape:export-xdpi="38.900002"
-   inkscape:export-ydpi="38.900002">
+   inkscape:export-filename="..\man\figures\logo.png"
+   inkscape:export-xdpi="19.450001"
+   inkscape:export-ydpi="19.450001"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -29,13 +29,13 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="225.24108"
-     inkscape:cy="539.62314"
+     inkscape:cx="225.26402"
+     inkscape:cy="296.98485"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1013"
+     inkscape:window-height="1094"
      inkscape:window-x="-9"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
@@ -47,7 +47,10 @@
      inkscape:bbox-paths="true"
      inkscape:bbox-nodes="true"
      inkscape:snap-bbox-edge-midpoints="true"
-     inkscape:snap-bbox-midpoints="true" />
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -56,7 +59,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -135,9 +138,9 @@
        id="text833"
        y="153.6778"
        x="196.52156"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.34803343px;line-height:4.69606686px;font-family:'Shanti (Greater Good Version)';-inkscape-font-specification:'Shanti (Greater Good Version)';letter-spacing:0px;word-spacing:0px;fill:#d40000;fill-opacity:1;stroke:none;stroke-width:0.18784267px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.34803px;line-height:4.69607px;font-family:'Shanti (Greater Good Version)';-inkscape-font-specification:'Shanti (Greater Good Version)';letter-spacing:0px;word-spacing:0px;fill:#d40000;fill-opacity:1;stroke:none;stroke-width:0.187843px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:50.09138107px;font-family:'Metal Mania';-inkscape-font-specification:'Metal Mania';fill:#d40000;fill-opacity:1;stroke-width:0.18784267px"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:50.0914px;font-family:'Metal Mania';-inkscape-font-specification:'Metal Mania';fill:#d40000;fill-opacity:1;stroke-width:0.187843px"
          y="153.6778"
          x="196.52156"
          id="tspan831"
