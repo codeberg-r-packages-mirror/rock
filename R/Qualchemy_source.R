@@ -61,7 +61,22 @@ Qualchemy_source <- R6::R6Class(
       ### Return new source
       return(invisible(self));
 
+    },
+
+    ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    ### Return project containing this source
+    ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    #' @description
+    #' Return the project that contains this source
+    #' @return Invisibly, the `project` containing this source.
+    parent_project = function() {
+
+      return(invisible(private$project));
+
     }
+
+
 
   ), ### End of public properties and methods
 

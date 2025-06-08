@@ -107,7 +107,7 @@ Qualchemy_project <- R6::R6Class(
     add_source = function(x) {
 
       newSource <-
-        Qualchemy_source$new(x);
+        Qualchemy_source$new(project = self);
 
       self$sources <- c(self$sources, newSource);
 

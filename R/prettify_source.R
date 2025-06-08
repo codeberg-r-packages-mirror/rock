@@ -155,28 +155,23 @@ prettify_source <- function(x,
 
     return(res);
 
-  } else if (identical(Sys.getenv("IN_PKGDOWN"), "true")) {
+  } else if (requireNamespace("pkgdown", quietly = TRUE) && pkgdown::in_pkgdown()) {
 
-    if (requireNamespace("pkgdown", quietly = TRUE)) {
+    return(
+      htmltools::tags$div(
+        res
+      )
+    );
 
-      res <-
-        htmltools::HTML(
-          res
-        );
+    # return(
+    #   pkgdown::pkgdown_print(
+    #     res
+    #   )
+    # );
 
-      return(res);
+    #class(res) <- "prettified_ROCK_source";
 
-      # return(
-      #   pkgdown::pkgdown_print(
-      #     res
-      #   )
-      # );
-
-      #class(res) <- "prettified_ROCK_source";
-
-      #return(res);
-
-    }
+    #return(res);
 
   } else {
 

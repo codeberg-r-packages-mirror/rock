@@ -23,6 +23,7 @@ A {qualchemy} source: usually a text file that can be (or is) coded.
 \itemize{
 \item \href{#method-Qualchemy_source-new}{\code{Qualchemy_source$new()}}
 \item \href{#method-Qualchemy_source-load}{\code{Qualchemy_source$load()}}
+\item \href{#method-Qualchemy_source-parent_project}{\code{Qualchemy_source$parent_project()}}
 \item \href{#method-Qualchemy_source-clone}{\code{Qualchemy_source$clone()}}
 }
 }
@@ -57,6 +58,19 @@ Import source contents from a file.
 
 \subsection{Returns}{
 Invisibly, the \code{source} object itself.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Qualchemy_source-parent_project"></a>}}
+\if{latex}{\out{\hypertarget{method-Qualchemy_source-parent_project}{}}}
+\subsection{Method \code{parent_project()}}{
+Return the project that contains this source
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Qualchemy_source$parent_project()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+Invisibly, the \code{project} containing this source.
 }
 }
 \if{html}{\out{<hr>}}
