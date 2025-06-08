@@ -164,15 +164,17 @@ prettify_source <- function(x,
           res
         );
 
+      return(res);
+
       # return(
       #   pkgdown::pkgdown_print(
       #     res
       #   )
       # );
 
-      class(res) <- "prettified_ROCK_source";
+      #class(res) <- "prettified_ROCK_source";
 
-      return(res);
+      #return(res);
 
     }
 
