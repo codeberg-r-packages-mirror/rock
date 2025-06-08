@@ -2,6 +2,7 @@
 
 S3method(plot,rock_parsedSources)
 S3method(print,ci_nrm_md)
+S3method(print,prettified_ROCK_source)
 S3method(print,rock_ci_nrm)
 S3method(print,rock_graphList)
 S3method(print,rock_parsedSource)
