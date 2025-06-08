@@ -34,6 +34,7 @@ img/
 
 ^doc$
 ^Meta$
+^pkgdown
 
 ### Maybe a side effect of testing? A file just called 'unspecified'.
 unspecified
