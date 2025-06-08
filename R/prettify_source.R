@@ -170,21 +170,15 @@ prettify_source <- function(x,
     #   )
     # );
 
-    pkgdown_print(
-      htmltools::HTML(
-        res
-      )
-    );
-
-    # return(
-    #   pkgdown::pkgdown_print(
+    # pkgdown_print(
+    #   htmltools::HTML(
     #     res
     #   )
     # );
 
-    #class(res) <- "prettified_ROCK_source";
+    class(res) <- "prettified_ROCK_source";
 
-    #return(res);
+    res;
 
   } else {
 
