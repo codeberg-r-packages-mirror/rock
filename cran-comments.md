@@ -2,10 +2,13 @@
 
 Hey there,
 
-Sorry, so stupid that I missed one example! The installed.packages() point
-I either completely missed last time, or it's new. Regardless, excellent
-point! I now rewrote checkPkgs() and indeed it's much faster, so thank
-you! I'll copy this new version to other packages that use it, too.
+Sorry, so stupid that I missed one example!
+The installed.packages() point I either
+completely missed last time, or it's new.
+Regardless, excellent point! I now rewrote
+checkPkgs() and indeed it's much faster, so
+thank you! I'll copy this new version to
+other packages that use it, too.
 
 Thank you for looking along!
 
@@ -13,8 +16,10 @@ And sorry for the inconvenience!
 
 Here we go again :-)
 
-Saturday it will be exaxctly six years since the first version of the {rock}
-package was uploaded to CRAN - it would be awesome if it would be restored then!
+Saturday it will be exaxctly six years since
+the first version of the {rock} package was
+uploaded to CRAN - it would be awesome if it
+would be restored then!
 
 Kind regards,
 
@@ -27,7 +32,8 @@ Gjalt-Jorn
 
 Hey there,
 
-Shit, forgot that ShortDOIs are also not allowed by the Readme.md file... Fixed now.
+Shit, forgot that ShortDOIs are also not
+allowed by the Readme.md file... Fixed now.
 
 Sorry for the inconvenience!
 
@@ -42,7 +48,8 @@ Gjalt-Jorn
 
 Hey there,
 
-One last bit of detritus caused a problem, removed that now.
+One last bit of detritus caused a problem,
+removed that now.
 
 Sorry for the inconvenience!
 
@@ -58,7 +65,8 @@ Gjalt-Jorn
 
 Hey there,
 
-Fixed a typo and broken URL, sorry for the inconvenience!
+Fixed a typo and broken URL, sorry for
+the inconvenience!
 
 Kind regards,
 
@@ -69,7 +77,8 @@ Gjalt-Jorn
 
 [ v.0.9.1 ]
 
-I've fixed the issues Beni pointed out (thank you!); ready for CRAN again.
+I've fixed the issues Beni pointed out (thank
+you!); ready for CRAN again.
 
 (I hope :-))
 
