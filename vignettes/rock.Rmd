@@ -1,18 +1,12 @@
 ---
 title: "Introduction to the Reproducible Open Coding Kit (ROCK)"
-author: "Gjalt-Jorn Peters & Szilvia Zörgő"
-date: "`r Sys.Date()`"
-output:
-  pdf_document:
-    toc: false
-  rmarkdown::html_vignette:
-    toc: true
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to the Reproducible Open Coding Kit (ROCK)}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-  %\usepackage[utf8]{inputenc}
 ---
+
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(

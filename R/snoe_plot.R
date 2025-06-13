@@ -48,8 +48,8 @@ snoe_plot <- function(x,
                       title = "SNOE plot",
                       ggplot2Theme = ggplot2::theme_minimal(),
                       greyScale = FALSE,
-                      colors = c("#0072B2", "#C0C0C0"),
-                      greyScaleColors = c("#808080", "#C0C0C0"),
+                      colors = c("#C0C0C0", "#0072B2"),
+                      greyScaleColors = c("#C0C0C0", "#808080"),
                       silent=rock::opts$get("silent")) {
 
   if ((!inherits(x, "rock_parsedSources")) && (!inherits(x, "rock_parsedSource"))) {

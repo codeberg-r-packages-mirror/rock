@@ -1,7 +1,6 @@
 Package: rock
 Title: Reproducible Open Coding Kit
-Version: 0.9.6
-Date: 2025-06-11
+Version: 0.9.7
 Authors@R: 
     c(person(given = "Gjalt-Jorn",
              family = "Peters",
