@@ -61,11 +61,18 @@ You can install the development version of `rock` from
 [Codeberg](https://codeberg.org) with:
 
 ``` r
-remotes::install_git('https://codeberg.org/r-packages/rock');
+install.packages(
+  'https://codeberg.org/R-packages/rock/archive/dev.tar.gz',
+  type = 'source',
+  repos = NULL);
 ```
 
-(assuming you have `remotes` installed; otherwise, install that first
-using the `install.packages()` function)
+Or, if you have `remotes` installed (which you can install with the
+`install.packages()` function), you can use:
+
+``` r
+remotes::install_git('https://codeberg.org/r-packages/rock');
+```
 
 <!--------------------------------------------->
 
