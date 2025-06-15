@@ -57,6 +57,9 @@ prepend_ids_to_sources <- function(input,
   ### Used to override following distance in sources other than the first
   furtherFollowBy <- NULL;
 
+  regexToFindUIDs <-
+    paste0("\\[\\[", uidPrefix, "([0123456789bcdfghjklmnpqrstwxyz]{8})\\]\\].*");
+
   if (is.character(res)) {
 
     rawSourceFiles <-
@@ -95,10 +98,8 @@ prepend_ids_to_sources <- function(input,
                               silent=silent);
 
       ### Getting UIDs
-      regexToMatch <-
-        paste0("\\[\\[", uidPrefix, "([0123456789bcdfghjklmnpqrstwxyz]{8})\\]\\].*");
       follow <-
-        gsub(regexToMatch, "\\1", res[[i]], perl = TRUE);
+        gsub(regexToFindUIDs, "\\1", tmp, perl = TRUE);
 
       if (!is.null(uidSpacing)) {
         ### Used for all but the first source as UID spacing
@@ -140,10 +141,8 @@ prepend_ids_to_sources <- function(input,
                               silent=silent);
 
       ### Getting UIDs
-      regexToMatch <-
-        paste0("\\[\\[", uidPrefix, "([0123456789bcdfghjklmnpqrstwxyz]{8})\\]\\].*");
       follow <-
-        gsub(regexToMatch, "\\1", res[[i]], perl = TRUE);
+        gsub(regexToFindUIDs, "\\1", res[[i]], perl = TRUE);
 
       if (!is.null(uidSpacing)) {
         ### Used for all but the first source as UID spacing

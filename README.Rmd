@@ -101,9 +101,10 @@ You can install the development version of ``r packagename`` from [Codeberg](htt
 ```{r echo=FALSE, comment="", results="asis"}
 cat(paste0("``` r
 install.packages(
-  'https://codeberg.org/R-packages/", packagename, "/archive/dev.tar.gz',
+  pkgs = 'https://codeberg.org/R-packages/", packagename, "/archive/dev.tar.gz',
   type = 'source',
-  repos = NULL);
+  repos = NULL
+);
 ```"));
 ```
 
