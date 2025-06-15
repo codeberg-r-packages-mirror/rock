@@ -10,10 +10,12 @@ snoe_plot(
   matchRegexAgainstPaths = TRUE,
   estimateWithin = NULL,
   title = "SNOE plot",
+  vertical = FALSE,
+  barWidth = 0.9,
   ggplot2Theme = ggplot2::theme_minimal(),
   greyScale = FALSE,
-  colors = c("#0072B2", "#C0C0C0"),
-  greyScaleColors = c("#808080", "#C0C0C0"),
+  colors = c("#C0C0C0", "#0072B2"),
+  greyScaleColors = c("#C0C0C0", "#808080"),
   silent = rock::opts$get("silent")
 )
 }
@@ -30,6 +32,12 @@ against the full code paths or only against the code identifier.}
 
 \item{title}{Title of the plot}
 
+\item{vertical}{Whether to plot horizontally (\code{FALSE}, best for reading code}
+
+\item{barWidth}{The width of the bars; can be decreased or increased, for
+example in combination with vertical plotting to make the plot look more like
+a snowy landscape.}
+
 \item{ggplot2Theme}{Can be used to specify theme elements for the plot.}
 
 \item{greyScale}{Whether to produce the plot in color (\code{FALSE}) or greyscale
@@ -41,7 +49,7 @@ greyscale versions of the SNOE plot.}
 \item{silent}{Whether to be chatty or silent}
 }
 \value{
-a \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}}.
+A list containing a \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} in the \verb{$plot} slot.
 }
 \description{
 Soft Non-numeric Occurrence Estimation (SNOE) plot
@@ -71,5 +79,12 @@ loadedExamples <- rock::parse_sources(
 
 rock::snoe_plot(
   loadedExamples
+);
+
+### And plotted vertically
+rock::snoe_plot(
+  loadedExamples,
+  vertical = TRUE,
+  barWidth = 1
 );
 }

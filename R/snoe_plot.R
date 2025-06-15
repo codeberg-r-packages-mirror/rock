@@ -8,13 +8,18 @@
 #' against the full code paths or only against the code identifier.
 #' @param ggplot2Theme Can be used to specify theme elements for the plot.
 #' @param title Title of the plot
+#' @param vertical Whether to plot horizontally (`FALSE`, best for reading code
+#  identifiers) or vertically (`TRUE`, best for looking like snow).
+#' @param barWidth The width of the bars; can be decreased or increased, for
+#' example in combination with vertical plotting to make the plot look more like
+#' a snowy landscape.
 #' @param greyScale Whether to produce the plot in color (`FALSE`) or greyscale
 #' (`TRUE`).
 #' @param colors,greyScaleColors The (two) colors to use for the color and
 #' greyscale versions of the SNOE plot.
 #' @param silent Whether to be chatty or silent
 #'
-#' @return a [ggplot2::ggplot()].
+#' @return A list containing a [ggplot2::ggplot()] in the `$plot` slot.
 #' @export
 #' @examples ### Get path to example source
 #' examplePath <-
@@ -41,11 +46,20 @@
 #' rock::snoe_plot(
 #'   loadedExamples
 #' );
+#'
+#' ### And plotted vertically
+#' rock::snoe_plot(
+#'   loadedExamples,
+#'   vertical = TRUE,
+#'   barWidth = 1
+#' );
 snoe_plot <- function(x,
                       codes = ".*",
                       matchRegexAgainstPaths = TRUE,
                       estimateWithin = NULL,
                       title = "SNOE plot",
+                      vertical = FALSE,
+                      barWidth = .9,
                       ggplot2Theme = ggplot2::theme_minimal(),
                       greyScale = FALSE,
                       colors = c("#C0C0C0", "#0072B2"),
@@ -271,7 +285,7 @@ snoe_plot <- function(x,
         fill = 'estimation'
       )
     ) +
-    ggplot2::geom_col();
+    ggplot2::geom_col(width=barWidth);
 
   if (greyScale) {
     res$plot <-
@@ -309,11 +323,24 @@ snoe_plot <- function(x,
       y = NULL,
       title = title
     ) +
-    ggplot2Theme +
-    ggplot2::theme(
-      axis.ticks.x = ggplot2::element_blank(),
-      axis.text.x = ggplot2::element_blank()
-    );
+    ggplot2Theme;
+
+  if (vertical) {
+    res$plot <-
+      res$plot +
+      ggplot2::coord_flip() +
+      ggplot2::theme(
+        axis.ticks.y = ggplot2::element_blank(),
+        axis.text.y = ggplot2::element_blank()
+      );
+  } else {
+    res$plot <-
+      res$plot +
+      ggplot2::theme(
+        axis.ticks.x = ggplot2::element_blank(),
+        axis.text.x = ggplot2::element_blank()
+      );
+  }
 
   class(res) <- c("rock_snoe_plot", "rock");
 
