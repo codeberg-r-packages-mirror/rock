@@ -62,13 +62,20 @@ You can install the development version of `rock` from
 
 ``` r
 install.packages(
-  'https://codeberg.org/R-packages/rock/archive/dev.tar.gz',
+  pkgs = 'https://codeberg.org/R-packages/rock/archive/dev.tar.gz',
   type = 'source',
-  repos = NULL);
+  repos = NULL
+);
 ```
 
 Or, if you have `remotes` installed (which you can install with the
 `install.packages()` function), you can use:
+
+``` r
+remotes::install_url('https://codeberg.org/r-packages/rock/archive/dev.tar.gz');
+```
+
+And if you also have Git installed on your system, you can also use:
 
 ``` r
 remotes::install_git('https://codeberg.org/r-packages/rock');

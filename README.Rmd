@@ -112,6 +112,14 @@ Or, if you have `remotes` installed (which you can install with the `install.pac
 
 ```{r echo=FALSE, comment="", results="asis"}
 cat(paste0("``` r
+remotes::install_url('https://codeberg.org/r-packages/", packagename, "/archive/dev.tar.gz');
+```"));
+```
+
+And if you also have Git installed on your system, you can also use:
+
+```{r echo=FALSE, comment="", results="asis"}
+cat(paste0("``` r
 remotes::install_git('https://codeberg.org/r-packages/", packagename, "');
 ```"));
 ```
