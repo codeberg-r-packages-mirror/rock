@@ -9,6 +9,7 @@
 #' space with `&nbsp;`) or not.
 #'
 #' @inheritParams collect_coded_fragments
+#' @rdname prettifying_sources
 #'
 #' @returns A character vector with the prettified source
 #' @export

@@ -342,7 +342,7 @@ add_html_tags <- function(x,
   res[yamlLines] <-
     yamlLines_contents;
 
-  # ### Add rock-line tag
+  ### Add rock-line tag
   res[yamlLines] <-
     paste0('<div class="', rockLineClass, ' ">', res[yamlLines], '</div>\n');
 
