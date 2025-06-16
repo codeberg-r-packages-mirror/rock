@@ -12,7 +12,8 @@
 #' for the full utterances, which are placed in `<div>` elements.
 #'
 #' @return The character vector with the replacements made.
-#' @rdname prettifying_sources
+#' @rdname add_html_tags
+#' @seealso [prettify_source()]
 #' @export
 #'
 #' @examples ### Add tags to a mini example source

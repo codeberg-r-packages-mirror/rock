@@ -49,7 +49,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Szilvia Zörgő (\href{https://orcid.org/0000-0002-6916-2097}{ORCID})
+  \item Szilvia ZC6rgE (\href{https://orcid.org/0000-0002-6916-2097}{ORCID})
 }
 
 }
