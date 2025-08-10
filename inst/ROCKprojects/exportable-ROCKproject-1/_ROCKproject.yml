@@ -23,7 +23,6 @@ _ROCKproject:
   codebook:
     urcid: ""
     embedded: ~
-    local: ""
 
   sources:
 
@@ -43,17 +42,17 @@ _ROCKproject:
         dirName: "data/010---raw-sources"        # Any valid directory name, using a forward slash as separator
         nextStages:
           -
-            nextStageid: clean                   # A different stage identifier or ~
+            nextStageId: clean                   # A different stage identifier or ~
             actionId: cleanSource
           -
-            nextStageid: uids                    # A different stage identifier or ~
+            nextStageId: uids                    # A different stage identifier or ~
             actionId: addUIDs
       -
         stage: clean                             # Anything matching regex [a-A-Z][a-zA-Z0-9_]*
         dirName: "data/020---cleaned-sources"    # Any valid directory name, using a forward slash as separator
         nextStages:
           -
-            nextStageid: uids                    # A different stage identifier or ~
+            nextStageId: uids                    # A different stage identifier or ~
             actionId: addUIDs
       -
         stage: uids                              # Anything matching regex [a-A-Z][a-zA-Z0-9_]*
