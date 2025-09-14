@@ -2,7 +2,7 @@
 #'
 #' @param x A parsed source(s) object.
 #' @param codes A regular expression to select codes to include, or,
-#' alternatively, a character vector with literal code idenfitiers.
+#' alternatively, a character vector with literal code identifiers.
 #' @param estimateWithin The column specifying within what to count.
 #' @param matchRegexAgainstPaths Whether to match the `codes` regular expression
 #' against the full code paths or only against the code identifier.
@@ -119,6 +119,21 @@ snoe_plot <- function(x,
       codesToInclude,
       codingSchemeNames
     );
+
+  existentCodes <-
+    codesToInclude[which(codesToInclude %in% names(x$qdt))];
+  nonexistentCodes <-
+    codesToInclude[which(!(codesToInclude %in% names(x$qdt)))];
+
+  if (length(nonexistentCodes) > 0) {
+
+    warning("Not all codes you specified exist in the qualitative data table!\n",
+            "Specifically, I could not find the following codes:\n",
+            vecTxtQ(nonexistentCodes), "\n\nRemoving them from the list for the SNOE plot.\n");
+
+    codesToInclude <- existentCodes;
+
+  }
 
   if (inherits(x, "rock_parsedSource") || inherits(x, "rock_parsedSources")) {
 
