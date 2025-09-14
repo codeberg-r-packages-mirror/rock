@@ -218,7 +218,7 @@ opts$defaults <-
        attributeContainers = c("ROCK_attributes"),
        networkContainers = c("ROCK_network"),
        aestheticContainers = c("ROCK_aesthetics", "ROCK_network"),
-       codesContainers = c("ROCK_codes", "codes", "dct"),
+       codesContainers = c("ROCK_codebook", "ROCK_codes", "codes", "dct"),
        sectionBreakContainers = c("ROCK_sectionBreaks", "section_breaks"),
        delimiterString = "---",
        delimiterRegEx = "^---$",
