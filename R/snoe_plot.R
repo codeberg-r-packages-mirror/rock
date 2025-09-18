@@ -55,7 +55,8 @@
 #' );
 snoe_plot <- function(x,
                       codes = ".*",
-                      matchRegexAgainstPaths = TRUE,
+                      matchRegexAgainstPaths = FALSE,
+                      accumulateChildren = TRUE,
                       estimateWithin = NULL,
                       title = "SNOE plot",
                       vertical = FALSE,
@@ -76,11 +77,12 @@ snoe_plot <- function(x,
 
   }
 
-  if (length(codes) > 1) {
-    codes <- paste(codes, collapse="|");
-  }
+  ### Edit 2025-09-18 --- only considering 'codes' regex is length==1
+  # if (length(codes) > 1) {
+  #   codes <- paste(codes, collapse="|");
+  # }
 
-  if (matchRegexAgainstPaths) {
+  if (matchRegexAgainstPaths && (length(codes) == 1)) {
     codesToInclude <-
       names(x$convenience$codingPaths)[
         grepl(
@@ -89,15 +91,17 @@ snoe_plot <- function(x,
           perl = TRUE
         )
       ];
-  } else {
+  } else if (length(codes) == 1) {
     codesToInclude <-
       x$convenience$codingLeaves[
         grepl(
           codes,
-          x$convenience$codingLeaves,
+          names(x$convenience$codingPaths),
           perl = TRUE
         )
       ];
+  } else {
+    codesToInclude <- codes;
   }
 
   ### Get coding scheme names
@@ -120,12 +124,29 @@ snoe_plot <- function(x,
       codingSchemeNames
     );
 
-  existentCodes <-
-    codesToInclude[which(codesToInclude %in% names(x$qdt))];
-  nonexistentCodes <-
-    codesToInclude[which(!(codesToInclude %in% names(x$qdt)))];
+  ### Potentially accumulate over descendents
 
-  if (length(nonexistentCodes) > 0) {
+  if (accumulateChildren) {
+
+    descendents <-
+      lapply(
+        codesToInclude,
+        rock::get_descendentCodeIds,
+        x = x
+      );
+    names(descendents) <- codesToInclude;
+
+  }
+
+  allCodes <- names(x$convenience$codingPaths);
+  codedCodes <- intersect(names(x$qdt), allCodes);
+
+  existentCodes <-
+    codesToInclude[which(codesToInclude %in% codedCodes)];
+  nonexistentCodes <-
+    codesToInclude[which(!(codesToInclude %in% codedCodes))];
+
+  if ((!accumulateChildren) && (length(nonexistentCodes) > 0)) {
 
     warning("Not all codes you specified exist in the qualitative data table!\n",
             "Specifically, I could not find the following codes:\n",
@@ -137,12 +158,41 @@ snoe_plot <- function(x,
 
   if (inherits(x, "rock_parsedSource") || inherits(x, "rock_parsedSources")) {
 
-    counts_total <-
-      apply(
-        x$qdt[, codesToInclude],
-        2,
-        sum
-      );
+    if (accumulateChildren) {
+
+      counts_total <-
+        lapply(
+          names(descendents),
+          function(currentCode) {
+
+            actuallyAppliedCodes <-
+              intersect(
+                c(currentCode, descendents[[currentCode]]),
+                codedCodes
+              );
+
+            return(
+              sum(
+                x$qdt[, actuallyAppliedCodes]
+              )
+            )
+          }
+        );
+     names(counts_total) <- names(descendents);
+
+    } else {
+
+      counts_total <-
+        apply(
+          x$qdt[, codesToInclude],
+          2,
+          sum,
+          simplify = FALSE
+        );
+
+    }
+
+    counts_total <- unlist(counts_total);
 
     totalUtterances <- nrow(x$qdt);
 
