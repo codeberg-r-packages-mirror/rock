@@ -65,7 +65,7 @@ snoe_plot <- function(x,
                       greyScale = FALSE,
                       colors = c("#C0C0C0", "#0072B2"),
                       greyScaleColors = c("#C0C0C0", "#808080"),
-                      silent=rock::opts$get("silent")) {
+                      silent = rock::opts$get("silent")) {
 
   if ((!inherits(x, "rock_parsedSources")) && (!inherits(x, "rock_parsedSource"))) {
 
@@ -83,6 +83,14 @@ snoe_plot <- function(x,
   # }
 
   if (matchRegexAgainstPaths && (length(codes) == 1)) {
+
+    msg(
+      "`matchRegexAgainstPaths` is set to TRUE, and a single value has been ",
+      "passed as `codes`, so I'm considering it a regular expression to ",
+      "match against the coding paths.",
+      silent = silent
+    );
+
     codesToInclude <-
       names(x$convenience$codingPaths)[
         grepl(
@@ -91,7 +99,16 @@ snoe_plot <- function(x,
           perl = TRUE
         )
       ];
+
   } else if (length(codes) == 1) {
+
+    msg(
+      "`matchRegexAgainstPaths` is set to FALSE, and a single value has been ",
+      "passed as `codes`, so I'm considering it a regular expression to ",
+      "match against the code identifiers.",
+      silent = silent
+    );
+
     codesToInclude <-
       x$convenience$codingLeaves[
         grepl(
@@ -100,9 +117,18 @@ snoe_plot <- function(x,
           perl = TRUE
         )
       ];
+
   } else {
+
     codesToInclude <- codes;
+
   }
+
+  msg(
+    "Identified ", length(codesToInclude), " codes, specifically: ",
+    vecTxtQ(sort(codesToInclude)),
+    silent = silent
+  );
 
   ### Get coding scheme names
   codingSchemeNames <-
@@ -128,6 +154,12 @@ snoe_plot <- function(x,
 
   if (accumulateChildren) {
 
+    msg(
+      "`accumulateChildren` is set to TRUE, so including child codes  ",
+      "occurrences.",
+      silent = silent
+    );
+
     descendents <-
       lapply(
         codesToInclude,
@@ -135,6 +167,21 @@ snoe_plot <- function(x,
         x = x
       );
     names(descendents) <- codesToInclude;
+
+    msg(
+      "Identified the following descendents for each code (in alphabetic order): ",
+      silent = silent
+    );
+
+    for (codeId in codesToInclude) {
+
+      msg(
+        "\n  - For code '", codeId, "', I identified descendents ",
+        vecTxtQ(descendents[[codeId]]),
+        silent = silent
+      );
+
+    }
 
   }
 
@@ -148,6 +195,11 @@ snoe_plot <- function(x,
 
   if ((!accumulateChildren) && (length(nonexistentCodes) > 0)) {
 
+    msg("\nNot all codes you specified exist in the qualitative data table!\n",
+        "Specifically, I could not find the following codes:\n",
+        vecTxtQ(nonexistentCodes), "\n\nRemoving them from the list for the SNOE plot.\n",
+        silent = silent);
+
     warning("Not all codes you specified exist in the qualitative data table!\n",
             "Specifically, I could not find the following codes:\n",
             vecTxtQ(nonexistentCodes), "\n\nRemoving them from the list for the SNOE plot.\n");
@@ -160,22 +212,74 @@ snoe_plot <- function(x,
 
     if (accumulateChildren) {
 
+      ### Processing code xxx and it's descendents. Counts:
+
       counts_total <-
         lapply(
           names(descendents),
           function(currentCode) {
 
             actuallyAppliedCodes <-
-              intersect(
-                c(currentCode, descendents[[currentCode]]),
-                codedCodes
+              sort(
+                intersect(
+                  c(currentCode, descendents[[currentCode]]),
+                  codedCodes
+                )
               );
 
-            return(
-              sum(
-                x$qdt[, actuallyAppliedCodes]
-              )
-            )
+            if ("uids" %in% names(x$qdt)) {
+
+              UIDs <-
+                lapply(
+                  actuallyAppliedCodes,
+                  function(currentCodeId) {
+                    return(
+                      x$qdt$uids[as.logical(x$qdt[[currentCodeId]])]
+                    );
+                  }
+                );
+
+            } else {
+
+              UIDs <- NULL;
+
+            }
+
+            res <- colSums(
+              x$qdt[, actuallyAppliedCodes, drop = FALSE]
+            );
+            res <-  res[order(names(res))];
+
+            if (is.null(UIDs)) {
+              UIDs_bit <- "";
+            } else {
+              UIDs <- UIDs[order(names(res))];
+              UIDs_bit <-
+                unlist(
+                  lapply(
+                    seq_along(UIDs),
+                    function(i) {
+                      paste0(
+                        " [",
+                        vecTxt(UIDs[[i]]),
+                        "]"
+                      );
+                    }
+                  )
+                );
+            }
+
+            msg("\n\nFor code identifier '", currentCode,
+                "' and its descendents (total occurrences: ", sum(res),
+                "), the following codes were applied, ",
+                "with the following occurrences counted for each:",
+                vecTxt(paste0("\n  - '", names(res), "' (", res, ")", UIDs_bit)),
+                silent = silent);
+
+            res <- sum(res);
+
+            return(res);
+
           }
         );
      names(counts_total) <- names(descendents);
@@ -284,7 +388,7 @@ snoe_plot <- function(x,
     }
 
   ### It does not seem possible to use this as only one fill scale can exist
-  ### for a plot; but keeping it here anyway in case I ever need it again.
+  ### for a plot; butkeeping it here anyway in case I ever need it again.
   ###
   # palette_transformerFactory <-
   #   function(lb, ub) {

@@ -12,8 +12,9 @@ parse_sources <- function(path,
                           ignoreOddDelimiters = FALSE,
                           checkClassInstanceIds = rock::opts$get("checkClassInstanceIds"),
                           mergeInductiveTrees = FALSE,
-                          encoding=rock::opts$get("encoding"),
-                          silent=rock::opts$get("silent")) {
+                          progressBar = rock::opts$get("progressBar"),
+                          encoding = rock::opts$get("encoding"),
+                          silent = rock::opts$get("silent")) {
 
   codeRegexes <- rock::opts$get(codeRegexes);
   idRegexes <- rock::opts$get(idRegexes);
@@ -68,22 +69,56 @@ parse_sources <- function(path,
               regex, "' in directory '", path, "'.\n\n");
   }
 
+  if (progressBar) {
+    if (!interactive()) {
+      progressBar <- FALSE;
+    }
+    if (!requireNamespace("progress", quietly = TRUE)) {
+      progressBar <- FALSE;
+    }
+  }
+
+  if (progressBar) {
+    p <- progress::progress_bar$new(
+      total = length(fileList),
+      format = ":spin [:bar] :percent in :elapsedfull, :eta to go");
+  } else {
+    p <- NULL;
+  }
+
   res$parsedSources <-
     lapply(fileList,
-           parse_source,
-           ignoreOddDelimiters = ignoreOddDelimiters,
-           encoding=encoding,
-           postponeDeductiveTreeBuilding = TRUE,
-           removeSectionBreakRows = removeSectionBreakRows,
-           removeIdentifierRows = removeIdentifierRows,
-           filesWithYAML = filesWithYAML,
-           removeEmptyRows = removeEmptyRows,
-           mergeAttributes = FALSE,
-           silent=silent);
+           function(filename) {
 
-  if (!silent) {
-    cat0("Done parsing all sources in directory '", path, "'.\n");
+             if (!is.null(p)) {
+               p$tick();
+             }
+
+             return(
+               rock::parse_source(
+                 file = filename,
+                 ignoreOddDelimiters = ignoreOddDelimiters,
+                 encoding=encoding,
+                 postponeDeductiveTreeBuilding = TRUE,
+                 removeSectionBreakRows = removeSectionBreakRows,
+                 removeIdentifierRows = removeIdentifierRows,
+                 filesWithYAML = filesWithYAML,
+                 removeEmptyRows = removeEmptyRows,
+                 mergeAttributes = FALSE,
+                 silent=silent
+               )
+             );
+           }
+         );
+
+  if (!is.null(p)) {
+    p$terminate();
   }
+
+  msg(
+    "Done parsing all sources in directory '", path, "'.\n",
+    silent = silent
+  );
 
   names(res$parsedSources) <-
     basename(fileList);

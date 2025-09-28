@@ -474,6 +474,8 @@ opts$defaults <-
 
        suppressDuplicateInstanceWarnings = FALSE,
 
+       progressBar = TRUE,
+
        ### Used throughout for debugging
        debug = FALSE,
 
