@@ -147,7 +147,7 @@ snoe_plot <- function(x,
   codesToInclude <-
     setdiff(
       codesToInclude,
-      codingSchemeNames
+      c(codingSchemeNames, NA)
     );
 
   ### Potentially accumulate over descendents

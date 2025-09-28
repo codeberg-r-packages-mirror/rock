@@ -1,26 +1,26 @@
 [[ts=00:00:00]]
 
-[[behavior>typing]] 
+[[behavior>typing]]
 
-[[screen>google]] 
+[[screen>google]]
 
 [[ts=00:00:05]]
 
-[[ts=00:00:10]]
-
 [[google_search||how much fruit to eat per day healthy]]
 
-[[behavior>process_query]] 
+[[behavior>process_query]]
+
+[[ts=00:00:10]]
 
 [[ts=00:00:15]]
 
-[[behavior>scroll>down]] 
+[[behavior>scroll>down]]
 
 [[ts=00:00:20]]
 
-[[behavior>scroll>down]] 
+[[behavior>scroll>down]]
 
-[[behavior>click>link>open_new_tab>search_engine_hit]] 
+[[behavior>click>link>open_new_tab>search_engine_hit]]
 
 [[ts=00:00:25]]
 
