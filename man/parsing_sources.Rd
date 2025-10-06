@@ -42,6 +42,7 @@ parse_sources(
   ignoreOddDelimiters = FALSE,
   checkClassInstanceIds = rock::opts$get("checkClassInstanceIds"),
   mergeInductiveTrees = FALSE,
+  progressBar = rock::opts$get("progressBar"),
   encoding = rock::opts$get("encoding"),
   silent = rock::opts$get("silent")
 )

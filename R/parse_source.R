@@ -143,6 +143,7 @@ parse_source <- function(text,
   delimiterRegEx <- rock::opts$get('delimiterRegEx');
   ignoreRegex <- rock::opts$get('ignoreRegex');
   nestingMarker <- rock::opts$get('nestingMarker');
+
   diagrammerSanitizing <- rock::opts$get('diagrammerSanitizing');
   networkCodeRegexes <- rock::opts$get('networkCodeRegexes');
   networkCodeRegexOrder <- rock::opts$get('networkCodeRegexOrder');
@@ -408,6 +409,21 @@ parse_source <- function(text,
       list(attributesVars = NULL);
 
   }
+
+  ###---------------------------------------------------------------------------
+  ### Process notes and note values
+  ###---------------------------------------------------------------------------
+
+  extractedNotes <-
+    extractNotes(
+      x
+    );
+
+
+
+
+
+
 
   ###---------------------------------------------------------------------------
 

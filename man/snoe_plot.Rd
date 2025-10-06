@@ -7,7 +7,8 @@
 snoe_plot(
   x,
   codes = ".*",
-  matchRegexAgainstPaths = TRUE,
+  matchRegexAgainstPaths = FALSE,
+  accumulateChildren = TRUE,
   estimateWithin = NULL,
   title = "SNOE plot",
   vertical = FALSE,
@@ -23,7 +24,7 @@ snoe_plot(
 \item{x}{A parsed source(s) object.}
 
 \item{codes}{A regular expression to select codes to include, or,
-alternatively, a character vector with literal code idenfitiers.}
+alternatively, a character vector with literal code identifiers.}
 
 \item{matchRegexAgainstPaths}{Whether to match the \code{codes} regular expression
 against the full code paths or only against the code identifier.}

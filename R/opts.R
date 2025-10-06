@@ -191,6 +191,10 @@ opts$defaults <-
        inductiveCodingHierarchyMarker = ">",
        codeTreeMarker = ">",
        anchorRegex = "--\\+-\\{\\s*([a-zA-Z0-9_:.,+@!#$%^&*)(\\/\\\\>< |~=-]+)\\s*\\}-\\+--",
+       noteRegex_complete = "^\\s*--\\{\\s*([^}]*)\\s*(?:\\}--)?\\s*$",
+       noteRegex_openingOnly = "^\\s*--\\{([^}]*)\\s*(?!\\}--)\\s*$",
+       noteRegex_closingOnly = "^\\s*(?<!--\\{)\\s*([^}]*)\\s*\\}--\\s*$",
+       noteRegex_keyvalue = "^\\s*--\\{\\s*([a-zA-Z][a-zA-Z0-9_]*)\\s*}={\\s*([^}]*)\\s*(?:\\}--)?\\s*$",
 
        ### Regular expression describing the characters that can be used for
        ### code identifiers (has to include `inductiveCodingHierarchyMarker`
