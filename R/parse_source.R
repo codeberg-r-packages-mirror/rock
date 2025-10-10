@@ -414,10 +414,10 @@ parse_source <- function(text,
   ### Process notes and note values
   ###---------------------------------------------------------------------------
 
-  extractedNotes <-
-    extractNotes(
-      x
-    );
+  # extractedNotes <-
+  #   extractNotes(
+  #     x
+  #   );
 
 
 
