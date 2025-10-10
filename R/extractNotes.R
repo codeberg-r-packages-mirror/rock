@@ -74,7 +74,7 @@ extractNotes <- function(text) {
 
   if (length(noteLines_keyvalue) > 0) {
 
-    browser();
+    ### Dus
 
   }
 
