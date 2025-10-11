@@ -106,6 +106,13 @@ ROCK_attributes:
 [[uid=7zs2xyj7]] ultricies, ex in semper sollicitudin,
 [[uid=7zs2xyj8]] dui nunc sollicitudin dolor, sit amet
 [[uid=7zs2xyj9]] tempor turpis neque ac arcu. Cras in
+
+--{
+
+Some people may prefer to embed their notes like this.
+
+}--
+
 [[uid=7zs2xyjb]] mollis turpis. Fusce ut leo eu nulla           [[exampleCodeId_2]]
 [[uid=7zs2xyjc]] mollis interdum vitae sed orci. Nulla
 [[uid=7zs2xyjd]] feugiat, risus non volutpat pulvinar,
@@ -122,6 +129,13 @@ ROCK_attributes:
 [[uid=7zs2xyjn]] blandit, turpis orci pharetra eros, ac
 [[uid=7zs2xyjp]] mattis erat eros sit amet quam. Nulla
 [[uid=7zs2xyjq]] sit amet luctus mauris. Suspendisse sed
+
+--{ This is another example of a longer }--
+--{ note block that all starts and ends  }--
+--{ with the note delimiter  }--
+--{ and because these lines are  }--
+--{ consecutive, they are considered one note.  }--
+
 [[uid=7zs2xyjr]] risus id sapien laoreet tempor quis sit        [[exampleCodeId_1]]
 [[uid=7zs2xyjs]] amet urna. Sed egestas nunc in porta
 [[uid=7zs2xyjt]] pulvinar. Morbi ligula lorem, facilisis
@@ -131,3 +145,6 @@ ROCK_attributes:
 [[uid=7zs2xyjz]] consectetur. Integer porttitor cursus
 [[uid=7zs2xyk0]] dui. Maecenas sit amet mauris velit.
 [[uid=7zs2xyk1]] Nulla iaculis tincidunt libero.
+
+--{   Finally, a single-line note.   }--
+
