@@ -205,7 +205,8 @@ extractNotes <- function(text) {
           ];
 
         currentNote <-
-          list(text = currentNoteText);
+          list(text = currentNoteText,
+               lines = lines_in_note);
 
         if (length(keyValueLines_in_note) > 0) {
           currentNote$keyedValues <-
@@ -214,10 +215,14 @@ extractNotes <- function(text) {
           currentNote$keyedValues <- NULL;
         }
 
+
+
         return(currentNote);
 
       }
     );
+
+
 
   ### Find original sequence of last line that contains
   ### data; if it contains a UID, also get that

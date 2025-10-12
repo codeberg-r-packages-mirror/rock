@@ -182,7 +182,7 @@ opts$defaults <-
                               uuid = 'itemId',
                               prbid = 'probeId',
                               mqid = 'metaqid'),
-       classInstanceRegex = c(ciid = "\\[\\[(?!uid)(?!UID)\\s*([a-zA-Z][a-zA-Z0-9_]*)\\s*[=:]\\s*([a-zA-Z0-9_]+)\\s*\\]\\]"),
+       classInstanceRegex = c(ciid = "\\[\\[(?![uU][iI][dD])\\s*([a-zA-Z][a-zA-Z0-9_]*)\\s*[=:]\\s*([a-zA-Z0-9_]+)\\s*\\]\\]"),
        codeValueRegexes = c(codeValues = "\\[\\[\\s*([a-zA-Z0-9_>]+)\\s*\\|\\|\\s*([^\\]]*)\\s*(;[0-9]*\\s*-\\s*[0-9]*)?\\s*\\]\\]"),
        networkCodeRegexes = c(network = "\\[\\[\\s*([a-zA-Z][a-zA-Z0-9_>]*)\\s*->\\s*([a-zA-Z][a-zA-Z0-9_>]*)\\s*\\|\\|\\s*([a-zA-Z][a-zA-Z0-9_>]*)\\s*(\\|\\|[a-zA-Z0-9_>\\.]*)?\\s*(;[0-9]*\\s*-\\s*[0-9]*)?\\s*\\]\\]"),
        networkCodeRegexOrder = c("from", "to", "type", "weight"),
@@ -228,7 +228,7 @@ opts$defaults <-
        sectionBreakContainers = c("ROCK_sectionBreaks", "section_breaks"),
        delimiterString = "---",
        delimiterRegEx = "^---$",
-       ignoreRegex = "^\\s*#",
+       ignoreRegex = "^\\s*#.*$",
        ignoreOddDelimiters = FALSE,
 
        ### Network settings
