@@ -156,14 +156,71 @@ extractNotes <- function(text) {
       )
     );
 
-
-
   res$lines$noteLines_perNote <-
     find_blocks_of_lines(
       res$lines$noteLines_all
     );
 
+  res$notes <-
+    lapply(
+      res$lines$noteLines_perNote,
+      function(lineNrs) {
 
+        lines_in_note <- lineNrs;
+
+        keyValueLines_in_note <-
+          which(
+            res$lines$noteLines_keyvalue %in% lines_in_note
+          );
+
+        if (length(keyValueLines_in_note) > 0) {
+
+          keyValueLines_in_note <-
+            res$lines$noteLines_keyvalue[
+              keyValueLines_in_note
+            ];
+
+          keys <- trimws(sub(noteRegex_keyvalue, "\\1", text[keyValueLines_in_note], perl=TRUE));
+          values <- trimws(sub(noteRegex_keyvalue, "\\2", text[keyValueLines_in_note], perl=TRUE));
+
+          keyValuePairs_in_note <- values;
+          names(keyValuePairs_in_note) <- keys;
+
+          lines_in_note <-
+            setdiff(
+              lines_in_note,
+              keyValueLines_in_note
+            );
+
+        }
+
+        currentNoteText <- text[lines_in_note];
+
+        currentNoteText <-
+          trimws(sub(noteRegex_extractionRegex, "\\1", currentNoteText));
+
+        currentNoteText <-
+          currentNoteText[
+            nchar(currentNoteText) > 0
+          ];
+
+        currentNote <-
+          list(text = currentNoteText);
+
+        if (length(keyValueLines_in_note) > 0) {
+          currentNote$keyedValues <-
+            keyValuePairs_in_note
+        } else {
+          currentNote$keyedValues <- NULL;
+        }
+
+        return(currentNote);
+
+      }
+    );
+
+  ### Find original sequence of last line that contains
+  ### data; if it contains a UID, also get that
 
   browser();
 

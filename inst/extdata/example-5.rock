@@ -98,6 +98,7 @@ ROCK_attributes:
 --{ keyExample }={ This is a note key-value pair.        }--
 --{ The note on the preceding line will also be attached }--
 --{ to the preceding data fragment, just like this one.  }--
+--{ anotherExample }={ This is a second example.         }--
 
 ### Notes are different from comments; comments, like this one,
 ### are ignored; they're not parsed by programs that can parse
