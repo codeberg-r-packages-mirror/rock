@@ -76,21 +76,21 @@ extractNotes <- function(text) {
 
   }
 
-  if (length(noteLines_keyvalue) > 0) {
-
-    keys <- trimws(sub(noteRegex_keyvalue, "\\1", text, perl=TRUE)[noteLines_keyvalue]);
-    values <- trimws(sub(noteRegex_keyvalue, "\\2", text, perl=TRUE)[noteLines_keyvalue]);
-
-    res$keyValues <- values;
-    names(res$keyValues) <- keys;
-
-  }
+  # if (length(noteLines_keyvalue) > 0) {
+  #
+  #   keys <- trimws(sub(noteRegex_keyvalue, "\\1", text, perl=TRUE)[noteLines_keyvalue]);
+  #   values <- trimws(sub(noteRegex_keyvalue, "\\2", text, perl=TRUE)[noteLines_keyvalue]);
+  #
+  #   res$keyValues <- values;
+  #   names(res$keyValues) <- keys;
+  #
+  # }
 
   res$notes <- list();
 
   if (length(noteLines_openingOnly) > 0) {
 
-    res$noteLines_spanning <-
+    res$lines$noteLines_spanning <-
       lapply(
         noteLines_openingOnly,
         function(lineIndex) {
@@ -100,49 +100,72 @@ extractNotes <- function(text) {
         }
       );
 
-    res$notes <-
-      lapply(
-        res$noteLines_spanning,
-        function(indices) {
-          return(
-            sub(noteRegex_extractionRegex, "\\1", text[indices])
-          );
-        }
-      );
+    ### We do that later now
+    # res$notes <-
+    #   lapply(
+    #     res$noteLines_spanning,
+    #     function(indices) {
+    #       return(
+    #         sub(noteRegex_extractionRegex, "\\1", text[indices])
+    #       );
+    #     }
+    #   );
 
   }
 
-  if (length(noteLines_complete) > 0) {
+  ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  ### This isn't necessary any more now that we just combine all lines with
+  ### notes and then find the blocks.
+  ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #
+  # if (length(noteLines_complete) > 0) {
+  #
+  #   noteLines_complete_thatAreEmbedded <-
+  #     nr_in_any_interval(
+  #       noteLines_complete,
+  #       intervals = res$noteLines_spanning
+  #     );
+  #
+  #   noteLines_complete_embedded <-
+  #     noteLines_complete[noteLines_complete_thatAreEmbedded];
+  #
+  #   noteLines_complete_nonEmbedded <-
+  #     noteLines_complete[!noteLines_complete_thatAreEmbedded];
+  #
+  #   if (length(noteLines_complete_nonEmbedded) > 0) {
+  #
+  #     noteLines_complete_nonEmbedded_blocks <-
+  #       find_blocks_of_lines(
+  #         noteLines_complete_nonEmbedded
+  #       );
+  #
+  #     noteLines_complete_single <-
+  #       noteLines_complete[!noteLines_complete_thatAreEmbedded];
+  #
+  #   }
+  #
+  # }
 
-    noteLines_complete_thatAreEmbedded <-
-      nr_in_any_interval(
-        noteLines_complete,
-        intervals = res$noteLines_spanning
-      );
-
-    noteLines_complete_embedded <-
-      noteLines_complete[noteLines_complete_thatAreEmbedded];
-
-    noteLines_complete_nonEmbedded <-
-      noteLines_complete[!noteLines_complete_thatAreEmbedded];
-
-    if (length(noteLines_complete_nonEmbedded) > 0) {
-
-      noteLines_complete_nonEmbedded_blocks <-
-        find_blocks(
-          noteLines_complete_nonEmbedded
-        );
-
-      noteLines_complete_nonEmbedded
+  res$lines$noteLines_all <-
+    sort(
+      unique(
+        c(
+          res$lines$noteLines_any,
+          unlist(res$lines$noteLines_spanning)
+        )
+      )
+    );
 
 
-      noteLines_complete_single <-
-        noteLines_complete[!noteLines_complete_thatAreEmbedded];
+
+  res$lines$noteLines_perNote <-
+    find_blocks_of_lines(
+      res$lines$noteLines_all
+    );
 
 
-    }
 
-  }
+  browser();
 
 
   return(res);

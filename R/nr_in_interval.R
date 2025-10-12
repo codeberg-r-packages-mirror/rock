@@ -1,9 +1,41 @@
+#' Helper functions for note extraction
+#'
+#' These are normally not used directly by end users; they're used
+#' internally to extract notes.
+#'
+#' @param x A numeric vector of value 1 (for [nr_in_interval()] and more for
+#' the other functions.
+#' @param interval,intervals One or more intervals: sets of two or more line
+#' numbers, with the minimum and maximum line numbers forming an internal
+#'
+#' @returns A logical value or vector for [nr_in_interval()],
+#' [nr_in_any_interval()], and [nrs_in_any_interval()]; a list for
+#' [find_blocks_of_lines()]
+#' @export
+#'
+#' @rdname note_extraction_helper_functions
+#' @examples rock::nr_in_interval(5, 7:10);
+#' rock::nr_in_interval(8, 7:10);
+#'
+#' rock::nr_in_intervals(
+#'   5,
+#'   c(c(1,4), 7:10)
+#' );
+#'
+#' rock::find_blocks_of_lines(
+#'   c(
+#'     1, 2, 5, 7, 8, 9, 10,
+#'     18, 20, 23, 24, 25, 30
+#'   )
+#' );
 nr_in_interval <- function(x, interval) {
 
   return(!(x < min(interval) | (x > max(interval))));
 
 }
 
+#' @export
+#' @rdname note_extraction_helper_functions
 nr_in_any_interval <- function(x, intervals) {
 
   if (length(x) > 1) {
@@ -46,59 +78,35 @@ nrs_in_any_interval <- function(x, intervals) {
 
 }
 
-find_blocks <- function(x) {
+#' @export
+#' @rdname note_extraction_helper_functions
+find_blocks_of_lines <- function(x) {
+
+  res <- list(x[1]);
+
+  if (length(x) == 1) {
+    return(res);
+  }
 
   indices <- seq_along(x);
-
-  res <- list(character());
-
   resultIndex <- 1;
-  currentIndex <- 1;
+  currentIndex <- 2;
 
   while (currentIndex <= max(indices)) {
 
-    ### We can't look for the next value if we're at max.
-    if (currentIndex < max(indices)) {
+    if ((x[currentIndex - 1]) == (x[currentIndex] - 1)) {
 
-      if ((x[currentIndex] + 1) == x[currentIndex + 1]) {
+      ### The line we're looking at now immediately follows the last line
+      ### we looked at, so we're still in the same block.
 
-        res[[resultIndex]] <-
-          c(res[[resultIndex]],
-            x[currentIndex]);
-
-      } else if ((x[currentIndex - 1]) == (x[currentIndex] - 1)) {
-
-        res[[resultIndex]] <- c(res[[resultIndex]], x[currentIndex]);
-        resultIndex <- resultIndex + 1;
-        res[[resultIndex]] <- character();
-
-      } else {
-
-        resultIndex <- resultIndex + 1;
-        res[[resultIndex]] <- character();
-
-      }
+      res[[resultIndex]] <- c(res[[resultIndex]], x[currentIndex]);
 
     } else {
 
-      ### There might only be one value
-      if (currentIndex == 1) {
-
-        res <- x[currentIndex];
-
-      } else {
-
-        if ((x[currentIndex - 1]) == (x[currentIndex] - 1)) {
-
-          res[[resultIndex]] <- c(res[[resultIndex]], x[currentIndex]);
-
-        } else {
-
-          res[[resultIndex]] <- x[currentIndex];
-
-        }
-
-      }
+      ### There's some distance between the line we're looking at now and
+      ### the last line we looked at, so start a new block.
+      resultIndex <- resultIndex + 1;
+      res[[resultIndex]] <- x[currentIndex];
 
     }
 
