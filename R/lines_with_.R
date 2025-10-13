@@ -28,7 +28,7 @@
 #' linesWithBreaks <-
 #'   lines_with_breaks(loadedExample);
 #' loadedExample[linesWithBreaks];
-lines_with_codes <- function(x) {
+lines_with_rock_codes <- function(x) {
 
   codeRegexes <- rock::opts$get('codeRegexes');
   codeValueRegexes <- rock::opts$get('codeValueRegexes');
@@ -61,7 +61,7 @@ lines_with_codes <- function(x) {
 
 #' @export
 #' @rdname lines_with
-lines_with_breaks <- function(x) {
+lines_with_rock_breaks <- function(x) {
 
   sectionRegexes <- rock::opts$get('sectionRegexes');
 
@@ -85,7 +85,7 @@ lines_with_breaks <- function(x) {
 
 #' @export
 #' @rdname lines_with
-lines_with_anchors <- function(x) {
+lines_with_rock_anchors <- function(x) {
 
   anchorRegex <- rock::opts$get('anchorRegex');
 
@@ -101,7 +101,7 @@ lines_with_anchors <- function(x) {
 
 #' @export
 #' @rdname lines_with
-lines_with_uids <- function(x) {
+lines_with_rock_uids <- function(x) {
 
   uidRegex <- rock::opts$get('uidRegex');
 
@@ -117,7 +117,7 @@ lines_with_uids <- function(x) {
 
 #' @export
 #' @rdname lines_with
-lines_with_comments <- function(x) {
+lines_with_rock_comments <- function(x) {
 
   ignoreRegex <- rock::opts$get('ignoreRegex');
 
@@ -133,7 +133,7 @@ lines_with_comments <- function(x) {
 
 #' @export
 #' @rdname lines_with
-lines_with_nesting <- function(x) {
+lines_with_rock_nesting <- function(x) {
 
   nestingMarker <- rock::opts$get('nestingMarker');
 
@@ -144,6 +144,71 @@ lines_with_nesting <- function(x) {
       perl = TRUE
     )
   );
+
+}
+
+#' @export
+#' @rdname lines_with
+lines_with_rock_notes <- function(x) {
+
+  noteRegex_complete <- rock::opts$get('noteRegex_complete');
+  noteRegex_openingOnly <- rock::opts$get('noteRegex_openingOnly');
+  noteRegex_closingOnly <- rock::opts$get('noteRegex_closingOnly');
+  noteRegex_extractionRegex <- rock::opts$get('noteRegex_extractionRegex');
+  noteRegex_keyvalue <- rock::opts$get('noteRegex_keyvalue');
+
+  noteLines_complete <- grep(noteRegex_complete, x, perl = TRUE);
+  noteLines_openingOnly <- grep(noteRegex_openingOnly, x, perl = TRUE);
+  noteLines_closingOnly <- grep(noteRegex_closingOnly, x, perl = TRUE);
+  noteLines_keyvalue <- grep(noteRegex_keyvalue, x, perl = TRUE);
+
+  noteLines_hasOpening <- union(noteLines_complete, noteLines_openingOnly);
+  noteLines_hasClosing <- union(noteLines_complete, noteLines_closingOnly);
+
+  noteLines_any <-
+    sort(
+      unique(
+        c(
+          noteLines_complete,
+          noteLines_openingOnly,
+          noteLines_closingOnly,
+          noteLines_keyvalue
+        )
+      )
+    );
+
+  if (length(noteLines_openingOnly) > 0) {
+
+    noteLines_spanning <-
+      lapply(
+        noteLines_openingOnly,
+        function(lineIndex) {
+          return(
+            lineIndex:min(noteLines_closingOnly[noteLines_closingOnly > lineIndex])
+          )
+        }
+      );
+
+  }
+
+  noteLines_all <-
+    sort(
+      unique(
+        c(
+          noteLines_any,
+          unlist(noteLines_spanning)
+        )
+      )
+    );
+
+  res <-
+    ifelse(
+      seq_along(x) %in% noteLines_all,
+      TRUE,
+      FALSE
+    );
+
+  return(res);
 
 }
 
@@ -162,154 +227,14 @@ lines_with_whitespaceOnly <- function(x) {
 }
 
 #' @export
-#' @rdname remove_from_text
-remove_codes_from_text <- function(x) {
-
-  codeRegexes <- rock::opts$get('codeRegexes');
-  codeValueRegexes <- rock::opts$get('codeValueRegexes');
-  classInstanceRegex <- rock::opts$get('classInstanceRegex');
-  networkCodeRegexes <- rock::opts$get('networkCodeRegexes');
-
-  allRegexes <-
-    c(codeRegexes,
-      codeValueRegexes,
-      classInstanceRegex,
-      networkCodeRegexes);
-
-  for (currentRegex in allRegexes) {
-
-    x <-
-      gsub(
-        currentRegex,
-        "",
-        x,
-        perl = TRUE
-      );
-
-  }
-
-  return(trimws(x));
-
-}
-
-
-#' @export
-#' @rdname remove_from_text
-remove_breaks_from_text <- function(x) {
-
-  sectionRegexes <- rock::opts$get('sectionRegexes');
-
-  for (currentRegex in sectionRegexes) {
-
-    x <-
-      gsub(
-        currentRegex,
-        "",
-        x,
-        perl = TRUE
-      );
-
-  }
-
-  return(trimws(x));
-
-}
-
-#' @export
-#' @rdname remove_from_text
-remove_uids_from_text <- function(x) {
-
-  uidRegex <- rock::opts$get('uidRegex');
-
-  x <-
-    gsub(
-      uidRegex,
-      "",
-      x,
-      perl = TRUE
-    );
-
-  return(trimws(x));
-
-}
-
-#' @export
-#' @rdname remove_from_text
-remove_anchors_from_text <- function(x) {
-
-  anchorRegex <- rock::opts$get('anchorRegex');
-
-  x <-
-    gsub(
-      anchorRegex,
-      "",
-      x,
-      perl = TRUE
-    );
-
-  return(trimws(x));
-
-}
-
-#' @export
-#' @rdname remove_from_text
-remove_comments_from_text <- function(x) {
-
-  ignoreRegex <- rock::opts$get('ignoreRegex');
-
-  x <-
-    gsub(
-      ignoreRegex,
-      "",
-      x,
-      perl = TRUE
-    );
-
-  return(trimws(x));
-
-}
-
-#' @export
-#' @rdname remove_from_text
-remove_nesting_from_text <- function(x) {
-
-  nestingMarker <- rock::opts$get('nestingMarker');
-
-  x <-
-    gsub(
-      paste0("^\\s*", nestingMarker, "+"),
-      "",
-      x,
-      perl = TRUE
-    );
-
-  return(trimws(x));
-
-}
-
-#' @export
-#' @rdname lines_with
-remove_rock_from_text <- function(x) {
-
-  x <- remove_codes_from_text(x);
-  x <- remove_uids_from_text(x);
-  x <- remove_breaks_from_text(x);
-  x <- remove_anchors_from_text(x);
-  x <- remove_comments_from_text(x);
-  x <- remove_nesting_from_text(x);
-
-  return(x);
-
-}
-
-
-#' @export
 #' @rdname lines_with
 lines_with_data <- function(x) {
 
+  res <-
+    trimws(remove_rock_from_text(x));
 
-
-  res <- rep(FALSE, length(x));
+  res <-
+    nchar(res) > 0;
 
   return(res);
 
