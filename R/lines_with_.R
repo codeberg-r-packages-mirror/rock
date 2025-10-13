@@ -41,6 +41,8 @@ lines_with_rock_codes <- function(x) {
       classInstanceRegex,
       networkCodeRegexes);
 
+  nonYamlLines <- !lines_with_yaml(x);
+
   res <- rep(FALSE, length(x));
 
   for (currentRegex in allRegexes) {
@@ -55,7 +57,7 @@ lines_with_rock_codes <- function(x) {
 
   }
 
-  return(res);
+  return(nonYamlLines & res);
 
 }
 
@@ -64,6 +66,8 @@ lines_with_rock_codes <- function(x) {
 lines_with_rock_breaks <- function(x) {
 
   sectionRegexes <- rock::opts$get('sectionRegexes');
+
+  nonYamlLines <- !lines_with_yaml(x);
 
   res <- rep(FALSE, length(x));
 
@@ -79,7 +83,7 @@ lines_with_rock_breaks <- function(x) {
 
   }
 
-  return(res);
+  return(nonYamlLines & res);
 
 }
 
@@ -87,9 +91,12 @@ lines_with_rock_breaks <- function(x) {
 #' @rdname lines_with
 lines_with_rock_anchors <- function(x) {
 
+  nonYamlLines <- !lines_with_yaml(x);
+
   anchorRegex <- rock::opts$get('anchorRegex');
 
   return(
+    nonYamlLines &
     grepl(
       anchorRegex,
       x,
@@ -103,9 +110,12 @@ lines_with_rock_anchors <- function(x) {
 #' @rdname lines_with
 lines_with_rock_uids <- function(x) {
 
+  nonYamlLines <- !lines_with_yaml(x);
+
   uidRegex <- rock::opts$get('uidRegex');
 
   return(
+    nonYamlLines &
     grepl(
       uidRegex,
       x,
@@ -119,9 +129,12 @@ lines_with_rock_uids <- function(x) {
 #' @rdname lines_with
 lines_with_rock_comments <- function(x) {
 
+  nonYamlLines <- !lines_with_yaml(x);
+
   ignoreRegex <- rock::opts$get('ignoreRegex');
 
   return(
+    nonYamlLines &
     grepl(
       ignoreRegex,
       x,
@@ -135,9 +148,12 @@ lines_with_rock_comments <- function(x) {
 #' @rdname lines_with
 lines_with_rock_nesting <- function(x) {
 
+  nonYamlLines <- !lines_with_yaml(x);
+
   nestingMarker <- rock::opts$get('nestingMarker');
 
   return(
+    nonYamlLines &
     grepl(
       paste0("^\\s*", nestingMarker, "+"),
       x,
@@ -146,6 +162,18 @@ lines_with_rock_nesting <- function(x) {
   );
 
 }
+
+#' @export
+#' @rdname lines_with
+lines_with_yaml <- function(x) {
+
+  return(
+    seq_along(x) %in%
+      unlist(yum::find_yaml_fragment_indices(text=x))
+  );
+
+}
+
 
 #' @export
 #' @rdname lines_with
@@ -208,7 +236,9 @@ lines_with_rock_notes <- function(x) {
       FALSE
     );
 
-  return(res);
+  nonYamlLines <- !lines_with_yaml(x);
+
+  return(nonYamlLines & res);
 
 }
 
@@ -216,7 +246,10 @@ lines_with_rock_notes <- function(x) {
 #' @rdname lines_with
 lines_with_whitespaceOnly <- function(x) {
 
+  nonYamlLines <- !lines_with_yaml(x);
+
   return(
+    nonYamlLines &
     grepl(
       paste0("^\\s*$"),
       x,
@@ -230,13 +263,15 @@ lines_with_whitespaceOnly <- function(x) {
 #' @rdname lines_with
 lines_with_data <- function(x) {
 
+  nonYamlLines <- !lines_with_yaml(x);
+
   res <-
     trimws(remove_rock_from_text(x));
 
   res <-
     nchar(res) > 0;
 
-  return(res);
+  return(nonYamlLines & res);
 
 }
 

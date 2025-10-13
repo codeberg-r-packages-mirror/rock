@@ -6,7 +6,7 @@
 \alias{extract_rock_uids_from_text}
 \title{Extract ROCK elements a text}
 \usage{
-extract_rock_notes_from_text(text)
+extract_rock_notes_from_text(x)
 
 extract_rock_uids_from_text(x)
 }

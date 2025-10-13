@@ -26,6 +26,9 @@
 #'
 extract_rock_notes_from_text <- function(x) {
 
+  noteRegex_extractionRegex <- rock::opts$get('noteRegex_extractionRegex');
+  noteRegex_keyvalue <- rock::opts$get('noteRegex_keyvalue');
+
   noteLines_all <-
     which(
       lines_with_rock_notes(
@@ -33,32 +36,31 @@ extract_rock_notes_from_text <- function(x) {
       )
     );
 
-  res$lines$noteLines_perNote <-
+  noteLines_perNote <-
     find_blocks_of_lines(
-      res$lines$noteLines_all
+      noteLines_all
     );
 
-  res$notes <-
+  notes <-
     lapply(
-      res$lines$noteLines_perNote,
+      noteLines_perNote,
       function(lineNrs) {
 
         lines_in_note <- lineNrs;
 
         keyValueLines_in_note <-
-          which(
-            res$lines$noteLines_keyvalue %in% lines_in_note
-          );
+          lines_in_note[
+            grep(
+              noteRegex_keyvalue,
+              x[lines_in_note],
+              perl = TRUE
+            )
+          ];
 
         if (length(keyValueLines_in_note) > 0) {
 
-          keyValueLines_in_note <-
-            res$lines$noteLines_keyvalue[
-              keyValueLines_in_note
-            ];
-
-          keys <- trimws(sub(noteRegex_keyvalue, "\\1", text[keyValueLines_in_note], perl=TRUE));
-          values <- trimws(sub(noteRegex_keyvalue, "\\2", text[keyValueLines_in_note], perl=TRUE));
+          keys <- trimws(sub(noteRegex_keyvalue, "\\1", x[keyValueLines_in_note], perl=TRUE));
+          values <- trimws(sub(noteRegex_keyvalue, "\\2", x[keyValueLines_in_note], perl=TRUE));
 
           keyValuePairs_in_note <- values;
           names(keyValuePairs_in_note) <- keys;
@@ -71,7 +73,7 @@ extract_rock_notes_from_text <- function(x) {
 
         }
 
-        currentNoteText <- text[lines_in_note];
+        currentNoteText <- x[lines_in_note];
 
         currentNoteText <-
           trimws(sub(noteRegex_extractionRegex, "\\1", currentNoteText));
@@ -92,17 +94,26 @@ extract_rock_notes_from_text <- function(x) {
           currentNote$keyedValues <- NULL;
         }
 
-
-
         return(currentNote);
 
       }
     );
 
-
-
   ### Find original sequence of last line that contains
   ### data; if it contains a UID, also get that
+
+  linesWithData <- rock::lines_with_data(x);
+  linesWithUIDs <- rock::lines_with_rock_uids(x);
+
+  browser();
+
+  lines_with_yaml
+
+  if (any(linesWithUIDs)) {
+    if (all(linesWithData == linesWithUIDs)) {
+
+    }
+  }
 
   browser();
 

@@ -7,6 +7,7 @@
 \alias{lines_with_rock_uids}
 \alias{lines_with_rock_comments}
 \alias{lines_with_rock_nesting}
+\alias{lines_with_yaml}
 \alias{lines_with_rock_notes}
 \alias{lines_with_whitespaceOnly}
 \alias{lines_with_data}
@@ -23,6 +24,8 @@ lines_with_rock_uids(x)
 lines_with_rock_comments(x)
 
 lines_with_rock_nesting(x)
+
+lines_with_yaml(x)
 
 lines_with_rock_notes(x)
 
