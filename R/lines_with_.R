@@ -217,17 +217,21 @@ lines_with_rock_notes <- function(x) {
         }
       );
 
-  }
-
-  noteLines_all <-
-    sort(
-      unique(
-        c(
-          noteLines_any,
-          unlist(noteLines_spanning)
+    noteLines_all <-
+      sort(
+        unique(
+          c(
+            noteLines_any,
+            unlist(noteLines_spanning)
+          )
         )
-      )
-    );
+      );
+
+  } else {
+
+    noteLines_all <- noteLines_any;
+
+  }
 
   res <-
     ifelse(
@@ -263,15 +267,13 @@ lines_with_whitespaceOnly <- function(x) {
 #' @rdname lines_with
 lines_with_data <- function(x) {
 
-  nonYamlLines <- !lines_with_yaml(x);
-
   res <-
     trimws(remove_rock_from_text(x));
 
   res <-
     nchar(res) > 0;
 
-  return(nonYamlLines & res);
+  return(res);
 
 }
 

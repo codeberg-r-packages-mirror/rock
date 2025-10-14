@@ -414,24 +414,21 @@ parse_source <- function(text,
   ### Process notes and note values
   ###---------------------------------------------------------------------------
 
-  # extractedNotes <-
-  #   extractNotes(
-  #     x
-  #   );
-
-
-
-
-
-
+  extractedNotes <-
+    extract_rock_notes_from_text(
+      x
+    );
 
   ###---------------------------------------------------------------------------
 
+  rawSource <-
+    list(rawText = x,
+         linesToIgnore = grepl(ignoreRegex, x));
+  rawSource$ignoredLines <- x[rawSource$linesToIgnore];
+
   ### Then remove lines to ignore
-  linesToIgnore <- grepl(ignoreRegex,
-                         x);
-  ignoredLines <- x[linesToIgnore];
-  x <- x[!linesToIgnore];
+
+  x <- x[!rawSource$linesToIgnore];
 
   ### Create dataframe for parsing
   sourceDf <- data.frame(utterances_raw = x,
@@ -1952,6 +1949,7 @@ parse_source <- function(text,
 
   ### Store results in the object to return
   res$qdt <- cleanSourceDf;
+  res$rawSource <- rawSource;
   res$sourceDf <- cleanSourceDf;
   res$utteranceTree <- utteranceTree;
   res$rawSourceDf <- sourceDf;
@@ -1962,6 +1960,7 @@ parse_source <- function(text,
   res$inductiveDiagrammeRs <- purrr::map(res$codeProcessing, "inductiveDiagrammeR");
   res$utteranceDiagram <- utteranceDiagram;
   res$mergedSourceDf <- res$qdt;
+  res$notes <- notes;
 
   ### Merge attributes with source dataframe
   if (mergeAttributes) {

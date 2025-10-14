@@ -148,8 +148,32 @@ remove_rock_nesting_from_text <- function(x) {
 
 #' @export
 #' @rdname remove_rock_from_text
+remove_rock_notes_from_text <- function(x) {
+
+  x[lines_with_rock_notes(x)] <- "";
+
+  return(x);
+
+}
+
+#' @export
+#' @rdname remove_rock_from_text
+remove_yaml_from_text <- function(x) {
+
+  x[lines_with_yaml(x)] <- "";
+
+  return(x);
+
+}
+
+
+
+#' @export
+#' @rdname remove_rock_from_text
 remove_rock_from_text <- function(x) {
 
+  x <- remove_yaml_from_text(x);
+  x <- remove_rock_notes_from_text(x);
   x <- remove_rock_codes_from_text(x);
   x <- remove_rock_uids_from_text(x);
   x <- remove_rock_breaks_from_text(x);

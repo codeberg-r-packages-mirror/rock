@@ -24,10 +24,14 @@
 #' notes <-
 #'   rock::extract_rock_notes_from_text(loadedExample);
 #'
+#' notes$notes[[3]];
+#'
 extract_rock_notes_from_text <- function(x) {
 
   noteRegex_extractionRegex <- rock::opts$get('noteRegex_extractionRegex');
   noteRegex_keyvalue <- rock::opts$get('noteRegex_keyvalue');
+
+  linesWithData <- rock::lines_with_data(x);
 
   noteLines_all <-
     which(
@@ -35,6 +39,12 @@ extract_rock_notes_from_text <- function(x) {
         x
       )
     );
+
+  if (length(noteLines_all) == 0) {
+    return(list(text = x,
+                text_clean = x,
+                notes = NA));
+  }
 
   noteLines_perNote <-
     find_blocks_of_lines(
@@ -94,29 +104,23 @@ extract_rock_notes_from_text <- function(x) {
           currentNote$keyedValues <- NULL;
         }
 
+        ### Find last preceding line with data
+        currentNote$attached_to_line <-
+          max(which((seq_along(x) <= min(lines_in_note)) & (linesWithData)));
+        currentNote$attached_to_data <-
+          remove_rock_from_text(x)[currentNote$attached_to_line];
+        currentNote$attached_to_uid <-
+          extract_rock_uids_from_text(x)$UIDs[currentNote$attached_to_line];
+
         return(currentNote);
 
       }
     );
 
-  ### Find original sequence of last line that contains
-  ### data; if it contains a UID, also get that
-
-  linesWithData <- rock::lines_with_data(x);
-  linesWithUIDs <- rock::lines_with_rock_uids(x);
-
-  browser();
-
-  lines_with_yaml
-
-  if (any(linesWithUIDs)) {
-    if (all(linesWithData == linesWithUIDs)) {
-
-    }
-  }
-
-  browser();
-
+  res <-
+    list(text = x,
+         text_clean = remove_rock_notes_from_text(x),
+         notes = notes);
 
   return(res);
 

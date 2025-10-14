@@ -7,6 +7,8 @@
 \alias{remove_rock_anchors_from_text}
 \alias{remove_rock_comments_from_text}
 \alias{remove_rock_nesting_from_text}
+\alias{remove_rock_notes_from_text}
+\alias{remove_yaml_from_text}
 \alias{remove_rock_from_text}
 \title{Removes ROCK elements from text}
 \usage{
@@ -21,6 +23,10 @@ remove_rock_anchors_from_text(x)
 remove_rock_comments_from_text(x)
 
 remove_rock_nesting_from_text(x)
+
+remove_rock_notes_from_text(x)
+
+remove_yaml_from_text(x)
 
 remove_rock_from_text(x)
 }

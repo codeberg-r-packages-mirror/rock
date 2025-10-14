@@ -38,6 +38,8 @@ loadedExample <-
 notes <-
   rock::extract_rock_notes_from_text(loadedExample);
 
+notes$notes[[3]];
+
 ### Extract UIDs
 UIDs <-
   rock::extract_rock_uids_from_text(loadedExample);
