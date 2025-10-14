@@ -145,6 +145,7 @@ convert_df_to_source <- function(data,
                                  oneFile = TRUE,
                                  cols_to_sourceFilename = cols_to_ciids,
                                  cols_in_sourceFilename_sep = "_is_",
+                                 cols_in_sourceFilename_collapse = "__",
                                  sourceFilename_prefix = "source_",
                                  sourceFilename_suffix = "",
                                  ciid_labels = NULL,
@@ -712,11 +713,25 @@ convert_df_to_source <- function(data,
 
     resNames <-
       apply(
-        data[, cols_to_ciids, drop=FALSE],
+        data[, cols_to_sourceFilename, drop=FALSE],
         1,
-        paste,
-        sep = cols_in_sourceFilename_sep
+        function(row) {
+          return(
+            paste(
+              cols_to_sourceFilename,
+              cols_in_sourceFilename_sep,
+              row,
+              collapse = cols_in_sourceFilename_collapse
+            )
+          )
+        }
       );
+
+    ### Sanitize filenames
+    resNames <-
+      gsub(" ", "", resNames);
+    resNames <-
+      gsub("\\?", "XXX", resNames);
 
     names(res) <- resNames;
 
@@ -852,7 +867,7 @@ convert_csv_to_source <- function(file,
                                   cols_to_attributes = NULL,
                                   oneFile = TRUE,
                                   cols_to_sourceFilename = cols_to_ciids,
-                                  cols_in_sourceFilename_sep = "=",
+                                  cols_in_sourceFilename_sep = "_is_",
                                   sourceFilename_prefix = "source_",
                                   sourceFilename_suffix = "",
                                   ciid_labels = NULL,
@@ -903,7 +918,7 @@ convert_csv2_to_source <- function(file,
                                    cols_to_attributes = NULL,
                                    oneFile = TRUE,
                                    cols_to_sourceFilename = cols_to_ciids,
-                                   cols_in_sourceFilename_sep = "=",
+                                   cols_in_sourceFilename_sep = "_is_",
                                    sourceFilename_prefix = "source_",
                                    sourceFilename_suffix = "",
                                    ciid_labels = NULL,
@@ -955,7 +970,7 @@ convert_xlsx_to_source <- function(file,
                                    cols_to_attributes = NULL,
                                    oneFile = TRUE,
                                    cols_to_sourceFilename = cols_to_ciids,
-                                   cols_in_sourceFilename_sep = "=",
+                                   cols_in_sourceFilename_sep = "_is_",
                                    sourceFilename_prefix = "source_",
                                    sourceFilename_suffix = "",
                                    ciid_labels = NULL,
@@ -1014,7 +1029,7 @@ convert_sav_to_source <- function(file,
                                   cols_to_attributes = NULL,
                                   oneFile = TRUE,
                                   cols_to_sourceFilename = cols_to_ciids,
-                                  cols_in_sourceFilename_sep = "=",
+                                  cols_in_sourceFilename_sep = "_is_",
                                   sourceFilename_prefix = "source_",
                                   sourceFilename_suffix = "",
                                   ciid_labels = NULL,
