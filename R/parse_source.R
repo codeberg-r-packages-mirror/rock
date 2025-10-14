@@ -423,12 +423,19 @@ parse_source <- function(text,
 
   rawSource <-
     list(rawText = x,
-         linesToIgnore = grepl(ignoreRegex, x));
-  rawSource$ignoredLines <- x[rawSource$linesToIgnore];
+         rawText_indices = seq_along(x),
+         comment_lines = lines_with_rock_comments(x),
+         note_lines = lines_with_rock_notes(x));
+  rawSource$removed_lines = rawSource$comment_lines | rawSource$note_lines;
+  rawSource$removed_text <- x[rawSource$removed_lines];
+  rawSource$retained_lines <- !rawSource$removed_lines;
 
   ### Then remove lines to ignore
+  x <- x[rawSource$retained_lines];
 
-  x <- x[!rawSource$linesToIgnore];
+  rawSource$new_indices <- rep(NA, length(rawSource$rawText));
+  rawSource$new_indices[rawSource$retained_lines] <-
+    seq_along(x);
 
   ### Create dataframe for parsing
   sourceDf <- data.frame(utterances_raw = x,
