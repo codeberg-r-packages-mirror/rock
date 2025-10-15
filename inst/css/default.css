@@ -83,6 +83,7 @@ div.rock-code-heading em {
 .rock-yaml-chunk {
   background-color: #ddffdd;
   color: #55aa55;
+  height: 1.1em;
 }
 
 div#codableSource {
@@ -125,6 +126,29 @@ div.rock-utterance:has(+ div.rock-utterance) {
   font-weight: normal;
   color: #999;
   cursor: auto;
+}
+
+.rock-note {
+  font-weight: normal;
+  color: #FFF;
+  background-color: #881;
+  cursor: auto;
+  display: block;
+  padding: 3px;
+  margin: 0px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  height: 1.5em;
+}
+
+.rock-note + .rock-note {
+  margin: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 .rock-coding {

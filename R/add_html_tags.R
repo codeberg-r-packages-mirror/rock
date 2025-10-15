@@ -30,6 +30,7 @@ add_html_tags <- function(x,
                           idClass = rock::opts$get("idClass"),
                           sectionClass = rock::opts$get("sectionClass"),
                           uidClass = rock::opts$get("uidClass"),
+                          noteClass = rock::opts$get("noteClass"),
                           contextClass = rock::opts$get("contextClass"),
                           rockLineClass = rock::opts$get("rockLineClass"),
                           utteranceClass = rock::opts$get("utteranceClass"),
@@ -69,22 +70,22 @@ add_html_tags <- function(x,
       perl = TRUE
     );
 
-  emptyLines_lineNrs <-
-    grep(
-      "^\\s*$",
-      res,
-      perl = TRUE
-    );
-
-  linesToIgnore_lineNrs <-
-    sort(
-      unique(
-        union(
-          linesToIgnore_lineNrs,
-          emptyLines_lineNrs
-        )
-      )
-    );
+  # emptyLines_lineNrs <-
+  #   grep(
+  #     "^\\s*$",
+  #     res,
+  #     perl = TRUE
+  #   );
+  #
+  # linesToIgnore_lineNrs <-
+  #   sort(
+  #     unique(
+  #       union(
+  #         linesToIgnore_lineNrs,
+  #         emptyLines_lineNrs
+  #       )
+  #     )
+  #   );
 
   linesToIgnore_contents <-
     res[linesToIgnore_lineNrs];
@@ -97,45 +98,67 @@ add_html_tags <- function(x,
     );
 
   ###---------------------------------------------------------------------------
+  ### Lines with notes
+  ###---------------------------------------------------------------------------
+
+  linesWithNotes_lineNrs <-
+    rock::lines_with_rock_notes(res);
+
+  linesWithNotes_contents <-
+    paste0(
+      '<span class="', noteClass, '">',
+      res[linesWithNotes_lineNrs],
+      '</span>'
+    );
+
+  ###---------------------------------------------------------------------------
   ### YAML lines
   ###---------------------------------------------------------------------------
 
   ### This is adapted from from yum::extract_yaml_fragments()
 
-  yamlDelimiterLines <- grep(delimiterRegEx, res);
+  # yamlDelimiterLines <- grep(delimiterRegEx, res);
+  #
+  # if (length(yamlDelimiterLines) > 0) {
+  #
+  #   if (!yum::is.even(length(yamlDelimiterLines))) {
+  #     stop("Uneven number of YAML chunk delimiters found! You",
+  #          "probably forgot or accidently deleted it. The YAML ",
+  #          "chunk delimiter is usually '---' on its own on a line. ",
+  #          "Specifically, I searched for all lines matching regular ",
+  #          "expression '", delimiterRegEx, "'.");
+  #   }
+  #
+  #   yamlFragmentIndices <- seq_along(yamlDelimiterLines);
+  #
+  #   if (length(yamlFragmentIndices) == 2) {
+  #     indexSets <- list(seq(yamlDelimiterLines[1], yamlDelimiterLines[2]));
+  #   } else {
+  #     indexSets <- mapply(seq, yamlDelimiterLines[yum::is.odd(yamlFragmentIndices)],
+  #                         yamlDelimiterLines[yum::is.even(yamlFragmentIndices)], SIMPLIFY = FALSE);
+  #   }
+  #
+  #   yamlLines <- unlist(indexSets);
+  #
+  #   yamlLines_contents <-
+  #     paste0(
+  #       '<div class="', yamlClass, '">',
+  #       res[yamlLines],
+  #       '</div>'
+  #     );
+  #
+  # } else {
+  #   yamlLines <- NULL;
+  #   yamlLines_contents <- NULL;
+  # }
 
-  if (length(yamlDelimiterLines) > 0) {
-
-    if (!yum::is.even(length(yamlDelimiterLines))) {
-      stop("Uneven number of YAML chunk delimiters found! You",
-           "probably forgot or accidently deleted it. The YAML ",
-           "chunk delimiter is usually '---' on its own on a line. ",
-           "Specifically, I searched for all lines matching regular ",
-           "expression '", delimiterRegEx, "'.");
-    }
-
-    yamlFragmentIndices <- seq_along(yamlDelimiterLines);
-
-    if (length(yamlFragmentIndices) == 2) {
-      indexSets <- list(seq(yamlDelimiterLines[1], yamlDelimiterLines[2]));
-    } else {
-      indexSets <- mapply(seq, yamlDelimiterLines[yum::is.odd(yamlFragmentIndices)],
-                          yamlDelimiterLines[yum::is.even(yamlFragmentIndices)], SIMPLIFY = FALSE);
-    }
-
-    yamlLines <- unlist(indexSets);
-
+  yamlLines <- rock::lines_with_yaml(res);
     yamlLines_contents <-
       paste0(
         '<div class="', yamlClass, '">',
         res[yamlLines],
         '</div>'
       );
-
-  } else {
-    yamlLines <- NULL;
-    yamlLines_contents <- NULL;
-  }
 
   ###---------------------------------------------------------------------------
   ### Codes
@@ -357,6 +380,21 @@ add_html_tags <- function(x,
   ### Add rock-line tag
   res[linesToIgnore_lineNrs] <-
     paste0('<div class="', rockLineClass, ' ">', res[linesToIgnore_lineNrs], '</div>\n');
+
+  ###---------------------------------------------------------------------------
+  ### Replace lines with notes ('overwriting' any applied tags)
+  ###---------------------------------------------------------------------------
+
+  res[linesWithNotes_lineNrs] <-
+    linesWithNotes_contents;
+
+  ### Add rock-line tag
+  res[linesWithNotes_lineNrs] <-
+    paste0('<div class="', rockLineClass, ' ">', res[linesWithNotes_lineNrs], '</div>\n');
+
+  ###---------------------------------------------------------------------------
+  ### Return result
+  ###---------------------------------------------------------------------------
 
   return(res);
 
