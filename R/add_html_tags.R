@@ -390,7 +390,7 @@ add_html_tags <- function(x,
 
   ### Add rock-line tag
   res[linesWithNotes_lineNrs] <-
-    paste0('<div class="', rockLineClass, ' ">', res[linesWithNotes_lineNrs], '</div>\n');
+    paste0('<div class="', rockLineClass, ' ', noteClass, '">', res[linesWithNotes_lineNrs], '</div>\n');
 
   ###---------------------------------------------------------------------------
   ### Return result

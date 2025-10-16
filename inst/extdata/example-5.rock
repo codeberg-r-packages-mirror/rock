@@ -100,6 +100,11 @@ ROCK_attributes:
 --{ to the preceding data fragment, just like this one.  }--
 --{ anotherExample }={ This is a second example.         }--
 
+--{ This is a second note attached to the same data
+    fragment. So to attach multiple notes, just leave
+    an empty line between them.  }--
+--{ with_a_third }={ keyed value }--
+
 ### Notes are different from comments; comments, like this one,
 ### are ignored; they're not parsed by programs that can parse
 ### ROCK files.

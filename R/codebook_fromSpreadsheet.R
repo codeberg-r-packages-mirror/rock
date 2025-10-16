@@ -46,7 +46,7 @@ codebook_fromSpreadsheet <- function(x,
       "%Y-%m-%d"
     );
 
-  class(res) <- c("rock", "rock_codebook_spec", "list");
+  class(res) <- c("rock", "rock_codebook_spec", "rock_codebook_spreadsheet", "list");
 
   return(res);
 

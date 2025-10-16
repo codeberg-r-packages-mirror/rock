@@ -21,11 +21,6 @@ if (exists("updateEverything") && updateEverything) {
       "inst", "extdata", "exampleCodebook_1.xlsx"
     );
 
-  yamlFile <-
-    here::here(
-      "inst", "extdata", "exampleCodebook_1.yml"
-    );
-
   exampleCodebook_1 <-
     rock::codebook_fromSpreadsheet(
       gSheet_url,
@@ -35,34 +30,16 @@ if (exists("updateEverything") && updateEverything) {
 
   usethis::use_data(exampleCodebook_1, overwrite=TRUE);
 
-  # ### We also store a completed version of this form; also in in YAML and JSON
-  # examplePrereg_1 <-
-  #   preregr::prereg_initialize(
-  #     form_generalPurpose_v1
-  #   );
-  #
-  # examplePrereg_1 <-
-  #   preregr::prereg_specify(
-  #     examplePrereg_1,
-  #     discipline = "Thaumatology",
-  #     title = "Cabbages cast in moderation: a comparative analysis",
-  #     authors = "Littlebottom, C., Dibbler, C., & Aching, T."
-  #   );
-  #
-  # examplePrereg_1_asYAML <-
-  #   preregr::prereg_spec_to_yaml(
-  #     examplePrereg_1
-  #   );
-  #
-  # #tools::showNonASCII(paste0(examplePrereg_1_asYAML, collapse=""));
-  #
-  # preregr::prereg_spec_to_yaml(
-  #   examplePrereg_1,
-  #   file = yamlFile
-  # );
+  ### Convert to YAML
 
-  #tools::showNonASCIIfile(yamlFile);
+  yamlFile <-
+    here::here(
+      "inst", "extdata", "exampleCodebook_1.yml"
+    );
 
-  # usethis::use_data(examplePrereg_1, overwrite=TRUE);
+  yamlCodebook_1 <-
+    rock::codebook_to_yaml(
+      exampleCodebook_1
+    );
 
 }

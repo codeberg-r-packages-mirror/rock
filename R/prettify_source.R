@@ -30,6 +30,11 @@
 #' rock::prettify_source(
 #'   exampleFile
 #' );
+#'
+#' ### Another example, including ROCK notes
+#' rock::prettify_source(
+#'   file.path(examplePath, "example-5.rock")
+#' );
 prettify_source <- function(x,
                             heading = NULL,
                             headingLevel = 2,

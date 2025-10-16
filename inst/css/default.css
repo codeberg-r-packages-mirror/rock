@@ -128,7 +128,8 @@ div.rock-utterance:has(+ div.rock-utterance) {
   cursor: auto;
 }
 
-.rock-note {
+/* Applies to the first line */
+div.rock-note {
   font-weight: normal;
   color: #FFF;
   background-color: #881;
@@ -136,19 +137,31 @@ div.rock-utterance:has(+ div.rock-utterance) {
   display: block;
   padding: 3px;
   margin: 0px;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
+  border-top-left-radius: .5em;
+  border-top-right-radius: .5em;
+  border-bottom-left-radius: 0em;
+  border-bottom-right-radius: 0em;
   height: 1.5em;
 }
 
-.rock-note + .rock-note {
+/* Applies to all lines except the first and the last */
+div.rock-note + div.rock-note {
   margin: 0px;
   padding-top: 0px;
   padding-bottom: 0px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
+}
+
+/* Selects the last line */
+div.rock-note:has( + div:not(.rock-note)) {
+  margin: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border-bottom-left-radius: .5em;
+  border-bottom-right-radius: .5em;
 }
 
 .rock-coding {

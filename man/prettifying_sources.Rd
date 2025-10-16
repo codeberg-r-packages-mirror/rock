@@ -99,6 +99,11 @@ exampleFile <-
 rock::prettify_source(
   exampleFile
 );
+
+### Another example, including ROCK notes
+rock::prettify_source(
+  file.path(examplePath, "example-5.rock")
+);
 }
 \seealso{
 \code{\link[=add_html_tags]{add_html_tags()}}

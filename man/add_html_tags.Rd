@@ -13,6 +13,7 @@ add_html_tags(
   idClass = rock::opts$get("idClass"),
   sectionClass = rock::opts$get("sectionClass"),
   uidClass = rock::opts$get("uidClass"),
+  noteClass = rock::opts$get("noteClass"),
   contextClass = rock::opts$get("contextClass"),
   rockLineClass = rock::opts$get("rockLineClass"),
   utteranceClass = rock::opts$get("utteranceClass"),
