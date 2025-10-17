@@ -12,6 +12,7 @@ exampleCodebook_1
 }
 \description{
 This is a simple and relatively short codebook
-specification.
+specification, both in spreadsheet form (\code{exampleCodebook_1}) and
+in YAML form (\code{yamlCodebook_1}).
 }
 \keyword{datasets}

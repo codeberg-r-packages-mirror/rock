@@ -5,7 +5,12 @@
 #' @returns The YAML as a character vector
 #' @export
 #'
-#' @examples
+#' @examples data(exampleCodebook_1, package="rock");
+#' cat(
+#'   codebook_to_yaml(
+#'     exampleCodebook_1
+#'   )
+#' );
 codebook_to_yaml <- function(x) {
 
   if (!inherits(x, "rock_codebook_spreadsheet")) {
@@ -15,29 +20,33 @@ codebook_to_yaml <- function(x) {
 
   res <-
     list(
-      metadata = x$metadata,
-      codes = apply(x$codes, 1, as.list),
-      aesthetics = x$aesthetics
-    );
-
-  names(res$codes) <-
-    unlist(
-      lapply(
-        res$codes,
-        function(currentCode) {
-          return(currentCode$code_id);
-        }
+      codebook = list(
+        metadata = rock::yamlify_cols_to_keyedvalues(x$metadata,
+                                                     keyCol = "field",
+                                                     valueCol = "content"),
+        codes = apply(x$codes, 1, as.list),
+        aesthetics = rock::yamlify_rows_to_nodes(x$aesthetics)
       )
     );
 
   for (i in names(res$codes)) {
-    res$codes[[i]]$examples <-
-      apply(x$examples[x$examples$code_id == i, ], 1, list);
-    res$codes[[i]]$relationships <-
-      as.list(x$relationships[x$examples$from_code_id == i, ]);
+    res$codebook$codes[[i]]$examples <-
+      rock::yamlify_rows_to_nodes(
+        x$examples[x$examples$code_id == i, ],
+        returnYAML = FALSE,
+        colsToOmit = "code_id"
+      );
+    res$codebook$codes[[i]]$relationships <-
+      rock::yamlify_rows_to_nodes(
+        x$relationships[x$relationships$from_code_id == i, ],
+        returnYAML = FALSE,
+        colsToOmit = "from_code_id"
+      );
   }
 
+  yaml <-
+    yaml::as.yaml(res);
 
-  browser();
+  return(yaml);
 
 }

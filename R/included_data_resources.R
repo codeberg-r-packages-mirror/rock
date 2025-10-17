@@ -4,11 +4,13 @@ updateEverything <- FALSE;
 #' An very rudimentary example codebook specification
 #'
 #' This is a simple and relatively short codebook
-#' specification.
+#' specification, both in spreadsheet form (`exampleCodebook_1`) and
+#' in YAML form (`yamlCodebook_1`).
 #'
 #' @format An example of a codebook specification
 #'
 "exampleCodebook_1"
+"yamlCodebook_1"
 
 ### Inclusive General-Purpose Registration Form
 if (exists("updateEverything") && updateEverything) {
@@ -41,5 +43,7 @@ if (exists("updateEverything") && updateEverything) {
     rock::codebook_to_yaml(
       exampleCodebook_1
     );
+
+  usethis::use_data(yamlCodebook_1, overwrite=TRUE);
 
 }

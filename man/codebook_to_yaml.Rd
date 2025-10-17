@@ -15,3 +15,11 @@ The YAML as a character vector
 \description{
 Produce the YAML for a ROCK codebook
 }
+\examples{
+data(exampleCodebook_1, package="rock");
+cat(
+  codebook_to_yaml(
+    exampleCodebook_1
+  )
+);
+}
