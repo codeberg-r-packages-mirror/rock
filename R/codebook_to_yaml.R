@@ -23,9 +23,11 @@ codebook_to_yaml <- function(x) {
       codebook = list(
         metadata = rock::yamlify_cols_to_keyedvalues(x$metadata,
                                                      keyCol = "field",
-                                                     valueCol = "content"),
+                                                     valueCol = "content",
+                                                     returnYAML = FALSE),
         codes = apply(x$codes, 1, as.list),
-        aesthetics = rock::yamlify_rows_to_nodes(x$aesthetics)
+        aesthetics = rock::yamlify_rows_to_nodes(x$aesthetics,
+                                                 returnYAML = FALSE)
       )
     );
 
