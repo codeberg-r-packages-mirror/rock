@@ -31,20 +31,26 @@ codebook_to_yaml <- function(x) {
       )
     );
 
-  for (i in names(res$codes)) {
-    res$codebook$codes[[i]]$examples <-
-      rock::yamlify_rows_to_nodes(
-        x$examples[x$examples$code_id == i, ],
-        returnYAML = FALSE,
-        colsToOmit = "code_id"
-      );
-    res$codebook$codes[[i]]$relationships <-
-      rock::yamlify_rows_to_nodes(
-        x$relationships[x$relationships$from_code_id == i, ],
-        returnYAML = FALSE,
-        colsToOmit = "from_code_id"
-      );
-  }
+  res$codebook$codes <-
+    lapply(
+      res$codebook$codes,
+      function(currentCode) {
+        id <- currentCode$code_id;
+        currentCode$examples <-
+          rock::yamlify_rows_to_nodes(
+            x$examples[x$examples$code_id == id, ],
+            returnYAML = FALSE,
+            colsToOmit = "code_id"
+          );
+        currentCode$relationships <-
+          rock::yamlify_rows_to_nodes(
+            x$relationships[x$relationships$from_code_id == id, ],
+            returnYAML = FALSE,
+            colsToOmit = "from_code_id"
+          );
+        return(currentCode);
+      }
+    );
 
   yaml <-
     yaml::as.yaml(res);
