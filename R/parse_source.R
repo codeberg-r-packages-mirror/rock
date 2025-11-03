@@ -1967,7 +1967,7 @@ parse_source <- function(text,
   res$inductiveDiagrammeRs <- purrr::map(res$codeProcessing, "inductiveDiagrammeR");
   res$utteranceDiagram <- utteranceDiagram;
   res$mergedSourceDf <- res$qdt;
-  res$notes <- notes;
+  res$notes <- extractedNotes;
 
   ### Merge attributes with source dataframe
   if (mergeAttributes) {
