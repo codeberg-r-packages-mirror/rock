@@ -1954,7 +1954,6 @@ parse_source <- function(text,
 
   }
 
-
   ### Store results in the object to return
   res$qdt <- cleanSourceDf;
   res$rawSource <- rawSource;
