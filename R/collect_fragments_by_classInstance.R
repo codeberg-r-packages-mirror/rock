@@ -264,7 +264,7 @@ collect_fragments_by_classInstance <- function(x,
     function(i) {
 
       msg(
-        "\n   - Processing class with identifier '", i, "'. ",
+        "\n   - Processing class with identifier '", i, "' without HTML. ",
         silent = silent
       );
 
@@ -288,18 +288,54 @@ collect_fragments_by_classInstance <- function(x,
 
               ### Get clean or raw utterances
               if (cleanUtterances) {
-                res <- dat[indices, 'utterances_clean'];
+                res <- dat[indices, c('utterances_clean', 'originalSource')];
               } else {
-                res <- dat[indices, 'utterances_raw'];
+                res <- dat[indices, c('utterances_raw', 'originalSource')];
               }
 
               if (rawResult) {
-                return(res);
+                return(res[, 1]);
               } else {
 
-                ### Collapse all utterances into one character value
-                res <- paste0(res,
-                              collapse=utteranceGlue);
+                ### Get all included sources
+                originalSources <-
+                  unique(res$originalSource);
+
+                if (length(originalSources) == 1) {
+
+                  ### Collapse all utterances into one character value
+                  res <- paste0(res,
+                                collapse=utteranceGlue);
+
+                } else {
+
+                  resDf <- res;
+                  res <- c();
+
+                  for (currentSource in originalSources) {
+
+                    tempRes <-
+                      resDf[resDf$originalSource == currentSource, 1];
+
+                    ### Collapse all utterances into one character value
+                    tempRes <- paste0(tempRes,
+                                      collapse=utteranceGlue);
+
+                    ### Add the sources, if necessary
+                    if ((!identical(sourceFormatting, FALSE)) && !singleSource) {
+                      tempRes <- paste0(
+                        sprintf(
+                          sourceFormatting,
+                          currentSource
+                        ),
+                        tempRes);
+                    }
+
+                    res <- paste0(res, tempRes);
+
+                  }
+
+                }
 
                 ### Return result
                 return(res);
@@ -331,7 +367,7 @@ collect_fragments_by_classInstance <- function(x,
     function(i) {
 
       msg(
-        "\n   - Processing class with identifier '", i, "'. ",
+        "\n   - Processing class with identifier '", i, "' for HTML. ",
         silent = silent
       );
 
@@ -355,27 +391,63 @@ collect_fragments_by_classInstance <- function(x,
 
               ### Get clean or raw utterances
               if (cleanUtterances) {
-                res <- dat[indices, 'utterances_clean'];
+                res <- dat[indices, c('utterances_clean', 'originalSource')];
               } else {
-                res <- dat[indices, 'utterances_raw'];
+                res <- dat[indices, c('utterances_raw', 'originalSource')];
               }
 
               if (rawResult) {
-                return(res);
+                return(res[, 1]);
               } else {
 
                 ### Add html tags, if requested
                 if (add_html_tags) {
-                  res <- paste0(
+                  res[, 1] <- paste0(
                     rock::add_html_tags(
-                      res
+                      res[, 1]
                     )
                   );
                 }
 
-                ### Collapse all utterances into one character value
-                res <- paste0(res,
-                              collapse=utteranceGlue);
+                ### Get all included sources
+                originalSources <-
+                  unique(res$originalSource);
+
+                if (length(originalSources) == 1) {
+
+                  ### Collapse all utterances into one character value
+                  res <- paste0(res,
+                                collapse=utteranceGlue);
+
+                } else {
+
+                  resDf <- res;
+                  res <- c();
+
+                  for (currentSource in originalSources) {
+
+                    tempRes <-
+                      resDf[resDf$originalSource == currentSource, 1];
+
+                    ### Collapse all utterances into one character value
+                    tempRes <- paste0(tempRes,
+                                      collapse=utteranceGlue);
+
+                    ### Add the sources, if necessary
+                    if ((!identical(sourceFormatting_html, FALSE)) && !singleSource) {
+                      tempRes <- paste0(
+                        sprintf(
+                          sourceFormatting_html,
+                          currentSource
+                        ),
+                        tempRes);
+                    }
+
+                    res <- paste0(res, tempRes);
+
+                  }
+
+                }
 
                 ### Return result
                 return(res);
@@ -404,37 +476,22 @@ collect_fragments_by_classInstance <- function(x,
     ### Set the code subheading level based on whether a heading
     ### will be included
     if (is.null(heading)) {
-      if (length(usedClasses) > 5) {
-        heading_markdown <-
-          rock::heading(
-            "Data fragments",
-            headingLevel = headingLevel,
-            output = "markdown",
-            cat = FALSE
-          );
-        heading_html <-
-          rock::heading(
-            "Data fragments",
-            headingLevel = headingLevel,
-            output = "html",
-            cat = FALSE
-          );
-      } else {
-        heading_markdown <-
-          rock::heading(
-            "Data fragments",
-            headingLevel = headingLevel,
-            output = "markdown",
-            cat = FALSE
-          );
-        heading_html <-
-          rock::heading(
-            "Data fragments",
-            headingLevel = headingLevel,
-            output = "html",
-            cat = FALSE
-          );
-      }
+      heading_markdown <-
+        rock::heading(
+          paste0("Data fragments for class(es) ",
+                 vecTxtQ(class)),
+          headingLevel = headingLevel,
+          output = "markdown",
+          cat = FALSE
+        );
+      heading_html <-
+        rock::heading(
+          paste0("Data fragments for class(es) ",
+                 vecTxtQ(class)),
+          headingLevel = headingLevel,
+          output = "html",
+          cat = FALSE
+        );
       codeSubheadingLevel <- headingLevel + 1;
     } else if (is.character(heading)) {
       heading_markdown <-
@@ -666,19 +723,19 @@ collect_fragments_by_classInstance <- function(x,
         close(con);
 
         if (!silent) {
-          cat0("Wrote output file '", output,
+          cat0("\nWrote output file '", output,
                "' to disk.");
         }
       } else {
         if (!silent) {
-          cat0("Specified output file '", output,
+          cat0("\nSpecified output file '", output,
                "' exists, and `preventOverwriting` is set to `TRUE`; ",
                "did not write the file!");
         }
       }
       return(invisible(res_markdown));
     } else {
-      stop("You passed '", output,
+      stop("\nYou passed '", output,
            "' as output filename, but directory '", dirname(output),
            "' does not exist!");
     }
