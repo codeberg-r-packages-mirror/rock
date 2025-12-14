@@ -73,6 +73,20 @@ div.rock-code-heading em {
   color: #cccc66;
 }
 
+.rock-class-instance {
+  font-size: 120%;
+  background-color: #ffeeff;
+  color: #cc66cc;
+  margin: 3px 20px 8px 20px;
+  padding: 2px 10px;
+  border: 1px solid #cc66cc;
+}
+
+.rock-class-instance pre {
+  display: inline;
+  background-color: #ffeeff;
+  color: #cc66cc;
+}
 
 .sectionBreak {
   background-color: #ddddff;

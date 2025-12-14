@@ -15,7 +15,7 @@
 #' expressions for class identifiers (which will be prepended with "`^`" and
 #' appended with "`$`", and then concatenated using "`|`" as a separator, to
 #' create a regular expression matching all identifiers).
-#' @param attributes To only select utterances matching one or more
+#' @param attributesToSelect To only select utterances matching one or more
 #' values for one or more attributes, pass a list where every element's
 #' name is a valid (i.e. occurring) attribute name, and every element is a
 #' character value with a regular expression specifying all values for that
@@ -88,38 +88,20 @@
 #'   )
 #' );
 #'
-#' ### Only for the codes containing 'Code2', with
-#' ### 2 lines of context (both ways)
-#' cat(
-#'   rock::collect_coded_fragments(
-#'     parsedExample,
-#'     'Code2',
-#'     context = 2
-#'   )
-#' );
-#'
 #' ### Parse multiple example sources
 #' ### Load two example sources
 #' parsedExamples <- rock::parse_sources(
 #'   examplePath,
 #'   regex = "example-[1234].rock"
 #' );
-#'
-#' cat(
-#'   rock::collect_coded_fragments(
-#'     parsedExamples,
-#'     '[cC]ode2',
-#'     context = 2
-#'   )
-#' );
+
 #'
 #'
 #' @export
 collect_fragments_by_classInstance <- function(x,
                                                class = ".*",
-                                               context = 0,
-                                               includeDescendents = FALSE,
-                                               attributes = NULL,
+                                               attributesToSelect = NULL,
+                                               attributesToShow = NULL,
                                                heading = NULL,
                                                headingLevel = 3,
                                                add_html_tags = TRUE,
@@ -140,20 +122,15 @@ collect_fragments_by_classInstance <- function(x,
   sourceFormatting <- rock::opts$get("sourceFormatting");
   sourceFormatting_html <- rock::opts$get("sourceFormatting_html");
 
+  instanceFormatting <- rock::opts$get("instanceFormatting");
+  instanceFormatting_html <- rock::opts$get("instanceFormatting_html");
+
   fragmentDelimiter <- rock::opts$get("fragmentDelimiter");
   fragmentDelimiter_html <- rock::opts$get("fragmentDelimiter_html");
   fragmentDelimiter_above_html <- rock::opts$get("fragmentDelimiter_above_html");
   fragmentDelimiter_below_html <- rock::opts$get("fragmentDelimiter_below_html");
 
   utteranceGlue <- ifelse(add_html_tags, "\n", rock::opts$get("utteranceGlue"));
-
-  if (is.null(context) || any(is.na(context)) || (length(context) == 0)) {
-    context <- 0;
-  } else if (length(context) == 1) {
-    context = c(context, context);
-  } else if (length(context) > 2) {
-    context <- context[1:2];
-  }
 
   if (!("rock_parsedSource" %in% class(x)) &&
       !("rock_parsedSources" %in% class(x))) {
@@ -213,7 +190,7 @@ collect_fragments_by_classInstance <- function(x,
         matchedClasses,
         function(currentClass) {
           return(
-            !all(table(dat[, matchedClasses]) == "no_id")
+            !all(table(dat[, currentClass]) == "no_id")
           );
         }
       )
@@ -234,19 +211,19 @@ collect_fragments_by_classInstance <- function(x,
   ### Select utterances matching the specified attributes
 
   selectedUtterances <- rep(TRUE, nrow(dat));
-  if (!is.null(attributes)) {
-    if ((!is.list(attributes)) || (!all(names(attributes) %in% x$convenience$attributesVars))) {
-      stop("As `attributes` argument, you must pass a list where every element's ",
+  if (!is.null(attributesToSelect)) {
+    if ((!is.list(attributesToSelect)) || (!all(names(attributesToSelect) %in% x$convenience$attributesVars))) {
+      stop("As `attributesToSelect` argument, you must pass a list where every element's ",
            "name is a valid attribute, and every element is a character value ",
            "with a regular expression specifying all values you want to select in that attribute. ",
            "The attribute(s) in the {rock} object you passed are ",
            vecTxtQ(x$convenience$attributesVars), ", but you passed attribute(s) ",
-           vecTxtQ(names(attributes)), ".");
+           vecTxtQ(names(attributesToSelect)), ".");
     } else {
       ### Cycle through specified attributes and values; set to FALSE where there's no match
-      for (attributeName in names(attributes)) {
+      for (attributeName in names(attributesToSelect)) {
         selectedUtterances <-
-          selectedUtterances & grepl(attributes[attributeName], dat[, attributeName]);
+          selectedUtterances & grepl(attributesToSelect[attributeName], dat[, attributeName]);
       }
     }
   }
@@ -337,6 +314,15 @@ collect_fragments_by_classInstance <- function(x,
 
                 }
 
+                res <-
+                  paste0(
+                    sprintf(
+                      instanceFormatting,
+                      currentInstanceId
+                    ),
+                    res
+                  );
+
                 ### Return result
                 return(res);
               }
@@ -364,18 +350,20 @@ collect_fragments_by_classInstance <- function(x,
 
   res_html <- lapply(
     usedClasses,
-    function(i) {
+    function(currentClassId) {
 
       msg(
-        "\n   - Processing class with identifier '", i, "' for HTML. ",
+        "\n   - Processing class with identifier '", currentClassId, "' for HTML. ",
         silent = silent
       );
 
       instanceIds <-
         setdiff(
-          unique(dat[, i]),
+          unique(dat[, currentClassId]),
           "no_id"
         );
+
+      instanceIds <- instanceIds[!is.na(instanceIds)];
 
       if (length(instanceIds) > 0) {
 
@@ -386,7 +374,7 @@ collect_fragments_by_classInstance <- function(x,
 
               indices <-
                 which(
-                  dat[, i] == currentInstanceId
+                  dat[, currentClassId] == currentInstanceId
                 );
 
               ### Get clean or raw utterances
@@ -402,6 +390,7 @@ collect_fragments_by_classInstance <- function(x,
 
                 ### Add html tags, if requested
                 if (add_html_tags) {
+
                   res[, 1] <- paste0(
                     rock::add_html_tags(
                       res[, 1]
@@ -446,6 +435,43 @@ collect_fragments_by_classInstance <- function(x,
                     res <- paste0(res, tempRes);
 
                   }
+
+                }
+
+                if (is.null(attributesToShow)) {
+                  res <-
+                    paste0(
+                      prettification_classInstanceId(
+                        classId = currentClassId,
+                        classInstanceId = currentInstanceId,
+                        format = "html"
+                      ),
+                      res
+                    );
+                } else {
+
+                  attributesBit <- c();
+
+                  for (currentAttributeToShow in attributesToShow) {
+
+                    attributesBit[currentAttributeToShow] <-
+                      x$convenience$attributesPerClass[[currentClassId]][
+                        x$convenience$attributesPerClass[[currentClassId]][[currentClassId]] == currentInstanceId,
+                        currentAttributeToShow
+                      ]
+
+                  }
+
+                  res <-
+                    paste0(
+                      prettification_classInstanceId(
+                        classId = currentClassId,
+                        classInstanceId = currentInstanceId,
+                        attributes = attributesBit,
+                        format = "html"
+                      ),
+                      res
+                    );
 
                 }
 

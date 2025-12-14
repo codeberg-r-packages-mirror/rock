@@ -280,6 +280,8 @@ opts$defaults <-
        sourceFormatting_html = "\n\n<div class='rock-source-filename'><strong>Source: <pre>%s</pre></strong></div>\n\n",
        codeHeadingFormatting = "%s *(path: %s)*",
        codeHeadingFormatting_html = "<div class='rock rock-code-heading'>%s <em>(path: %s)</em></div>",
+       instanceFormatting = "**Class instance identifier: `%s`**\n\n",
+       instanceFormatting_html = "\n\n<div class='rock-class-instance'><strong>Class instance identifier: <pre>%s</pre></strong></div>\n\n",
 
        ### Cognitive Interview: Narrative Response Models
        nrm_wsNames = list(
