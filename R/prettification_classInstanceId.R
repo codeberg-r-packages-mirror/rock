@@ -30,27 +30,54 @@ prettification_classInstanceId <- function(classId,
 
   } else {
 
-    res <-
-      paste0(
-        "\n\n<div class='rock-class-instance'><strong>Class instance identifier: <pre>",
-        classInstanceId,
-        "</pre></strong>\n",
-        "<div class='rock-class-instance-attributes'>"
-      );
+    if (is.null(format)) {
 
-    res <-
-      paste0(
-        res,
+      res <-
         paste0(
-          "<div class='rock-class-instance-single-attribute'>",
-          names(attributes),
-          " = ",
-          attributes,
-          "</div>"
-        )
-      );
+          "### Class instance identifier: `",
+          classInstanceId,
+          "`\n"
+        );
 
-    res <- paste0(res, "</div></div>\n\n");
+      res <-
+        paste0(
+          res,
+          paste0(
+            "  - `",
+            names(attributes),
+            "` = ",
+            attributes,
+            "\n"
+          )
+        );
+
+      res <- paste0(res, "\n\n");
+
+    } else if (format == "html") {
+
+      res <-
+        paste0(
+          "\n\n<div class='rock-class-instance'><strong>Class instance identifier: <pre>",
+          classInstanceId,
+          "</pre></strong>\n",
+          "<div class='rock-class-instance-attributes'>"
+        );
+
+      res <-
+        paste0(
+          res,
+          paste0(
+            "<div class='rock-class-instance-single-attribute'>",
+            names(attributes),
+            " = ",
+            attributes,
+            "</div>"
+          )
+        );
+
+      res <- paste0(res, "</div></div>\n\n");
+
+    }
 
   }
 
