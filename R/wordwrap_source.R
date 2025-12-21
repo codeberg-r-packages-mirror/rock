@@ -117,11 +117,18 @@ wordwrap_source <- function(input,
     splitString = utteranceMarker
   );
 
-  if ((length(non_YAML_indices) == 1) && (is.numeric(non_YAML_indices))) {
+  ### Added 2025-12-21 - the next condition seems weird?
+  if (identical(non_YAML_indices, seq_along(text))) {
+    ### If these are identical, all indices are non-YAML-indices, so
+    ### we can just return the contents of 'res'
+    fullResult <- res;
+  } else if ((length(non_YAML_indices) == 1) && (is.numeric(non_YAML_indices))) {
     ### If no YAML fragments are present, non_YAML_indices is just c(1)
     fullResult <- res;
   } else {
     ### Insert lines that were potentially cleaned back in
+    stop("This functionality (word wrapping if YAML segments are also present) ",
+         "has not yet been implemented!");
     fullResult <- fullSource;
     fullResult[non_YAML_indices] <- res;
   }

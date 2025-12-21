@@ -74,7 +74,7 @@ preprocess_source <- function(input,
       );
   }
 
-  ### Word wrap data if requested
+  ### Prepend UIDs if requested
   if (prependUIDs) {
     res <-
       do.call(
