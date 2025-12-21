@@ -64,7 +64,7 @@ write_source <- function(x,
   if (!("rock_source" %in% class(x))) {
     stop("As `x`, you must pass a source as imported by {rock}. It should ",
          "have class `rock_source`, but the object you passed as `x` has ",
-         "class(es) ", vecTxtQ(), ".");
+         "class(es) ", vecTxtQ(class(x)), ".");
   }
 
   writingResult <-
