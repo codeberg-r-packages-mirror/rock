@@ -33,9 +33,8 @@ collect_coded_fragments(
 collect_fragments_by_classInstance(
   x,
   class = ".*",
-  context = 0,
-  includeDescendents = FALSE,
-  attributes = NULL,
+  attributesToSelect = NULL,
+  attributesToShow = NULL,
   heading = NULL,
   headingLevel = 3,
   add_html_tags = TRUE,
@@ -73,7 +72,7 @@ after the target utterances.}
 descendent codes (i.e. child codes, 'grand child codes', etc; in other
 words, whether to collect the fragments recursively).}
 
-\item{attributes}{To only select utterances matching one or more
+\item{attributes}{To only select coded utterances matching one or more
 values for one or more attributes, pass a list where every element's
 name is a valid (i.e. occurring) attribute name, and every element is a
 character value with a regular expression specifying all values for that
@@ -138,6 +137,12 @@ to include, or a character vector with class identifiers or regular
 expressions for class identifiers (which will be prepended with "\code{^}" and
 appended with "\code{$}", and then concatenated using "\code{|}" as a separator, to
 create a regular expression matching all identifiers).}
+
+\item{attributesToSelect}{To only select utterances matching one or more
+values for one or more attributes, pass a list where every element's
+name is a valid (i.e. occurring) attribute name, and every element is a
+character value with a regular expression specifying all values for that
+attribute to select.}
 }
 \value{
 Either a list of character vectors, or a single character value.
@@ -237,29 +242,11 @@ cat(
   )
 );
 
-### Only for the codes containing 'Code2', with
-### 2 lines of context (both ways)
-cat(
-  rock::collect_coded_fragments(
-    parsedExample,
-    'Code2',
-    context = 2
-  )
-);
-
 ### Parse multiple example sources
 ### Load two example sources
 parsedExamples <- rock::parse_sources(
   examplePath,
   regex = "example-[1234].rock"
-);
-
-cat(
-  rock::collect_coded_fragments(
-    parsedExamples,
-    '[cC]ode2',
-    context = 2
-  )
 );
 
 

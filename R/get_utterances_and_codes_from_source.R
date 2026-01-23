@@ -56,6 +56,14 @@ get_utterances_and_codes_from_source <- function(x, ...) {
       codeMatches[[
         which(unlist(lapply(codeMatches, is.list)))
       ]];
+  } else {
+    codesPerUtterance <-
+      lapply(
+        1:nrow(parsedSource$sourceDf),
+        function(x) {
+          return(character());
+        }
+      );
   }
 
   res <-

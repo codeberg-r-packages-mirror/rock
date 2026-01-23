@@ -83,12 +83,22 @@
 #' parsedExample <- rock::parse_source(exampleFile,
 #'                                     silent=FALSE);
 #'
-#' ### Parse as selection of example sources in that directory
+#' ### Parse a selection of example sources in that directory
 #' parsedExamples <-
 #'   rock::parse_sources(
 #'     examplePath,
 #'     regex = "(test|example)(.txt|.rock)"
 #'   );
+#'
+#' ### Parse more example sources, throwing a warning (hence
+#' ### the "don't run")
+#' \dontrun{
+#' parsedExamples <-
+#'   rock::parse_sources(
+#'     examplePath,
+#'     regex = ".*(test|example).*(.txt|.rock)"
+#'   );
+#' }
 #'
 #' ### Show combined inductive code tree for the codes
 #' ### extracted with the regular expression specified with
