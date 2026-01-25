@@ -70,6 +70,11 @@ export_attributes_from_parsedSources <- function(x,
     file <- file.path(path, file);
   }
 
+  res <-
+    c("---",
+      res,
+      "---");
+
   if (is.null(file)) {
     return(res);
   } else {
