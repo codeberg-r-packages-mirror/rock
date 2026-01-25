@@ -1,9 +1,0 @@
-ROCK_attributes:
-  caseId: 1
-  region: urban
-  age: 60s
-ROCK_attributes:
-  caseId: 2
-  region: rural
-  age: 20s
-
