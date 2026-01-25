@@ -71,9 +71,7 @@ export_attributes_from_parsedSources <- function(x,
   }
 
   res <-
-    c("---",
-      res,
-      "---");
+    paste0("---\n", res, "---\n");
 
   if (is.null(file)) {
     return(res);
