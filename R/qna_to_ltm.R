@@ -29,14 +29,14 @@
 #'
 #' ### Convert and show the topic map
 #' cat(
-#'   rock::qna_to_tlm(
+#'   rock::qna_to_ltm(
 #'     qnaExample
 #'   ),
 #'   sep="\n"
 #' );
 #'
 #' @export
-qna_to_tlm <- function(x,
+qna_to_ltm <- function(x,
                        topicmapId = "rock_qna_topicmap",
                        topicmapTitle = "A ROCK QNA Topic Map") {
 
@@ -100,6 +100,8 @@ qna_to_tlm <- function(x,
             "",
             "/* end */"
           );
+
+          return(res);
 
         }
 
