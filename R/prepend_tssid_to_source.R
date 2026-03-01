@@ -9,12 +9,12 @@
 #' (four for the year, two for the month, and two for the day), a `T`, four
 #' digits (two for the hour and two for the minute), and a `Z` (to designate
 #' that the time is specified in the UTC timezone). TSSIDs are valid ISO8601
-#' standard date/times.
+#' standard date/times. TSSIDs match the regular expression `[0-9]{8}T[0-9]{4}Z`.
 #'
 #' @param input The source, as produced by one of the `loading_sources`
 #' functions, or a path to an existing file that is then imported.
 #' @param moment Optionally, the moment as a character value of the form
-#' `2025-05-28 11:30 CEST` (so, `YYYY-MM-DD HH-MM`).
+#' `2025-05-28 11:30 CEST` (so, `YYYY-MM-DD HH-MM TZ`).
 #' @param output If specified, the coded source will be written here.
 #' @param designationSymbol The symbol to use to designate an instance
 #' identifier for a class (can be "`=`" or "`:`" as per the ROCK standard).
@@ -49,7 +49,7 @@
 #'
 #' @export
 prepend_tssid_to_source <- function(input,
-                                    moment = format(Sys.time(), "%Y-%m-%d %H:%M"),
+                                    moment = format(Sys.time(), "%Y-%m-%d %H:%M %Z"),
                                     output = NULL,
                                     designationSymbol = "=",
                                     preventOverwriting = rock::opts$get('preventOverwriting'),

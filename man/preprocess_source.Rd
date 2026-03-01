@@ -22,10 +22,10 @@ preprocess_source(
 \arguments{
 \item{input}{The source}
 
-\item{output}{For \code{clean_source} and \code{search_and_replace_in_source}, if not \code{NULL},
+\item{output}{For \code{wordwrap_source}, if not \code{NULL},
 this is the name (and path) of the file in which to save the processed source (if it
-\emph{is} \code{NULL}, the result will be returned visibly). For \code{clean_sources} and
-\code{search_and_replace_in_sources}, \code{output} is mandatory and is the path to the
+\emph{is} \code{NULL}, the result will be returned visibly). For \code{wordwrap_source},
+\code{output} is mandatory and is the path to the
 directory where to store the processed sources. This path will be created with a
 warning if it does not exist. An exception is if "\code{same}" is specified - in that
 case, every file will be written to the same directory it was read from.}

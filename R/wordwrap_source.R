@@ -2,14 +2,14 @@
 #'
 #' This function wordwraps a source.
 #'
-#' @param input For `clean_source` and `search_and_replace_in_source`, either a character
+#' @param input For `wordwrap_source`, either a character
 #' vector containing the text of the relevant source *or* a path to a file that contains
-#' the source text; for `clean_sources` and `search_and_replace_in_sources`, a path to a
+#' the source text; for `wordwrap_sources`, a path to a
 #' directory that contains the sources to clean.
-#' @param output For `clean_source` and `search_and_replace_in_source`, if not `NULL`,
+#' @param output For `wordwrap_source`, if not `NULL`,
 #' this is the name (and path) of the file in which to save the processed source (if it
-#' *is* `NULL`, the result will be returned visibly). For `clean_sources` and
-#' `search_and_replace_in_sources`, `output` is mandatory and is the path to the
+#' *is* `NULL`, the result will be returned visibly). For `wordwrap_source`,
+#' `output` is mandatory and is the path to the
 #' directory where to store the processed sources. This path will be created with a
 #' warning if it does not exist. An exception is if "`same`" is specified - in that
 #' case, every file will be written to the same directory it was read from.
@@ -31,6 +31,7 @@
 #' @return A character vector.
 #'
 #' @export
+#' @rdname wordwrapping_sources
 #' @examples exampleText <-
 #'   paste0(
 #'     "Lorem ipsum dolor sit amet, consectetur ",
