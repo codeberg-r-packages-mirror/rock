@@ -2,7 +2,7 @@
 % Please edit documentation in R/yamlify_cols_to_keyedvalues.R
 \name{yamlify_cols_to_keyedvalues}
 \alias{yamlify_cols_to_keyedvalues}
-\title{Convert two columns in a data frame to a 'YAML' sequece of keyed values}
+\title{Convert two columns in a data frame to a 'YAML' sequence of keyed values}
 \usage{
 yamlify_cols_to_keyedvalues(x, keyCol = 1, valueCol = 2, returnYAML = TRUE)
 }
@@ -19,7 +19,7 @@ yamlify_cols_to_keyedvalues(x, keyCol = 1, valueCol = 2, returnYAML = TRUE)
 'YAML' as character string or a list of lists
 }
 \description{
-Convert two columns in a data frame to a 'YAML' sequece of keyed values
+Convert two columns in a data frame to a 'YAML' sequence of keyed values
 }
 \examples{
 cat(

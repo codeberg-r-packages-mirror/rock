@@ -19,3 +19,19 @@ which_regex_matches(
 \description{
 Return which regular expression of several matches a character value
 }
+\examples{
+pattern <-
+  c("[0-9]",
+    "[A-Z]",
+    "[a-z]");
+
+rock::which_regex_matches(
+  pattern,
+  "42"
+);
+
+rock::which_regex_matches(
+  pattern,
+  "forty-two"
+);
+}

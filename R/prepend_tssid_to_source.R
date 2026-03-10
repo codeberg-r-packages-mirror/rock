@@ -74,16 +74,27 @@ prepend_tssid_to_source <- function(input,
 
   codeDelimiters <- rock::opts$get(codeDelimiters);
 
-  tssidToPrepend <-
-    rock::generate_tssid(
-      format(
-        as.POSIXct(
-          moment
-        ),
-        "%Y-%m-%d %H:%M:%S %Z",
-        tz="UTC"
-      )
-    );
+  tssidRegex <- "[0-9]{8}T[0-9]{4}Z";
+
+  if (grepl(tssidRegex, moment)) {
+
+    tssidToPrepend <-
+      moment;
+
+  } else {
+
+    tssidToPrepend <-
+      rock::generate_tssid(
+        format(
+          as.POSIXct(
+            moment
+          ),
+          "%Y-%m-%d %H:%M:%S %Z",
+          tz="UTC"
+        )
+      );
+
+  }
 
   tssidToPrepend <-
     paste0(
@@ -107,7 +118,7 @@ prepend_tssid_to_source <- function(input,
 
     writingResult <-
       writeTxtFile(
-        x = input,
+        x = res,
         output = output,
         preventOverwriting = preventOverwriting,
         encoding = encoding,

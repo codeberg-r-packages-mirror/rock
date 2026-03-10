@@ -1,4 +1,4 @@
-#' Convert two columns in a data frame to a 'YAML' sequece of keyed values
+#' Convert two columns in a data frame to a 'YAML' sequence of keyed values
 #'
 #' @param x The data frame
 #' @param keyCol The column holding the keys (names)

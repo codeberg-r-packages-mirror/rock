@@ -10,7 +10,25 @@
 #' @returns
 #' @export
 #'
-#' @examples
+#' @examples pattern <-
+#'   c("[0-9]",
+#'     "[A-Z]",
+#'     "[a-z]");
+#'
+#' rock::which_regex_matches(
+#'   pattern,
+#'   "42"
+#' );
+#'
+#' rock::which_regex_matches(
+#'   pattern,
+#'   "forty-two"
+#' );
+#'
+#' rock::which_regex_matches(
+#'   pattern,
+#'   c(42, "forty-two")
+#' );
 which_regex_matches <- function(pattern,
                                 x,
                                 ignore.case = FALSE,

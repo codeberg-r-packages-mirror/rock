@@ -19,6 +19,11 @@ prepend_tssid_to_sources(
 \item{input}{The source, as produced by one of the \code{loading_sources}
 functions, or a path to an existing file that is then imported.}
 
+\item{tssids}{A data frame or path to a CSV file with
+columns \code{filename_regex} and \code{tssid} or \code{moment}. The \code{tssid} column
+contains TSSIDs, and the \code{moment} column contains timestamps in the form
+\verb{2025-05-28 11:30 CEST} (so, \verb{YYYY-MM-DD HH-MM TZ}).}
+
 \item{output}{If specified, the coded source will be written here.}
 
 \item{designationSymbol}{The symbol to use to designate an instance
@@ -32,9 +37,6 @@ with a newline character.}
 \item{encoding}{The encoding to use.}
 
 \item{silent}{Whether to be chatty or quiet.}
-
-\item{moment}{Optionally, the moment as a character value of the form
-\verb{2025-05-28 11:30 CEST} (so, \verb{YYYY-MM-DD HH-MM TZ}).}
 }
 \value{
 Invisibly, the coded source object.

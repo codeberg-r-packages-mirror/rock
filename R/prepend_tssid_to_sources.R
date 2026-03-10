@@ -13,7 +13,9 @@
 #'
 #' @param input The source, as produced by one of the `loading_sources`
 #' functions, or a path to an existing file that is then imported.
-#' @param moment Optionally, the moment as a character value of the form
+#' @param tssids A data frame or path to a CSV file with
+#' columns `filename_regex` and `tssid` or `moment`. The `tssid` column
+#' contains TSSIDs, and the `moment` column contains timestamps in the form
 #' `2025-05-28 11:30 CEST` (so, `YYYY-MM-DD HH-MM TZ`).
 #' @param output If specified, the coded source will be written here.
 #' @param designationSymbol The symbol to use to designate an instance
@@ -51,7 +53,11 @@
 prepend_tssid_to_sources <- function(input,
                                      tssids,
                                      output = NULL,
+                                     outputPrefix = "",
+                                     outputSuffix = "_withTSSIDs",
                                      designationSymbol = "=",
+                                     filenameRegex = "\\.rock",
+                                     recursive = TRUE,
                                      preventOverwriting = rock::opts$get('preventOverwriting'),
                                      rlWarn = rock::opts$get(rlWarn),
                                      encoding = rock::opts$get('encoding'),
@@ -125,11 +131,24 @@ prepend_tssid_to_sources <- function(input,
       );
   } else if (file.exists(tssids)) {
     tssidDf <- read.csv(tssids);
-    tssidVector <-
-      stats::setNames(
-        tssidDf$tssid,
-        nm = tssidDf$filename_regex
-      );
+
+    if ("tssid" %in% names(tssidDf)) {
+      tssidVector <-
+        stats::setNames(
+          tssidDf$tssid,
+          nm = tssidDf$filename_regex
+        );
+    } else if ("moment" %in% names(tssidDf)) {
+      tssidVector <-
+        stats::setNames(
+          rock::generate_tssid(tssidDf$moment),
+          nm = tssidDf$filename_regex
+        );
+    } else {
+      stop("The file you provide as `tssids` must either have a column ",
+           "named `tssid` or a column named `moment`.");
+    }
+
   } else {
     stop(
       "As `tssids`, pass either a dataframe with columns `filename_regex` and `tssid`, ",
@@ -141,6 +160,7 @@ prepend_tssid_to_sources <- function(input,
 
   res <- character();
   for (filename in rawSourceFiles) {
+
     newFilename <-
       paste0(outputPrefix,
              sub("^(.*)\\.[a-zA-Z0-9]+$",
@@ -156,11 +176,17 @@ prepend_tssid_to_sources <- function(input,
         output;
     }
 
-
+    current_tssid <-
+      tssidVector[
+        which_regex_matches(
+          pattern = names(tssidVector),
+          filename
+        )
+      ][1];
 
     prepend_tssid_to_source(
       input = filename,
-      moment = tssid[filename],
+      moment = current_tssid,
       output = file.path(newFileDir,
                          newFilename),
       designationSymbol = designationSymbol,
