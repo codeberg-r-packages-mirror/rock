@@ -208,18 +208,18 @@ code_source <- function(input,
         }
       }
 
-      ### Append code
-      input[indices] <-
-        paste(input[indices],
-              codeToAdd,
-              sep=" ");
-
-      if (!silent) {
-        cat0("Appending code '", codeToAdd, "' to utterances at those line numbers.\n");
-      }
-
     }
 
+  }
+
+  ### Append code
+  input[indices] <-
+    paste(input[indices],
+          codeToAdd,
+          sep=" ");
+
+  if (!silent) {
+    cat0("Appending code '", codeToAdd, "' to utterances at those line numbers.\n");
   }
 
   if (is.null(output)) {
