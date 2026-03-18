@@ -41,6 +41,7 @@
 #' @param add_html_tags Whether to add HTML tags to the result.
 #' @param rawResult Whether to return the raw result, a list of the
 #' fragments, or one character value in markdown format.
+#' @param returnHTML Whether to return the result as HTML.
 #' @param includeCSS Whether to include the ROCK CSS in the returned HTML.
 #' @param includeBootstrap Whether to include the default bootstrap CSS.
 #' @param output Here, a path and filename can be provided where the
@@ -138,6 +139,7 @@ collect_coded_fragments <- function(x,
                                     outputViewer = "viewer",
                                     template = "default",
                                     rawResult = FALSE,
+                                    returnHTML = FALSE,
                                     includeCSS = TRUE,
                                     preserveSpaces = TRUE,
                                     codeHeadingFormatting = rock::opts$get("codeHeadingFormatting"),
@@ -673,11 +675,20 @@ collect_coded_fragments <- function(x,
 
       ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       ### Adding the CSS is missing, isn't that wrong?
+      ###
+      ### 2026-03-18: the CSS is embedded, so apparently that happened earlier.
       ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
       return(knitr::asis_output(c("\n\n",
                                   res_html,
                                   "\n\n")));
+
+    } else if (isTRUE(returnHTML)) {
+
+      return(c("\n\n",
+               res_html,
+               "\n\n"));
+
     } else {
       if (outputToViewer) {
         #viewerHTML <- markdown::mark_html(text=res_without_css);

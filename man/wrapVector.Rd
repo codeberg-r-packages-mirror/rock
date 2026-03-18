@@ -22,13 +22,14 @@ A character vector
 Wrap all elements in a vector
 }
 \examples{
-res <- wrapVector(
-  c(
-    "This is a sentence ready for wrapping",
-    "So is this one, although it's a bit longer"
-  ),
-  width = 10
-);
+res <-
+  rock::wrapVector(
+    c(
+      "This is a sentence ready for wrapping",
+      "So is this one, although it's a bit longer"
+    ),
+    width = 10
+  );
 
 print(res);
 cat(res, sep="\n");

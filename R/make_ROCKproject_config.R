@@ -91,18 +91,18 @@ make_ROCKproject_config <- function(project = list(
         )
     );
 
-  res$yaml =
+  res$yaml <- list(res$input);
+  names(res$yaml) <- "_ROCKproject";
+  res$yaml <-
     yaml::as.yaml(
-      list(
-        `_ROCKproject` = res$input
-      )
+      res$yaml
     );
 
   if (is.null(path)) {
     return(res);
   } else {
     if (dir.exists(path)) {
-      yaml::write_yaml(
+      writeLines(
         res$yaml,
         file.path(path, "_ROCKproject.yml")
       );

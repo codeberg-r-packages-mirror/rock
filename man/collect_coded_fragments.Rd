@@ -21,6 +21,7 @@ collect_coded_fragments(
   outputViewer = "viewer",
   template = "default",
   rawResult = FALSE,
+  returnHTML = FALSE,
   includeCSS = TRUE,
   preserveSpaces = TRUE,
   codeHeadingFormatting = rock::opts$get("codeHeadingFormatting"),
@@ -114,6 +115,8 @@ the path and filename of a CSS file.}
 
 \item{rawResult}{Whether to return the raw result, a list of the
 fragments, or one character value in markdown format.}
+
+\item{returnHTML}{Whether to return the result as HTML.}
 
 \item{includeCSS}{Whether to include the ROCK CSS in the returned HTML.}
 
