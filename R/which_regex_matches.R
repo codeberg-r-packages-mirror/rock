@@ -1,13 +1,13 @@
 #' Return which regular expression of several matches a character value
 #'
-#' @param pattern
-#' @param x
-#' @param ignore.case
-#' @param perl
-#' @param fixed
-#' @param useBytes
+#' @param pattern The character vector with regular expressions to match against
+#' @param x The text to match against the regular expressions
+#' @param ignore.case Whether to be case sensitive (see [base::grepl()]).
+#' @param perl Whether `pattern` specifies Perl regexes (see [base::grepl()]).
+#' @param fixed Whether `pattern` is a regex or fixed string (see [base::grepl()]).
+#' @param useBytes See [base::grepl()].
 #'
-#' @returns
+#' @returns A logical vector or array (of `x` has more than one element)
 #' @export
 #'
 #' @examples pattern <-

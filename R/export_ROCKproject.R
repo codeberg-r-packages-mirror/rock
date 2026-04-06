@@ -137,6 +137,13 @@ export_ROCKproject <- function(output,
 
   }
 
+  msg(
+    "\n\nThe list of selected files is\n\n",
+    paste0(paste0("  - ", selectedFiles, "\n")),
+    "\n",
+    silent = silent
+  );
+
   if (file.exists(output)) {
     if (preventOverwriting) {
       stop("The file you specified to write to, '", output,

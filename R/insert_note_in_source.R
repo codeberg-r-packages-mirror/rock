@@ -84,17 +84,18 @@
 #' cat(overCodedExample[71]);
 #'
 #' @export
-code_source <- function(input,
-                        codes,
-                        indices = NULL,
-                        output = NULL,
-                        decisionLabel = NULL,
-                        justification = NULL,
-                        justificationFile = NULL,
-                        preventOverwriting = rock::opts$get('preventOverwriting'),
-                        rlWarn = rock::opts$get(rlWarn),
-                        encoding = rock::opts$get('encoding'),
-                        silent = rock::opts$get('silent')) {
+insert_notes_in_source <- function(input,
+                                   notes,
+                                   indices = NULL,
+                                   output = NULL,
+                                   wordwrap = 70,
+                                   decisionLabel = NULL,
+                                   justification = NULL,
+                                   justificationFile = NULL,
+                                   preventOverwriting = rock::opts$get('preventOverwriting'),
+                                   rlWarn = rock::opts$get(rlWarn),
+                                   encoding = rock::opts$get('encoding'),
+                                   silent = rock::opts$get('silent')) {
 
   ### Read input, if it's a file
   if ((length(input) == 1) && (file.exists(input))) {
@@ -111,79 +112,56 @@ code_source <- function(input,
          "as loaded with load_source or load_sources.\n");
   }
 
-  codeDelimiters <- rock::opts$get(codeDelimiters);
+  noteRegex_complete <- rock::opts$get('noteRegex_complete');
+  noteRegex_openingOnly <- rock::opts$get('noteRegex_openingOnly');
+  noteRegex_closingOnly <- rock::opts$get('noteRegex_closingOnly');
+  noteRegex_extractionRegex <- rock::opts$get('noteRegex_extractionRegex');
+  noteRegex_keyvalue <- rock::opts$get('noteRegex_keyvalue');
+  noteOpening <- rock::opts$get('noteOpening');
+  noteClosing <- rock::opts$get('noteClosing');
 
   if (!is.null(indices) && (is.logical(indices) && (length(indices) == length(input)))) {
     ### The indices are already set as a (valid) logical vector
-    codeToAdd <- paste0(codeDelimiters[1],
-                        codes[1],
-                        codeDelimiters[2]);
-    indices <- which(indices);
     if (!silent) {
-      cat0("The 'indices' argument is a logical vector indicating to which utterances to apply code '",
-                codes[1], "' (specifically, the utterances on lines ",
-                vecTxt(indices), ").\n");
+      cat0("The 'indices' argument is a logical vector indicating to ",
+           "which utterances to apply the note(s), ",
+           "specifically, the utterances on lines ",
+           vecTxt(which(indices)), ".\n");
     }
-
-    ### Append code
-    input[indices] <-
-      paste(input[indices],
-            codeToAdd,
-            sep=" ");
-
-    if (!silent) {
-      cat0("Appending code '", codeToAdd, "' to utterances at those line numbers.\n");
-    }
-
   } else if (!is.null(indices) && (is.numeric(indices)) && ((min(indices) >= 1) && (max(indices) <= length(input)))) {
     ### The indices are already set as a (valid) numeric vector
-    codeToAdd <- paste0(codeDelimiters[1],
-                        codes[1],
-                        codeDelimiters[2]);
     if (!silent) {
-      cat0("The first argument is a numeric vector indicating to which utterances to apply code '",
-                codes[1], "' (specifically, the utterances on lines ",
-                vecTxt(indices), ").\n");
+      cat0("The first argument is a numeric vector indicating to which ",
+           "utterances to apply the note(s), ",
+           ", specifically, the utterances on lines ",
+           vecTxt(indices), ".\n");
     }
-
-    ### Append code
-    input[indices] <-
-      paste(input[indices],
-            codeToAdd,
-            sep=" ");
-
-    if (!silent) {
-      cat0("Appending code '", codeToAdd, "' to utterances at those line numbers.\n");
-    }
-
   } else {
 
-    ### Create regex to match codes, where we escape the character
-    ### class specification codes (square brackets)
-    regexMatchingCode <-
-      paste0("^",
-             escapeRegexCharacterClass(codeDelimiters[1]),
-             "(.*)",
-             escapeRegexCharacterClass(codeDelimiters[2]),
-             "$");
-
-    if (length(codes) > 1) {
-      msg("Multiple codes to check have been specified.\n",
+    if (length(notes) > 1) {
+      msg("Multiple notes to check have been specified.\n",
           silent=silent);
     }
     msg("Starting processing of ",
-        vecTxtQ(names(codes)),
-        " against the regular expression ",
-        vecTxtQ(regexMatchingCode), ".\n",
+        length(notes),
+        " notes.\n",
         silent=silent);
 
-    for (i in seq_along(codes)) {
+    for (i in seq_along(notes)) {
+
+      if (!is.null(wordwrap)) {
+        notes[i] <-
+          strwrap(
+            notes[i],
+            width = wordwrap
+          )
+      }
 
       ### Generate code to add to utterances matching this code
-      codeToAdd <-
-        paste0(codeDelimiters[1],
-               codes[i],
-               codeDelimiters[2]);
+      noteToAdd <-
+        paste0(noteOpening,
+               notes[i],
+               noteClosing);
 
       if (any(grepl(regexMatchingCode,
                     names(codes)[i],
@@ -231,29 +209,18 @@ code_source <- function(input,
         }
       }
 
-      if (!silent) {
-        cat0("Appending code '", codeToAdd, "' to utterances at those line numbers.\n");
-      }
-
     }
 
   }
 
-  for (i in indices) {
+  ### Append code
+  input[indices] <-
+    paste(input[indices],
+          codeToAdd,
+          sep=" ");
 
-    old <- input[i];
-
-    ### Append code
-    input[i] <-
-      paste(input[i],
-            codeToAdd,
-            sep=" ");
-
-    new <- input[i];
-
-    cat0("--------PRE: ", old, "\n",
-         "       POST: ", new, "\n");
-
+  if (!silent) {
+    cat0("Appending code '", codeToAdd, "' to utterances at those line numbers.\n");
   }
 
   if (is.null(output)) {

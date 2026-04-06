@@ -4,6 +4,8 @@
 ### Comment/uncomment this to show the commands as they are executed
 #set -x
 
+echo '\n'
+
 echo - - - STARTING DEPLOYMENT SCRIPT at $(date) - - -
 
 cd ~/deploy_rock.opens.science
@@ -28,3 +30,5 @@ cp -RT public ~/rock.opens.science
 echo Done copying over new website.
 
 echo - - - ENDING DEPLOYMENT SCRIPT at $(date) - - -
+
+echo '\n'

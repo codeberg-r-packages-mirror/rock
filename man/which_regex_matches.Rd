@@ -14,7 +14,20 @@ which_regex_matches(
 )
 }
 \arguments{
-\item{useBytes}{}
+\item{pattern}{The character vector with regular expressions to match against}
+
+\item{x}{The text to match against the regular expressions}
+
+\item{ignore.case}{Whether to be case sensitive (see \code{\link[base:grep]{base::grepl()}}).}
+
+\item{perl}{Whether \code{pattern} specifies Perl regexes (see \code{\link[base:grep]{base::grepl()}}).}
+
+\item{fixed}{Whether \code{pattern} is a regex or fixed string (see \code{\link[base:grep]{base::grepl()}}).}
+
+\item{useBytes}{See \code{\link[base:grep]{base::grepl()}}.}
+}
+\value{
+A logical vector or array (of \code{x} has more than one element)
 }
 \description{
 Return which regular expression of several matches a character value
