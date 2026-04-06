@@ -7,8 +7,25 @@
 #' @returns The YAML as a character vector
 #' @export
 #'
-#' @examples
+#' @examples ### Get path to example source
+#' examplePath <-
+#'   system.file("extdata", package="rock");
 #'
+#' ### Get a path to one example file
+#' exampleFile <-
+#'   file.path(examplePath, "example-2.rock");
+#'
+#' ### Parse single example source
+#' parsedExample <- rock::parse_source(exampleFile);
+#'
+#' ### Show attributes stord in YAML
+#' ### in the source
+#' cat(
+#'   rock::export_attributes_from_parsedSources(
+#'     parsedExample,
+#'     file = NULL
+#'   )
+#' );
 export_attributes_from_parsedSources <- function(x,
                                                  file = "ROCK_attributes.rock",
                                                  path = NULL,
