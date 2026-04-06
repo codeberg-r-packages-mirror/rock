@@ -34,4 +34,9 @@ rock::which_regex_matches(
   pattern,
   "forty-two"
 );
+
+rock::which_regex_matches(
+  pattern,
+  c(42, "forty-two")
+);
 }

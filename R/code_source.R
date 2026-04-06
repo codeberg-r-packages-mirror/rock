@@ -118,10 +118,11 @@ code_source <- function(input,
     codeToAdd <- paste0(codeDelimiters[1],
                         codes[1],
                         codeDelimiters[2]);
+    indices <- which(indices);
     if (!silent) {
       cat0("The 'indices' argument is a logical vector indicating to which utterances to apply code '",
                 codes[1], "' (specifically, the utterances on lines ",
-                vecTxt(which(indices)), ").\n");
+                vecTxt(indices), ").\n");
     }
   } else if (!is.null(indices) && (is.numeric(indices)) && ((min(indices) >= 1) && (max(indices) <= length(input)))) {
     ### The indices are already set as a (valid) numeric vector
@@ -208,17 +209,28 @@ code_source <- function(input,
         }
       }
 
-      ### Append code
-      input[indices] <-
-        paste(input[indices],
-              codeToAdd,
-              sep=" ");
-
       if (!silent) {
         cat0("Appending code '", codeToAdd, "' to utterances at those line numbers.\n");
       }
 
     }
+
+  }
+
+  for (i in indices) {
+
+    old <- input[i];
+
+    ### Append code
+    input[i] <-
+      paste(input[i],
+            codeToAdd,
+            sep=" ");
+
+    new <- input[i];
+
+    cat0("--------PRE: ", old, "\n",
+         "       POST: ", new, "\n");
 
   }
 

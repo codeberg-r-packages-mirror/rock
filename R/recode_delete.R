@@ -291,8 +291,8 @@ changeSource_uncode <- function(input,
         if (identical(currentUtterance, filteredUtterances[utterancesWithMatches[i]])) {
           cat0("--UNCHANGED: ", currentUtterance, "\n");
         } else {
-          cat0("--------PRE: ", currentUtterance, "\n",
-               "       POST: ", filteredUtterances[utterancesWithMatches[i]], "\n");
+          cat0("--------PRE: ", filteredUtterances[utterancesWithMatches[i]], "\n",
+               "       POST: ", currentUtterance, "\n");
         }
       }
 
