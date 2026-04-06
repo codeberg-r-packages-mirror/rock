@@ -125,12 +125,6 @@ code_source <- function(input,
                 vecTxt(indices), ").\n");
     }
 
-    ### Append code
-    input[indices] <-
-      paste(input[indices],
-            codeToAdd,
-            sep=" ");
-
     if (!silent) {
       cat0("Appending code '", codeToAdd, "' to utterances at those line numbers.\n");
     }
@@ -145,12 +139,6 @@ code_source <- function(input,
                 codes[1], "' (specifically, the utterances on lines ",
                 vecTxt(indices), ").\n");
     }
-
-    ### Append code
-    input[indices] <-
-      paste(input[indices],
-            codeToAdd,
-            sep=" ");
 
     if (!silent) {
       cat0("Appending code '", codeToAdd, "' to utterances at those line numbers.\n");
