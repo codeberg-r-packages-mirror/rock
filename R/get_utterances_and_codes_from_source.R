@@ -10,7 +10,7 @@
 #' @param ... Arguments to [rock::parse_source()], which is called to
 #' parse the source.
 #'
-#' @return A list containing `$utterances_raw`, `$utterances_clean`, `$uids$`,
+#' @return A list containing `$utterances_raw`, `$utterances_clean`, `$uids`,
 #' `$codeMatches`, and `$codesPerUtterance`.
 #' @export
 #'
