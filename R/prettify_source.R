@@ -116,7 +116,13 @@ prettify_source <- function(x,
   if (!is.null(output)) {
 
     if (dir.exists(dirname(output))) {
-      if (file.exists(output) | preventOverwriting) {
+      if (file.exists(output) && (preventOverwriting)) {
+        if (!silent) {
+          cat0("Specified output file '", output,
+               "' exists, and `preventOverwriting` is set to `TRUE`; ",
+               "did not write the file!");
+        }
+      } else {
         writeLines(res,
                    con = con <- file(output,
                                      "w",
@@ -125,12 +131,6 @@ prettify_source <- function(x,
         if (!silent) {
           cat0("Wrote output file '", output,
                "' to disk.");
-        }
-      } else {
-        if (!silent) {
-          cat0("Specified output file '", output,
-               "' exists, and `preventOverwriting` is set to `TRUE`; ",
-               "did not write the file!");
         }
       }
 
