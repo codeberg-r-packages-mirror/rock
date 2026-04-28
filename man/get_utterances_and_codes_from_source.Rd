@@ -14,7 +14,7 @@ a path or text to pass to \code{\link[=parse_source]{parse_source()}}.}
 parse the source.}
 }
 \value{
-A list containing \verb{$utterances_raw}, \verb{$utterances_clean}, \verb{$uids$},
+A list containing \verb{$utterances_raw}, \verb{$utterances_clean}, \verb{$uids},
 \verb{$codeMatches}, and \verb{$codesPerUtterance}.
 }
 \description{
