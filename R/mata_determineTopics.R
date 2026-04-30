@@ -46,6 +46,40 @@ mata_determineTopics <- function(x,
 
   if (!is.null(ciid_selection)) {
 
+    if (!all(names(ciid_selection) %in% names(x$qdt))) {
+      stop(
+        "Not all class identifiers you want to select on exist in the ",
+        "Qualitative Data Table! You specified the following class ",
+        "identifiers: ", vecTxtQ(names(ciid_selection)), "."
+      );
+    }
+
+    for (i in seq_along(ciid_selection)) {
+
+      currentCIID <- ciid_selection[i];
+      currentCID <- names(ciid_selection)[i];
+
+      msgTxt <-
+        paste0(
+          "\nSelecting data based on class identifier ", currentCID,
+          " (has to match regex '", currentCIID,
+          "'); QDT has ", nrow(x$qdt), " rows before selection, and "
+        );
+
+      x$qdt <-
+        x$qdt[
+          grepl(currentCIID, x$qdt[[currentCID]]),
+        ];
+
+      msg(
+        msgTxt,
+        nrow(x$qdt),
+        " rows after selection.",
+        silent = silent
+      );
+
+    }
+
   }
 
   ### Use split which handles the interactions
