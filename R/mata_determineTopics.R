@@ -15,6 +15,9 @@ mata_determineTopics <- function(x,
                                  parallel = FALSE,
                                  ciid_selection = NULL,
                                  max.em.its = 1000,
+                                 heldout.seed = 101010,
+                                 words_to_remove = NULL,
+                                 min_word_nchar = 2,
                                  silent = rock::opts$get('silent')) {
 
   if (!requireNamespace("quanteda", quietly = TRUE)) {
@@ -98,44 +101,85 @@ mata_determineTopics <- function(x,
     splitIndices_full[splitIndices_full_hasData];
 
   ### Get list of QDT segments
-  segmentedQDT <-
+  segmentedQDT_list <-
     lapply(
-      splitIndices,
-      function(indices) {
-        return(
-          x$qdt[indices, ]
-        );
+      seq_along(splitIndices),
+      function(i) {
+        res <-
+          x$qdt[splitIndices[[i]], ];
+        res$doc_id <- names(splitIndices)[i];
+        return(res);
       }
     );
 
-  ### Get a vector of each segment's data only
-  dataOnly <-
-    unlist(
-      lapply(
-        segmentedQDT,
-        function(x) {
-          return(
-            paste(
-              x$utterances_clean,
-              collapse="\n"
-            )
-          );
-        }
-      )
+  segmentedQDT <-
+    do.call(
+      rbind,
+      segmentedQDT_list
     );
+
+  # ### Get a vector of each segment's data only
+  # dataOnly <-
+  #   unlist(
+  #     lapply(
+  #       segmentedQDT,
+  #       function(x) {
+  #         return(
+  #           paste(
+  #             x$utterances_clean,
+  #             collapse="\n"
+  #           )
+  #         );
+  #       }
+  #     )
+  #   );
 
   ### Import text as a corpus for further processing
   quantedaCorpus <-
     quanteda::corpus(
-      dataOnly
+      x = segmentedQDT,
+      docid_field = "doc_id",
+      text_field = "utterances_clean",
+      unique_docnames = FALSE
+    );
+
+  ### Produce tokens object
+  quantedaTokens_raw <-
+    quanteda::tokens(
+      quantedaCorpus,
+      what = "word",
+      remove_punct = TRUE,
+      remove_symbols = TRUE,
+      remove_numbers = TRUE,
+      remove_url = TRUE,
+      remove_separators = TRUE
+    );
+
+  ### Clean up tokens
+
+  quantedaTokens <-
+    quanteda::tokens_tolower(quantedaTokens_raw);
+
+  if (is.null(words_to_remove)) {
+    words_to_remove <- quanteda::stopwords("en");
+  }
+
+  quantedaTokens <-
+    quanteda::tokens_remove(
+      quantedaTokens,
+      words_to_remove
+    );
+
+  quantedaTokens <-
+    quanteda::tokens_keep(
+      quantedaTokens,
+      min_nchar = min_word_nchar
     );
 
   ### Construct a document-feature matrix
   quantedaDFM <-
     quanteda::dfm(
-      quanteda::tokens(
-        quantedaCorpus
-      )
+      quantedaTokens
     );
 
   ### Convert to a format that can be used by the {stm} package
@@ -193,7 +237,8 @@ mata_determineTopics <- function(x,
               vocab = dfm_for_stm$vocab,
               K = K,
               #    data = dfm_for_stm$meta,
-              max.em.its = max.em.its
+              max.em.its = max.em.its,
+              heldout.seed = heldout.seed
             )
           );
         }
@@ -219,7 +264,8 @@ mata_determineTopics <- function(x,
         stm::searchK,
         documents = dfm_for_stm$documents,
         vocab = dfm_for_stm$vocab,
-        max.em.its = max.em.its
+        max.em.its = max.em.its,
+        heldout.seed = heldout.seed
       );
 
     ### Stop the cluster
@@ -228,7 +274,8 @@ mata_determineTopics <- function(x,
   }
 
 
-  res <- list(documents = dfm_for_stm$documents,
+  res <- list(segmentedQDT = segmentedQDT,
+              documents = dfm_for_stm$documents,
               vocab = dfm_for_stm$vocab,
               kResults = kResults);
 
@@ -258,7 +305,10 @@ mata_determineTopics <- function(x,
       mapping = ggplot2::aes(x = K,
                              y = heldout)
     ) + ggplot2::geom_line() +
-    ggplot2::theme_minimal();
+    ggplot2::theme_minimal() +
+    ggplot2::labs(x = "Number of topics",
+                  y = "Held-Out Likelihood",
+                  title = "Held-Out Likelihood");
 
   res$plots$residual <-
     ggplot2::ggplot(
@@ -266,7 +316,10 @@ mata_determineTopics <- function(x,
       mapping = ggplot2::aes(x = K,
                              y = residual)
     ) + ggplot2::geom_line() +
-    ggplot2::theme_minimal();
+    ggplot2::theme_minimal() +
+    ggplot2::labs(x = "Number of topics",
+                  y = "Residuals",
+                  title = "Residuals");
 
   res$plots$semcoh <-
     ggplot2::ggplot(
@@ -274,7 +327,10 @@ mata_determineTopics <- function(x,
       mapping = ggplot2::aes(x = K,
                              y = semcoh)
     ) + ggplot2::geom_line() +
-    ggplot2::theme_minimal();
+    ggplot2::theme_minimal() +
+    ggplot2::labs(x = "Number of topics",
+                  y = "Semantic Coherence",
+                  title = "Semantic Coherence");
 
   res$plots$lbound <-
     ggplot2::ggplot(
@@ -282,7 +338,10 @@ mata_determineTopics <- function(x,
       mapping = ggplot2::aes(x = K,
                              y = lbound)
     ) + ggplot2::geom_line() +
-    ggplot2::theme_minimal();
+    ggplot2::theme_minimal() +
+    ggplot2::labs(x = "Number of topics",
+                  y = "Lower Bound",
+                  title = "Lower Bound");
 
   return(invisible(res));
 
