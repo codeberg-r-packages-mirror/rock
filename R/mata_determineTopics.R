@@ -36,6 +36,15 @@ mata_determineTopics <- function(x,
     );
   }
 
+  if (is.null(heldout.seed) || (any(is.na(heldout.seed))) ||
+      length(heldout.seed) == 0) {
+    stop(
+      "As `heldout.seed`, you have to specify a vector with one or more ",
+      "numbers (you specified NULL, a zero-length vector, or a vector with ",
+      "one or more missing (NA) values)."
+    );
+  }
+
   xName <- substitute(deparse(x));
 
   if (!all(classId_segmentation %in% names(x$qdt))) {
@@ -231,18 +240,27 @@ mata_determineTopics <- function(x,
       lapply(
         topics,
         function(K) {
-          return(
-            stm::searchK(
-              documents = dfm_for_stm$documents,
-              vocab = dfm_for_stm$vocab,
-              K = K,
-              #    data = dfm_for_stm$meta,
-              max.em.its = max.em.its,
-              heldout.seed = heldout.seed
-            )
+          res <- lapply(
+            heldout.seed,
+            function(currentSeed) {
+              return(
+                stm::searchK(
+                  documents = dfm_for_stm$documents,
+                  vocab = dfm_for_stm$vocab,
+                  K = K,
+                  #    data = dfm_for_stm$meta,
+                  max.em.its = max.em.its,
+                  heldout.seed = currentSeed
+                )
+              )
+            }
           );
+          names(res) <- heldout.seed;
+          return(res);
         }
       );
+
+    names(kResults) <- as.character(topics);
 
   } else {
 
@@ -261,7 +279,37 @@ mata_determineTopics <- function(x,
       parallel::parLapplyLB(
         cl,
         topics,
-        stm::searchK,
+        function(K,
+                 documents,
+                 vocab,
+                 max.em.its,
+                 heldout.seed) {
+          res <- lapply(
+            heldout.seed,
+            function(currentSeed,
+                     documents,
+                     vocab,
+                     K,
+                     max.em.its) {
+              return(
+                stm::searchK(
+                  documents = documents,
+                  vocab = vocab,
+                  K = K,
+                  #    data = dfm_for_stm$meta,
+                  max.em.its = max.em.its,
+                  heldout.seed = currentSeed
+                )
+              );
+            },
+            document = documents,
+            vocab = vocab,
+            K = K,
+            max.em.its = max.em.its
+          );
+          names(res) <- heldout.seed;
+          return(res);
+        },
         documents = dfm_for_stm$documents,
         vocab = dfm_for_stm$vocab,
         max.em.its = max.em.its,
@@ -271,8 +319,9 @@ mata_determineTopics <- function(x,
     ### Stop the cluster
     parallel::stopCluster(cl);
 
-  }
+    names(kResults) <- as.character(topics);
 
+  }
 
   res <- list(segmentedQDT = segmentedQDT,
               documents = dfm_for_stm$documents,
@@ -282,10 +331,24 @@ mata_determineTopics <- function(x,
   datOfLists <-
     do.call(
       rbind,
-      lapply(
-        kResults,
-        `[[`,
-        "results"
+      unlist(
+        lapply(
+          kResults,
+          function(currentKRes) {
+            res <-
+              lapply(
+                heldout.seed,
+                function(currentSeed) {
+                  res <- currentKRes[[as.character(currentSeed)]]$results;
+                  res$seed <- currentSeed;
+                  return(res);
+                }
+              );
+            names(res) <- heldout.seed;
+            return(res);
+          }
+        ),
+        recursive = FALSE
       )
     );
 
@@ -297,13 +360,20 @@ mata_determineTopics <- function(x,
       )
     );
 
+  res$dat$seed <-
+    factor(res$dat$seed,
+           levels = heldout.seed,
+           labels = heldout.seed);
+
   res$plots <- list();
 
   res$plots$heldout <-
     ggplot2::ggplot(
       data = res$dat,
       mapping = ggplot2::aes(x = K,
-                             y = heldout)
+                             y = heldout,
+                             group = seed,
+                             color = seed)
     ) + ggplot2::geom_line() +
     ggplot2::theme_minimal() +
     ggplot2::labs(x = "Number of topics",
@@ -314,7 +384,9 @@ mata_determineTopics <- function(x,
     ggplot2::ggplot(
       data = res$dat,
       mapping = ggplot2::aes(x = K,
-                             y = residual)
+                             y = residual,
+                             group = seed,
+                             color = seed)
     ) + ggplot2::geom_line() +
     ggplot2::theme_minimal() +
     ggplot2::labs(x = "Number of topics",
@@ -325,7 +397,9 @@ mata_determineTopics <- function(x,
     ggplot2::ggplot(
       data = res$dat,
       mapping = ggplot2::aes(x = K,
-                             y = semcoh)
+                             y = semcoh,
+                             group = seed,
+                             color = seed)
     ) + ggplot2::geom_line() +
     ggplot2::theme_minimal() +
     ggplot2::labs(x = "Number of topics",
@@ -336,7 +410,9 @@ mata_determineTopics <- function(x,
     ggplot2::ggplot(
       data = res$dat,
       mapping = ggplot2::aes(x = K,
-                             y = lbound)
+                             y = lbound,
+                             group = seed,
+                             color = seed)
     ) + ggplot2::geom_line() +
     ggplot2::theme_minimal() +
     ggplot2::labs(x = "Number of topics",
