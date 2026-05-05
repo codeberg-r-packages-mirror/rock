@@ -478,6 +478,8 @@ opts$defaults <-
            c("style", "rounded,filled", "node"),
            c("color", "#000000", "node"),
            c("color", "#000000", "edge"),
+           c("fontcolor", "#000000", "node"),
+           c("fontcolor", "#000000", "edge"),
            c("headclip", "true", "edge"),
            c("tailclip", "false", "edge"),
            c("fillcolor", "#FFFFFF", "node")
