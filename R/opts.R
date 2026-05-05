@@ -470,6 +470,7 @@ opts$defaults <-
        theme_networkDiagram =
          list(
            c("outputorder", "edgesfirst", "graph"),
+           c("overlap", "false", "graph"),
            c("fixedsize", "false", "node"),
            c("fontname", "arial", "node"),
            c("fontname", "arial", "edge"),
