@@ -23,8 +23,12 @@ yaml_attributes_to_dfs <- function(x) {
           return(NA);
         } else {
           res <- yaml::read_yaml(i);
-          res <- res$ROCK_attributes;
-          return(res);
+          if (!("ROCK_attributes" %in% names(res))) {
+            warning("File '", i, "' does not contain a YAML node named 'ROCK_attributes'! Skipping it.");
+            return(NA);
+          } else {
+            return(res$ROCK_attributes);
+          }
         }
       }
     );
