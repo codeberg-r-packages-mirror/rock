@@ -4,7 +4,14 @@
 \alias{count_occurrences}
 \title{Count code occurrences}
 \usage{
-count_occurrences(x, codes = ".*", matchRegexAgainstPaths = TRUE)
+count_occurrences(
+  x,
+  codes = ".*",
+  matchRegexAgainstPaths = TRUE,
+  includeDescendents = FALSE,
+  includeAncestors = FALSE,
+  accumulateCounts = FALSE
+)
 }
 \arguments{
 \item{x}{A parsed source(s) object.}

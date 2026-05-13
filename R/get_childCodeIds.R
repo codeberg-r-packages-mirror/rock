@@ -4,9 +4,13 @@
 #' grand-children, grand-grand-children, etc) of a code with a given identifier.
 #'
 #' @param x The parsed sources object
+#' @param childrenOnly Whether to only return 'immediate' / 'direct' children,
+#' or the full descendancy (including grand-children, grand-grand children,
+#' etc etc).
 #' @param parentCodeId The code identifier of the parent code
 #' @param returnNodes For `get_childCodeIds()`, set this to `TRUE` to return
 #' a list of nodes, not just the code identifiers.
+#' @param returnPaths Whether to return the paths (from the root) or the names.
 #' @param includeParentCode Whether to include the parent code
 #' identifier in the result
 #'
@@ -15,59 +19,57 @@
 #' @export
 get_childCodeIds <- function(x,
                              parentCodeId,
+                             childrenOnly = TRUE,
                              returnNodes = FALSE,
+                             returnPaths = FALSE,
                              includeParentCode = FALSE) {
 
-  if ((!inherits(x, "rock_parsedSources")) &&
-      (!inherits(x, "rock_parsedSource"))) { ### Added this, might be wrong
-    stop("As `x`, you have to pass a parsed sources object. You passed ",
-            deparse(substitute(x)), "', which instead has class(es) ",
-            vecTxtQ(class(x)), ".");
-  }
-
-  if ((!is.character(parentCodeId)) | (length(parentCodeId) != 1)) {
-    stop("As `parentCodeId`, you have to pass a single character value. ",
-         "However, what you passed is either not a character value, or ",
-         "has a length other than 1 (i.e. 0, 2, or larger).");
-  }
-
-  if (inherits(x, "rock_parsedSource")) {
-    node <- NULL;
-    for (i in seq_along(x$inductiveCodeTrees)) {
-      node <- NULL;
-      if ((!is.null(x$inductiveCodeTrees[[i]])) && is.null(node)) {
-        node <-
-          data.tree::FindNode(x$inductiveCodeTrees[[i]], parentCodeId);
-      }
+  if (length(parentCodeId) > 1) {
+    res <-
+      lapply(
+        parentCodeId,
+        rock::get_childCodeIds,
+        x = x,
+        childrenOnly = childrenOnly,
+        returnNodes = returnNodes,
+        returnPaths = returnPaths,
+        includeParentCode = includeParentCode
+      );
+    if (returnNodes || returnPaths) {
+      return(res);
+    } else {
+      return(unlist(res));
     }
-  } else if (inherits(x, "rock_parsedSources")) {
-    node <-
-      data.tree::FindNode(x$fullyMergedCodeTrees, parentCodeId);
+  }
+
+  node <- rock::get_codeNode(x, parentCodeId);
+
+  if (childrenOnly) {
+    res <- node$children;
   } else {
-    stop("As `x`, you passed '",
-         substitute(deparse(x)), "', but this does not have class ",
-         "`rock_parsedSource` or `rock_parsedSources`.");
+    res <- data.tree::Traverse(
+      node,
+      traversal = "level",
+      filterFun = function(x) {
+        return(!(x$name == node$name));
+      });
   }
-
-  if (is.null(node)) {
-    stop("In the parsed sources object that you passed (",
-         substitute(deparse(x)), "), no code identifier '",
-         parentCodeId, "' was found.");
-  }
-
-  childNodes <- node$children;
 
   if (includeParentCode) {
-    childNodes <- c(parentCodeId, childNodes);
+    res <- c(node, res);
   }
 
   if (returnNodes) {
-    return(childNodes);
+    return(res);
   } else {
-    if (length(childNodes) == 0) {
+    if (length(res) == 0) {
       return(NA);
     } else {
-      return(names(childNodes));
+      if (returnPaths) {
+        return(data.tree::Get(res, "path"));
+      } else {
+        return(unname(data.tree::Get(res, "name")));
+      }
     }
   }
 

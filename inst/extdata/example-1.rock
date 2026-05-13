@@ -1,12 +1,12 @@
 ---
-metadata:
+ROCK_attributes:
   -
     caseId: 1
     gender: female
     age: 60s
 ---
 
-[[cid=1]]
+[[caseId=1]]
 
 Text taken from https://www.lipsum.com/.
 

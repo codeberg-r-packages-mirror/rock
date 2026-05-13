@@ -8,7 +8,9 @@
 get_childCodeIds(
   x,
   parentCodeId,
+  childrenOnly = TRUE,
   returnNodes = FALSE,
+  returnPaths = FALSE,
   includeParentCode = FALSE
 )
 
@@ -19,8 +21,14 @@ get_descendentCodeIds(x, parentCodeId, includeParentCode = FALSE)
 
 \item{parentCodeId}{The code identifier of the parent code}
 
+\item{childrenOnly}{Whether to only return 'immediate' / 'direct' children,
+or the full descendancy (including grand-children, grand-grand children,
+etc etc).}
+
 \item{returnNodes}{For \code{get_childCodeIds()}, set this to \code{TRUE} to return
 a list of nodes, not just the code identifiers.}
+
+\item{returnPaths}{Whether to return the paths (from the root) or the names.}
 
 \item{includeParentCode}{Whether to include the parent code
 identifier in the result}

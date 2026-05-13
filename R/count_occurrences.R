@@ -24,8 +24,11 @@
 #'   loadedExample
 #' );
 count_occurrences <- function(x,
-                             codes = ".*",
-                             matchRegexAgainstPaths = TRUE) {
+                              codes = ".*",
+                              matchRegexAgainstPaths = TRUE,
+                              includeDescendents = FALSE,
+                              includeAncestors = FALSE,
+                              accumulateCounts = FALSE) {
 
   if ((!inherits(x, "rock_parsedSources")) && (!inherits(x, "rock_parsedSource"))) {
 
@@ -61,56 +64,104 @@ count_occurrences <- function(x,
       ];
   }
 
-  if (inherits(x, "rock_parsedSource")) {
-
-    counts_total <-
-      apply(
-        x$qdt[, codesToInclude],
-        2,
-        sum
-      );
-
-    totalUtterances <- nrow(x$qdt);
-
-    totalCodings <- sum(x$qdt[, x$convenience$codingLeaves]);
-
-    totalCodedUtterances <-
-      sum(
-        as.numeric(
-          apply(
-            x$qdt[, x$convenience$codingLeaves],
-            1,
-            function(row) {
-              return(any(as.logical(row)));
-            }
-          )
+  if (includeDescendents) {
+    codesToInclude <-
+      c(
+        codesToInclude,
+        rock::get_childCodeIds(
+          x = x,
+          codesToInclude,
+          childrenOnly = FALSE,
         )
       );
+  }
 
-    proportions_totalCodedUtterances <-
-      counts_total / totalCodedUtterances;
+  if (includeAncestors) {
+    codesToInclude <-
+      c(
+        codesToInclude,
+        rock::get_parentCodeIds(
+          x = x,
+          codesToInclude,
+          parentOnly = FALSE,
+        )
+      );
+  }
 
-    res <- data.frame(
-      codeId = codesToInclude,
-      count = counts_total,
-      totalCodedUtterances = totalCodedUtterances,
-      totalUtterances = totalUtterances
+  codesToInclude <- unique(codesToInclude);
+
+  codeNodesToInclude <-
+    lapply(
+      codesToInclude,
+      rock::get_codeNode,
+      x = x
     );
 
-  } else if (inherits(x, "rock_parsedSources")) {
-    stop("not implemented yet");
-  } else {
-    stop("As `x`, you have to pass one or more parsed sources, as ",
-         "produced by a call to rock::parse_source() or rock::parse_sources(). ",
-         "However, the object you passed has class ", rock::vecTxtQ(class(x)), ".");
-  }
+  browser();
+
+  codingLeavesToInclude <-
+    intersect(
+      codesToInclude,
+      x$convenience$codingLeaves
+    );
+
+  codingParentsToInclude <-
+    setdiff(
+      codesToInclude,
+      c(x$convenience$codingLeaves,
+        names(rock::opts$get("codeRegexes")))
+    );
+
+  leafCodesInQDT <-
+    codingLeavesToInclude[(codingLeavesToInclude %in% names(x$qdt))];
+
+  parentCodesInQDT <-
+    codingParentsToInclude[(codingParentsToInclude %in% names(x$qdt))];
+
+  leafCodesNotInQDT <-
+    codingLeavesToInclude[!(codingLeavesToInclude %in% names(x$qdt))];
+
+  parentCodesNotInQDT <-
+    codingParentsToInclude[!(codingParentsToInclude %in% names(x$qdt))];
+
+  codesToIncludeInQDT <-
+    c(leafCodesInQDT, parentCodesInQDT);
+
+  counts_total <-
+    apply(
+      x$qdt[, codesToIncludeInQDT],
+      2,
+      sum
+    );
+
+  totalUtterances <- nrow(x$qdt);
+
+  totalCodings <- sum(x$qdt[, codesToIncludeInQDT]);
+
+  totalCodedUtterances <-
+    sum(
+      as.numeric(
+        apply(
+          x$qdt[, codesToIncludeInQDT],
+          1,
+          function(row) {
+            return(any(as.logical(row)));
+          }
+        )
+      )
+    );
+
+  proportions_totalCodedUtterances <-
+    counts_total / totalCodedUtterances;
+
+  res <- data.frame(
+    codeId = codesToIncludeInQDT,
+    count = counts_total,
+    totalCodedUtterances = totalCodedUtterances,
+    totalUtterances = totalUtterances
+  );
 
   return(res);
 
 }
 
-#' @export
-print.rock_snoe_plot <- function(x, ...) {
-  print(x$plot);
-  return(invisible(x));
-}
