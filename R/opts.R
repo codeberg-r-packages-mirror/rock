@@ -440,6 +440,8 @@ opts$defaults <-
            c("shape", "box", "node"),
            c("style", "rounded,filled", "node"),
            c("color", "#000000", "node"),
+           c("fontcolor", "#000000", "node"),
+           c("fontcolor", "#000000", "edge"),
            #c("width", "4", "node"),
            c("color", "#888888", "edge"),
            c("dir", "none", "edge"),
@@ -459,6 +461,8 @@ opts$defaults <-
            c("shape", "box", "node"),
            c("style", "rounded,filled", "node"),
            c("color", "#000000", "node"),
+           c("fontcolor", "#000000", "node"),
+           c("fontcolor", "#000000", "edge"),
            c("width", "4", "node"),
            c("color", "#888888", "edge"),
            c("dir", "none", "edge"),
@@ -470,6 +474,7 @@ opts$defaults <-
        theme_networkDiagram =
          list(
            c("outputorder", "edgesfirst", "graph"),
+           c("overlap", "false", "graph"),
            c("fixedsize", "false", "node"),
            c("fontname", "arial", "node"),
            c("fontname", "arial", "edge"),
@@ -477,6 +482,8 @@ opts$defaults <-
            c("style", "rounded,filled", "node"),
            c("color", "#000000", "node"),
            c("color", "#000000", "edge"),
+           c("fontcolor", "#000000", "node"),
+           c("fontcolor", "#000000", "edge"),
            c("headclip", "true", "edge"),
            c("tailclip", "false", "edge"),
            c("fillcolor", "#FFFFFF", "node")

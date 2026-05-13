@@ -1486,7 +1486,7 @@ parse_source <- function(text,
 
           }
 
-          ### Removed 2025-04-23, when adding more generic asethetic processing
+          ### Removed 2025-04-23, when adding more generic aesthetic processing
 
           # if (!is.na(res$aestheticConfig)) {
           #
