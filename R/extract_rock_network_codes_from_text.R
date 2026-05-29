@@ -1,6 +1,6 @@
 #' @rdname extract_rock_elements
 #' @export
-#' @examples ### Extract tree codes
+#' @examples ### Extract network codes
 #' treeCodes <-
 #'   rock::extract_rock_network_codes_from_text(
 #'     loadedExample

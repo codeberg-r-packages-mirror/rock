@@ -73,7 +73,7 @@ allCodes <-
     loadedExample
   );
 
-### Extract tree codes
+### Extract network codes
 treeCodes <-
   rock::extract_rock_network_codes_from_text(
     loadedExample
