@@ -49,6 +49,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Gjalt-Jorn Peters \email{rock@opens.science} (\href{https://orcid.org/0000-0002-0336-9589}{ORCID}) [copyright holder]
   \item Szilvia Zörgő (\href{https://orcid.org/0000-0002-6916-2097}{ORCID})
 }
 

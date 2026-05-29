@@ -1,6 +1,18 @@
 #' @rdname extract_rock_elements
 #' @export
-#' @examples ### Extract section breaks
+#' @examples ### Get path to example source
+#' examplePath <-
+#'   system.file("extdata", package="rock");
+#'
+#' ### Get a path to one example file
+#' exampleFile <-
+#'   file.path(examplePath, "example-5.rock");
+#'
+#' ### Load single example source
+#' loadedExample <-
+#'   rock::load_source(exampleFile);
+#'
+#' ### Extract section breaks
 #' sectionBreaks <-
 #'   rock::extract_rock_breaks_from_text(
 #'     loadedExample

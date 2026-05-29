@@ -21,16 +21,16 @@ a numeric vector with numeric indices, or a logical vector that is either
 as long as the source or has length 1.}
 
 \item{ignore.case}{Whether to apply the regular expression case sensitively
-or not (see \code{\link[base:grep]{base::grepl()}}).}
+or not (see \code{\link[base:grepl]{base::grepl()}}).}
 
 \item{invert}{Whether to invert the result or not (i.e. whether the filter
 specifies what you want to select (\code{invert=FALSE}) or what you don't want
 to select (\code{invert=TRUE})).}
 
 \item{perl}{Whether the regular expression (if \code{filter} is a character
-vector) is a perl regular expression or not (see \code{\link[base:grep]{base::grepl()}}).}
+vector) is a perl regular expression or not (see \code{\link[base:grepl]{base::grepl()}}).}
 
-\item{...}{Any additional arguments are passed on to \code{\link[base:grep]{base::grepl()}}.}
+\item{...}{Any additional arguments are passed on to \code{\link[base:grepl]{base::grepl()}}.}
 }
 \value{
 A logical vector of the same length as the source.

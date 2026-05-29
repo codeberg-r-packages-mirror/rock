@@ -8,19 +8,7 @@
 #' @rdname extract_rock_elements
 #' @export
 #'
-#' @examples ### Get path to example source
-#' examplePath <-
-#'   system.file("extdata", package="rock");
-#'
-#' ### Get a path to one example file
-#' exampleFile <-
-#'   file.path(examplePath, "example-5.rock");
-#'
-#' ### Parse single example source
-#' loadedExample <-
-#'   rock::load_source(exampleFile);
-#'
-#' ### Extract notes
+#' @examples ### Extract notes
 #' notes <-
 #'   rock::extract_rock_notes_from_text(loadedExample);
 #'

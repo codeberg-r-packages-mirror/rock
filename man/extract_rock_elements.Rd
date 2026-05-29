@@ -43,6 +43,18 @@ extracted elements.
 Extract ROCK elements a text
 }
 \examples{
+### Get path to example source
+examplePath <-
+  system.file("extdata", package="rock");
+
+### Get a path to one example file
+exampleFile <-
+  file.path(examplePath, "example-5.rock");
+
+### Load single example source
+loadedExample <-
+  rock::load_source(exampleFile);
+
 ### Extract section breaks
 sectionBreaks <-
   rock::extract_rock_breaks_from_text(
@@ -66,18 +78,6 @@ treeCodes <-
   rock::extract_rock_network_codes_from_text(
     loadedExample
   );
-
-### Get path to example source
-examplePath <-
-  system.file("extdata", package="rock");
-
-### Get a path to one example file
-exampleFile <-
-  file.path(examplePath, "example-5.rock");
-
-### Parse single example source
-loadedExample <-
-  rock::load_source(exampleFile);
 
 ### Extract notes
 notes <-

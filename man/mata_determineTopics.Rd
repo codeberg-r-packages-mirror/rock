@@ -17,9 +17,6 @@ mata_determineTopics(
   silent = rock::opts$get("silent")
 )
 }
-\arguments{
-\item{ciid_selection}{}
-}
 \description{
 Title
 }
