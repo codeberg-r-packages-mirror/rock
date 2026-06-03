@@ -16,6 +16,7 @@ mata_determineTopics <- function(x,
                                  ciid_selection = NULL,
                                  max.em.its = 1000,
                                  heldout.seed = 101010,
+                                 stopWordLanguage = "en",
                                  words_to_remove = NULL,
                                  min_word_nchar = 2,
                                  silent = rock::opts$get('silent')) {
@@ -170,7 +171,7 @@ mata_determineTopics <- function(x,
     quanteda::tokens_tolower(quantedaTokens_raw);
 
   if (is.null(words_to_remove)) {
-    words_to_remove <- quanteda::stopwords("en");
+    words_to_remove <- quanteda::stopwords(stopWordLanguage);
   }
 
   quantedaTokens <-
