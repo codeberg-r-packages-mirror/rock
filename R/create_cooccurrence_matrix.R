@@ -23,7 +23,10 @@
 #'   );
 #'
 #' ### Create cooccurrence matrix
-#' rock::create_cooccurrence_matrix(parsedExamples);
+#' rock::create_cooccurrence_matrix(
+#'   parsedExamples,
+#'   plotHeatmap = TRUE
+#' );
 #'
 create_cooccurrence_matrix <- function(x,
                                        codes = x$convenience$codingLeaves,

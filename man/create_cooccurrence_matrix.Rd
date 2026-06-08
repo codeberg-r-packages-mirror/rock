@@ -38,6 +38,9 @@ parsedExamples <-
   );
 
 ### Create cooccurrence matrix
-rock::create_cooccurrence_matrix(parsedExamples);
+rock::create_cooccurrence_matrix(
+  parsedExamples,
+  plotHeatmap = TRUE
+);
 
 }
