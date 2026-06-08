@@ -26,7 +26,21 @@
 #' loadedExample <- rock::parse_source(exampleFile);
 #'
 #' ### Show code frequencies
-#' code_freq_hist(loadedExample);
+#' rock::code_freq_hist(loadedExample);
+#'
+#' ### - - - - - - - - - - - - - - - - - - - - - - -
+#' ### Multiple sources
+#' ### - - - - - - - - - - - - - - - - - - - - - - -
+#'
+#' ### Load example source
+#' loadedExamples <- rock::parse_sources(
+#'   examplePath,
+#'   regex = "example-[1234]"
+#' );
+#'
+#' ### Show code frequencies
+#' rock::code_freq_hist(loadedExamples);
+#'
 code_freq_hist <- function(x,
                            codes = ".*",
                            sortByFreq = "decreasing",

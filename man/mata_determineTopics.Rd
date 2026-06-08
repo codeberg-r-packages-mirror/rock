@@ -12,6 +12,7 @@ mata_determineTopics(
   ciid_selection = NULL,
   max.em.its = 1000,
   heldout.seed = 101010,
+  stopWordLanguage = "en",
   words_to_remove = NULL,
   min_word_nchar = 2,
   silent = rock::opts$get("silent")
