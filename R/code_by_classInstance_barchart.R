@@ -1,8 +1,7 @@
-#' Create a heatmap showing code occurrences for each class instance
+#' Create a bar chart showing code occurrences for each class instance
 #'
-#' This function creates a heat map with class instances (or sources) in rows and
-#' codes in columns, coloring each cell as a function of how often that code
-#' occurs in that class instance or source.
+#' This function creates a bar chart with class instances (or sources) in rows,
+#' plotting the code occurrences for each code in bars.
 #'
 #' @param x The object with the parsed coded source(s) as resulting from a
 #' call to [rock::parse_source()] or [rock::parse_sources()].
@@ -16,7 +15,7 @@
 #' @param classInstanceRegex A regular expression specifying which class instance
 #' identifiers to select for the rows.
 #' @param classInstanceLab Labels to use for the rows (`NULL` to omit the label).
-#' @param codeLab Labels to use for the columns (`NULL` to omit the label).
+#' @param codeLab Labels to use for the codes (`NULL` to omit the label).
 #' @param freqLab Labels to use for the cell colors (`NULL` to omit the label).
 #' @param plotTitle The title to use for the plot
 #' @param fillScale Convenient way to specify the fill scale (the colours)
@@ -41,17 +40,17 @@
 #'   parsedSources,
 #'   classId = "originalSource"
 #' );
-code_by_classInstance_heatmap <- function(x,
-                                          wrapLabels = 80,
-                                          classId = "tssid",
-                                          codesRegex = ".*",
-                                          classInstanceRegex = ".*",
-                                          classInstanceLab = NULL,
-                                          codeLab = NULL,
-                                          freqLab = "Count",
-                                          plotTitle = "Heatmap",
-                                          fillScale = ggplot2::scale_fill_viridis_c(),
-                                          theme = ggplot2::theme_minimal()) {
+code_by_classInstance_barchart <- function(x,
+                                           wrapLabels = 80,
+                                           classId = "tssid",
+                                           codesRegex = ".*",
+                                           classInstanceRegex = ".*",
+                                           classInstanceLab = NULL,
+                                           codeLab = NULL,
+                                           freqLab = "Count",
+                                           plotTitle = "Heatmap",
+                                           fillScale = ggplot2::scale_fill_viridis_c(),
+                                           theme = ggplot2::theme_minimal()) {
 
   if (!inherits(x, c("rock_parsedSource", "rock_parsedSources"))) {
     stop("As `x`, pass one or more parsed sources (as resulting from ",
@@ -145,14 +144,14 @@ code_by_classInstance_heatmap <- function(x,
   names(tidyCodeFrequencies) <- c(classId, "code", "frequency");
 
   heatMap <-
-    rock::heatmap_basic(
+    rock::barchart_basic(
       data = tidyCodeFrequencies,
-      x = "code",
-      y = classId,
-      fill = "frequency",
-      xLab = codeLab,
-      yLab = classInstanceLab,
-      fillLab = freqLab,
+      x = classId,
+      y = "frequency",
+      fill = "code",
+      xLab = classInstanceLab,
+      yLab = freqLab,
+      fillLab = codeLab,
       plotTitle = plotTitle,
       fillScale = fillScale,
       theme = theme
