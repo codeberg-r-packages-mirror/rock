@@ -88,7 +88,7 @@ insert_notes_in_source <- function(input,
                                    notes,
                                    indices = NULL,
                                    output = NULL,
-                                   wordwrap = 70,
+                                   wordwrap = 40,
                                    decisionLabel = NULL,
                                    justification = NULL,
                                    justificationFile = NULL,
@@ -149,22 +149,6 @@ insert_notes_in_source <- function(input,
 
     for (i in seq_along(notes)) {
 
-      if (!is.null(wordwrap)) {
-        notes[i] <-
-          strwrap(
-            notes[i],
-            width = wordwrap
-          )
-      }
-
-      ### Generate code to add to utterances matching this code
-      noteToAdd <-
-        paste0(noteOpening,
-               notes[i],
-               noteClosing);
-
-      browser();
-
       if (any(grepl(regexMatchingCode,
                     names(codes)[i],
                     perl=TRUE))) {
@@ -215,14 +199,65 @@ insert_notes_in_source <- function(input,
 
   }
 
-  ### Append code
-  input[indices] <-
-    paste(input[indices],
-          codeToAdd,
-          sep=" ");
+  notes <- as.list(notes);
 
-  if (!silent) {
-    cat0("Appending code '", codeToAdd, "' to utterances at those line numbers.\n");
+  if (length(notes) != length(indices)) {
+    stop(
+      "You passed ", length(notes), " notes but ", length(indices), " indices!"
+    );
+  }
+
+  ### Sort notes/indices
+  indicesOrder <- order(indices);
+  indices <- indices[indicesOrder];
+  notes <- notes[indicesOrder];
+
+  for (i in seq_along(notes)) {
+
+    if (!is.null(wordwrap)) {
+      notes[[i]] <-
+        strwrap(
+          notes[[i]],
+          width = wordwrap
+        )
+    }
+
+    ### Pad notes
+    widestLine <- max(nchar(notes[[i]]));
+    notes[[i]] <-
+      rock::padString(
+        notes[[i]],
+        widestLine
+      );
+
+    ### Add delimiters to note
+    notes[[i]] <-
+      paste0(noteOpening, " ",
+             notes[[i]], " ",
+             noteClosing);
+
+    ### Add empty lines
+    notes[[i]] <-
+      c("\n", notes[[i]], "\n");
+
+    ### Insert note
+    noteLines <- length(notes[[i]]);
+    preNoteSource <- input[1:(indices[i]-1)]
+    postNoteSource <- input[indices[i]:length(input)];
+    input <-
+      c(preNoteSource,
+        notes[[i]],
+        postNoteSource);
+
+    ### Adjust following indices
+    indices[(i+1):length(indices)] <-
+      indices[(i+1):length(indices)] +
+      noteLines;
+
+    if (!silent) {
+      cat0("Inserted a note of in total ", noteLines, " lines at index ", indices[i], ".\n");
+    }
+
   }
 
   if (is.null(output)) {
