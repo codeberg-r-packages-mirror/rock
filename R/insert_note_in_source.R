@@ -1,4 +1,4 @@
-#' Add one or more codes to one or more sources
+#' Add one or more notes to one or more sources
 #'
 #' These functions add codes to one or more
 #' sources that were read with one of the
@@ -6,7 +6,7 @@
 #'
 #' @param input The source, or list of sources, as
 #' produced by one of the `loading_sources` functions.
-#' @param codes A named character vector, where each element
+#' @param notes A named character vector, where each element
 #' is the code to be added to the matching utterance, and
 #' the corresponding name is either an utterance identifier
 #' (in which case the utterance with that identifier will be
@@ -162,6 +162,8 @@ insert_notes_in_source <- function(input,
         paste0(noteOpening,
                notes[i],
                noteClosing);
+
+      browser();
 
       if (any(grepl(regexMatchingCode,
                     names(codes)[i],
