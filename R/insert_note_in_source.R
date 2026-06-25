@@ -51,37 +51,19 @@
 #' ### Parse single example source
 #' loadedExample <- rock::load_source(exampleFile);
 #'
-#' ### Show line 71
-#' cat(loadedExample[71]);
+#' ### Add a note
+#' exampleWithNote <-
+#'   insert_notes_in_source(
+#'     loadedExample,
+#'     "Example note",
+#'     15
+#'   );
 #'
-#' ### Specify the rules to code all utterances
-#' ### containing "Ipsum" with the code 'ipsum' and
-#' ### all utterances containing the code
-#' codeSpecs <-
-#'   c("(?i)ipsum" = "ipsum",
-#'     "BC|AD|\\d\\d\\d\\ds" = "timeRef");
-#'
-#' ### Apply rules
-#' codedExample <- code_source(loadedExample,
-#'                             codeSpecs);
-#'
-#' ### Show line 71
-#' cat(codedExample[71]);
-#'
-#' ### Also add code "foo" to utterances with code 'ipsum'
-#' moreCodedExample <- code_source(codedExample,
-#'                                 c("[[ipsum]]" = "foo"));
-#'
-#' ### Show line 71
-#' cat(moreCodedExample[71]);
-#'
-#' ### Use the 'indices' argument to add the code 'bar' to
-#' ### line 71
-#' overCodedExample <- code_source(moreCodedExample,
-#'                                 "bar",
-#'                                 indices=71);
-#'
-#' cat(overCodedExample[71]);
+#' ### Show the note
+#' cat(
+#'   exampleWithNote[10:20],
+#'   sep="\n"
+#' );
 #'
 #' @export
 insert_notes_in_source <- function(input,
@@ -238,7 +220,7 @@ insert_notes_in_source <- function(input,
 
     ### Add empty lines
     notes[[i]] <-
-      c("\n", notes[[i]], "\n");
+      c("", notes[[i]], "");
 
     ### Insert note
     noteLines <- length(notes[[i]]);
