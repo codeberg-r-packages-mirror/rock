@@ -198,8 +198,8 @@ opts$defaults <-
        noteRegex_extractionRegex = "^\\s*(?:--\\{)?\\s*([^}]*)\\s*(?:\\}--)?\\s*$",
        noteRegex_keyvalue = "^\\s*--\\{\\s*([a-zA-Z][a-zA-Z0-9_]*)\\s*}={\\s*([^}]*)\\s*(?:\\}--)?\\s*$",
 
-       noteOpening <- "--{",
-       noteClosing <- "}--",
+       noteOpening = "--{",
+       noteClosing = "}--",
 
        ### Regular expression describing the characters that can be used for
        ### code identifiers (has to include `inductiveCodingHierarchyMarker`

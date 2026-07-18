@@ -43,7 +43,7 @@ insert_notes_in_source(
   notes,
   indices = NULL,
   output = NULL,
-  wordwrap = 70,
+  wordwrap = 40,
   decisionLabel = NULL,
   justification = NULL,
   justificationFile = NULL,
@@ -105,6 +105,20 @@ append to the filenames to distinguish them from the input filenames.}
 of the \code{input} directory}
 
 \item{filenameRegex}{Only input files matching this patterns will be read.}
+
+\item{notes}{A named character vector, where each element
+is the code to be added to the matching utterance, and
+the corresponding name is either an utterance identifier
+(in which case the utterance with that identifier will be
+coded with that code), a code (in which case all utterances
+with that code will be coded with the new code as well), a
+digit (in which case the utterance at that line number in
+the source will be coded with that
+code), or a regular expression, in which case all utterances
+matching that regular expression will be coded with that
+source. If specifying an utterance ID or code, make sure
+that the code delimiters are included (normally, two square
+brackets).}
 }
 \value{
 Invisibly, the coded source object.
@@ -175,36 +189,18 @@ exampleFile <-
 ### Parse single example source
 loadedExample <- rock::load_source(exampleFile);
 
-### Show line 71
-cat(loadedExample[71]);
+### Add a note
+exampleWithNote <-
+  insert_notes_in_source(
+    loadedExample,
+    "Example note",
+    15
+  );
 
-### Specify the rules to code all utterances
-### containing "Ipsum" with the code 'ipsum' and
-### all utterances containing the code
-codeSpecs <-
-  c("(?i)ipsum" = "ipsum",
-    "BC|AD|\\\\d\\\\d\\\\d\\\\ds" = "timeRef");
-
-### Apply rules
-codedExample <- code_source(loadedExample,
-                            codeSpecs);
-
-### Show line 71
-cat(codedExample[71]);
-
-### Also add code "foo" to utterances with code 'ipsum'
-moreCodedExample <- code_source(codedExample,
-                                c("[[ipsum]]" = "foo"));
-
-### Show line 71
-cat(moreCodedExample[71]);
-
-### Use the 'indices' argument to add the code 'bar' to
-### line 71
-overCodedExample <- code_source(moreCodedExample,
-                                "bar",
-                                indices=71);
-
-cat(overCodedExample[71]);
+### Show the note
+cat(
+  exampleWithNote[10:20],
+  sep="\n"
+);
 
 }

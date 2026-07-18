@@ -1,4 +1,4 @@
-#' Add one or more codes to one or more sources
+#' Add one or more notes to one or more sources
 #'
 #' These functions add codes to one or more
 #' sources that were read with one of the
@@ -6,7 +6,7 @@
 #'
 #' @param input The source, or list of sources, as
 #' produced by one of the `loading_sources` functions.
-#' @param codes A named character vector, where each element
+#' @param notes A named character vector, where each element
 #' is the code to be added to the matching utterance, and
 #' the corresponding name is either an utterance identifier
 #' (in which case the utterance with that identifier will be
@@ -51,44 +51,26 @@
 #' ### Parse single example source
 #' loadedExample <- rock::load_source(exampleFile);
 #'
-#' ### Show line 71
-#' cat(loadedExample[71]);
+#' ### Add a note
+#' exampleWithNote <-
+#'   insert_notes_in_source(
+#'     loadedExample,
+#'     "Example note",
+#'     15
+#'   );
 #'
-#' ### Specify the rules to code all utterances
-#' ### containing "Ipsum" with the code 'ipsum' and
-#' ### all utterances containing the code
-#' codeSpecs <-
-#'   c("(?i)ipsum" = "ipsum",
-#'     "BC|AD|\\d\\d\\d\\ds" = "timeRef");
-#'
-#' ### Apply rules
-#' codedExample <- code_source(loadedExample,
-#'                             codeSpecs);
-#'
-#' ### Show line 71
-#' cat(codedExample[71]);
-#'
-#' ### Also add code "foo" to utterances with code 'ipsum'
-#' moreCodedExample <- code_source(codedExample,
-#'                                 c("[[ipsum]]" = "foo"));
-#'
-#' ### Show line 71
-#' cat(moreCodedExample[71]);
-#'
-#' ### Use the 'indices' argument to add the code 'bar' to
-#' ### line 71
-#' overCodedExample <- code_source(moreCodedExample,
-#'                                 "bar",
-#'                                 indices=71);
-#'
-#' cat(overCodedExample[71]);
+#' ### Show the note
+#' cat(
+#'   exampleWithNote[10:20],
+#'   sep="\n"
+#' );
 #'
 #' @export
 insert_notes_in_source <- function(input,
                                    notes,
                                    indices = NULL,
                                    output = NULL,
-                                   wordwrap = 70,
+                                   wordwrap = 40,
                                    decisionLabel = NULL,
                                    justification = NULL,
                                    justificationFile = NULL,
@@ -149,20 +131,6 @@ insert_notes_in_source <- function(input,
 
     for (i in seq_along(notes)) {
 
-      if (!is.null(wordwrap)) {
-        notes[i] <-
-          strwrap(
-            notes[i],
-            width = wordwrap
-          )
-      }
-
-      ### Generate code to add to utterances matching this code
-      noteToAdd <-
-        paste0(noteOpening,
-               notes[i],
-               noteClosing);
-
       if (any(grepl(regexMatchingCode,
                     names(codes)[i],
                     perl=TRUE))) {
@@ -213,14 +181,65 @@ insert_notes_in_source <- function(input,
 
   }
 
-  ### Append code
-  input[indices] <-
-    paste(input[indices],
-          codeToAdd,
-          sep=" ");
+  notes <- as.list(notes);
 
-  if (!silent) {
-    cat0("Appending code '", codeToAdd, "' to utterances at those line numbers.\n");
+  if (length(notes) != length(indices)) {
+    stop(
+      "You passed ", length(notes), " notes but ", length(indices), " indices!"
+    );
+  }
+
+  ### Sort notes/indices
+  indicesOrder <- order(indices);
+  indices <- indices[indicesOrder];
+  notes <- notes[indicesOrder];
+
+  for (i in seq_along(notes)) {
+
+    if (!is.null(wordwrap)) {
+      notes[[i]] <-
+        strwrap(
+          notes[[i]],
+          width = wordwrap
+        )
+    }
+
+    ### Pad notes
+    widestLine <- max(nchar(notes[[i]]));
+    notes[[i]] <-
+      rock::padString(
+        notes[[i]],
+        widestLine
+      );
+
+    ### Add delimiters to note
+    notes[[i]] <-
+      paste0(noteOpening, " ",
+             notes[[i]], " ",
+             noteClosing);
+
+    ### Add empty lines
+    notes[[i]] <-
+      c("", notes[[i]], "");
+
+    ### Insert note
+    noteLines <- length(notes[[i]]);
+    preNoteSource <- input[1:(indices[i]-1)]
+    postNoteSource <- input[indices[i]:length(input)];
+    input <-
+      c(preNoteSource,
+        notes[[i]],
+        postNoteSource);
+
+    ### Adjust following indices
+    indices[(i+1):length(indices)] <-
+      indices[(i+1):length(indices)] +
+      noteLines;
+
+    if (!silent) {
+      cat0("Inserted a note of in total ", noteLines, " lines at index ", indices[i], ".\n");
+    }
+
   }
 
   if (is.null(output)) {
