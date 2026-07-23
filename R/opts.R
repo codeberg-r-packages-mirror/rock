@@ -493,7 +493,7 @@ opts$defaults <-
 
        suppressDuplicateInstanceWarnings = FALSE,
 
-       codebookDefaults =
+       codebookDefaultMetadata =
          list(title = "Title",
               authorString = "Authors",
               authorsIds = "ORCIDS",
