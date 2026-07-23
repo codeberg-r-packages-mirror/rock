@@ -35,7 +35,7 @@
 #'   regex = "example-[123].rock"
 #' );
 #'
-#' ### If no TSSIDs were configures, you can use
+#' ### If no TSSIDs were configured, you can use
 #' ### source filenames instead like this:
 #' rock::code_by_classInstance_heatmap(
 #'   parsedSources,
@@ -65,10 +65,26 @@ code_by_classInstance_heatmap <- function(x,
       value = TRUE
     );
 
+  if (!classId %in% names(x$qdt)) {
+    warning("The class identifier you passed as `classId`, '", classId,
+            "', does not seem to be used in the imported data... Trying ",
+            "to see whether I can distinguish the different sources and ",
+            "organize the codes by source (filename) instead.");
+    if (("originalSource" %in% names(x$qdt)) &&
+        (length(stats::na.omit(x$qdt$originalSource)) > 0)) {
+      classId <- "originalSource";
+    } else {
+      stop("The class identifier you passed as `classId`, '", classId,
+           "', does not seem to be used in the imported data, neither does ",
+           "the fallback (column 'originalSource', which holds the filename ",
+           "of each source), so I cannot produce a heatmap.");
+    }
+  }
+
   allClassInstancesToInclude <-
     grep(
       classInstanceRegex,
-      stats::na.omit(unique(x$mergedSourceDf[, classId])),
+      stats::na.omit(unique(x$qdt[, classId])),
       value = TRUE
     );
 
