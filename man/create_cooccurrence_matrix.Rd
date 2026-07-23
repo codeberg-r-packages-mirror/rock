@@ -7,7 +7,8 @@
 create_cooccurrence_matrix(
   x,
   codes = x$convenience$codingLeaves,
-  plotHeatmap = FALSE
+  plotHeatmap = FALSE,
+  returnPlot = FALSE
 )
 }
 \arguments{
@@ -16,6 +17,9 @@ create_cooccurrence_matrix(
 \item{codes}{The codes to include; by default, takes all codes.}
 
 \item{plotHeatmap}{Whether to plot the heatmap.}
+
+\item{returnPlot}{Whether to return the plot or the table (if the
+plot was ordered);}
 }
 \value{
 The co-occurrence matrix; a \code{matrix}.

@@ -66,7 +66,7 @@ parsedSources <- rock::parse_sources(
   regex = "example-[123].rock"
 );
 
-### If no TSSIDs were configures, you can use
+### If no TSSIDs were configured, you can use
 ### source filenames instead like this:
 rock::code_by_classInstance_heatmap(
   parsedSources,
