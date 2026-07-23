@@ -508,8 +508,7 @@ opts$defaults <-
               narrative_process_documentation = "Narrative Process Documentation",
               process_documentation_directives = "Process documentation directives",
               UCSID_version = "",
-              URCID = "",
-              ...),
+              URCID = ""),
 
        progressBar = TRUE,
 

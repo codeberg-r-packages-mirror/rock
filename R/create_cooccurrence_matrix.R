@@ -69,7 +69,7 @@ create_cooccurrence_matrix <- function(x,
 
   if (returnPlot) {
     return(list(res,
-                plot));
+                invisible(plot)));
   } else {
     return(res);
   }

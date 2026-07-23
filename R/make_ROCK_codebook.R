@@ -11,7 +11,7 @@ make_ROCK_codebook <- function(metadata = NULL,
 
   ### Check codes
   for (i in codes) {
-    if (!("code_id" in codes[[i]])) {
+    if (!("code_id" %in% codes[[i]])) {
       stop("Code number ", i, " does not have an identifier specified!");
     }
   }
