@@ -80,6 +80,26 @@ extract_rock_network_codes_from_text <- function(x) {
 
   }
 
+  res$uniqueCodings <-
+    unique(
+      unlist(
+        res$allCodings
+      )
+    );
+
+  res$uniqueCodeIds <-
+    get_codeIds_from_networkCoding(
+      res$uniqueCodings
+    );
+
+  # res$uniqueCodeIds <-
+  #   unlist(
+  #     lapply(
+  #       res$uniqueCodings,
+  #
+  #     )
+  #   );
+
   res$text <- x;
   res$text_clean <-
     remove_rock_codes_from_text(x);

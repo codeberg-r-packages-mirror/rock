@@ -7,6 +7,8 @@
 #' @param x The parsed source(s) as provided by `rock::parse_source` or `rock::parse_sources`.
 #' @param codes The codes to include; by default, takes all codes.
 #' @param plotHeatmap Whether to plot the heatmap.
+#' @param returnPlot Whether to return the plot or the table (if the
+#' plot was ordered);
 #'
 #' @return The co-occurrence matrix; a `matrix`.
 #' @export
@@ -30,7 +32,8 @@
 #'
 create_cooccurrence_matrix <- function(x,
                                        codes = x$convenience$codingLeaves,
-                                       plotHeatmap = FALSE) {
+                                       plotHeatmap = FALSE,
+                                       returnPlot = FALSE) {
 
   if (!("rock_parsedSource" %in% class(x)) &&
       !("rock_parsedSources" %in% class(x))) {
@@ -60,7 +63,11 @@ create_cooccurrence_matrix <- function(x,
         fillLab = NULL
       );
 
-    print(plot);
+    if (returnPlot) {
+      return(plot);
+    } else {
+      print(plot);
+    }
 
   }
 

@@ -493,6 +493,24 @@ opts$defaults <-
 
        suppressDuplicateInstanceWarnings = FALSE,
 
+       codebookDefaults =
+         list(title = "Title",
+              authorString = "Authors",
+              authorsIds = "ORCIDS",
+              date = strftime(Sys.time(), "%Y-%m-%d"),
+              organizational_mode = "hierarchical",
+              version = 1,
+              comments = "comments",
+              UCSID = "",
+              UCR_prefix = "",
+              positionality = "Positionaly statement(s)",
+              context = "Context description",
+              narrative_process_documentation = "Narrative Process Documentation",
+              process_documentation_directives = "Process documentation directives",
+              UCSID_version = "",
+              URCID = "",
+              ...),
+
        progressBar = TRUE,
 
        ### Used throughout for debugging
