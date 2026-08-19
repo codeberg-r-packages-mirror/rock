@@ -89,7 +89,9 @@
 #' using [rock::prepend_ids_to_source()], and the
 #' arguments to pass when calling it as a named list passed in  `UIDArgs`.
 #' @param preventOverwriting Whether to prevent overwriting of output files.
-#' @param encoding The encoding of the source(s).
+#' @param assumedInputEncoding The encoding to assume for the utterances when
+#' not specified.
+#' @param encoding The encoding of the source(s), used when writing to disk.
 #' @param silent Whether to suppress the warning about not editing the cleaned source.
 #'
 #' @return A source as a character vector.
@@ -158,6 +160,7 @@ convert_df_to_source <- function(data,
                                  prependUIDs = TRUE,
                                  UIDArgs = NULL,
                                  preventOverwriting = rock::opts$get(preventOverwriting),
+                                 assumedInputEncoding = "latin1",
                                  encoding = rock::opts$get(encoding),
                                  silent = rock::opts$get(silent)) {
 
@@ -201,21 +204,44 @@ convert_df_to_source <- function(data,
   attributesAsYamlList <- list();
 
   if (omit_empty_rows) {
+
     oldData <- data;
-    rowsWithUtterances <-
-      nchar(
-        trimws(
-          unlist(
-            apply(
-              oldData[, cols_to_utterances, drop=FALSE],
-              1,
-              paste0,
-              collapse = "",
-              simplify = FALSE
-            )
-          )
+
+    dataVector <-
+      unlist(
+        apply(
+          oldData[, cols_to_utterances, drop=FALSE],
+          1,
+          paste0,
+          collapse = "",
+          simplify = FALSE
         )
-      ) > 0;
+      );
+
+    dataEncodings <- Encoding(dataVector);
+    dataEncoding <- unique(dataEncodings);
+    if (!(length(dataEncoding) == 1)) {
+      stop(
+        "The imported utterances seem to have multiple encodings (specifically, ",
+        vecTxtQ(unique(dataEncodings)), "."
+      );
+    }
+
+    if (!(dataEncoding == "UTF-8")) {
+      if (dataEncoding == "unknown") {
+        Encoding(dataVector) <- assumedInputEncoding;
+        dataEncoding <- assumedInputEncoding;
+      }
+      unrecodedDataVector <- dataVector;
+      dataVector <-
+        iconv(
+          dataVector,
+          from = dataEncoding,
+          to = "UTF-8"
+        );
+    }
+
+    rowsWithUtterances <- nchar(trimws(dataVector)) > 0;
 
     data <- oldData[rowsWithUtterances, ];
 
@@ -874,6 +900,7 @@ convert_csv_to_source <- function(file,
                                   ciid_separator = "=",
                                   attributesFile = NULL,
                                   preventOverwriting = rock::opts$get(preventOverwriting),
+                                  assumedInputEncoding = "latin1",
                                   encoding = rock::opts$get(encoding),
                                   silent = rock::opts$get(silent)) {
 
@@ -899,6 +926,7 @@ convert_csv_to_source <- function(file,
       ciid_separator = ciid_separator,
       attributesFile = attributesFile,
       preventOverwriting = preventOverwriting,
+      assumedInputEncoding = assumedInputEncoding,
       encoding = encoding,
       silent = silent
     )
@@ -925,6 +953,7 @@ convert_csv2_to_source <- function(file,
                                    ciid_separator = "=",
                                    attributesFile = NULL,
                                    preventOverwriting = rock::opts$get(preventOverwriting),
+                                   assumedInputEncoding = "latin1",
                                    encoding = rock::opts$get(encoding),
                                    silent = rock::opts$get(silent)) {
 
@@ -950,6 +979,7 @@ convert_csv2_to_source <- function(file,
       ciid_separator = ciid_separator,
       attributesFile = attributesFile,
       preventOverwriting = preventOverwriting,
+      assumedInputEncoding = assumedInputEncoding,
       encoding = encoding,
       silent = silent
     )
@@ -977,6 +1007,7 @@ convert_xlsx_to_source <- function(file,
                                    ciid_separator = "=",
                                    attributesFile = NULL,
                                    preventOverwriting = rock::opts$get(preventOverwriting),
+                                   assumedInputEncoding = "latin1",
                                    encoding = rock::opts$get(encoding),
                                    silent = rock::opts$get(silent)) {
 
@@ -1010,6 +1041,7 @@ convert_xlsx_to_source <- function(file,
       ciid_separator = ciid_separator,
       attributesFile = attributesFile,
       preventOverwriting = preventOverwriting,
+      assumedInputEncoding = assumedInputEncoding,
       encoding = encoding,
       silent = silent
     )
@@ -1036,6 +1068,7 @@ convert_sav_to_source <- function(file,
                                   ciid_separator = "=",
                                   attributesFile = NULL,
                                   preventOverwriting = rock::opts$get(preventOverwriting),
+                                  assumedInputEncoding = "latin1",
                                   encoding = rock::opts$get(encoding),
                                   silent = rock::opts$get(silent)) {
 
@@ -1069,6 +1102,7 @@ convert_sav_to_source <- function(file,
       ciid_separator = ciid_separator,
       attributesFile = attributesFile,
       preventOverwriting = preventOverwriting,
+      assumedInputEncoding = assumedInputEncoding,
       encoding = encoding,
       silent = silent
     )

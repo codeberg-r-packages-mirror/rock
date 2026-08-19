@@ -365,39 +365,56 @@ parse_source <- function(text,
       silent = silent
     );
 
-    ### Simplify YAML attributes and convert into a data frame
+    ### 2025-08-19 - reintroducing rbind in case column names are the same
+
+    attributes_list_of_dfs <-
+      lapply(
+        res$attributes,
+        as.data.frame,
+        stringsAsFactors=FALSE
+      );
+
+    ### First try rbind
     res$attributesDf <-
       tryCatch(
-        ### 2024-05-29: switched from rbind to rbind_df_list, which should
-        ### allow different column names
-        rbind_df_list(
-          lapply(
-            res$attributes,
-            as.data.frame,
-            stringsAsFactors=FALSE
-          )
-        ),
-        error = function(e) {
+        do.call(rbind, attributes_list_of_dfs),
+        error = function(x) { return(FALSE) }
+      )
 
-          colCounts <-
-            table(
-              unlist(
-                lapply(
-                  lapply(res$attributes,
-                         as.data.frame,
-                         stringsAsFactors=FALSE),
-                  colnames
+    ### Try with rbind_df_list (added 2025-08-19)
+    if (isFALSE(res$attributesDf)) {
+
+      ### Simplify YAML attributes and convert into a data frame
+      res$attributesDf <-
+        tryCatch(
+          ### 2024-05-29: switched from rbind to rbind_df_list, which should
+          ### allow different column names
+          rbind_df_list(attributes_list_of_dfs),
+          error = function(e) {
+
+            colCounts <-
+              table(
+                unlist(
+                  lapply(
+                    lapply(res$attributes,
+                           as.data.frame,
+                           stringsAsFactors=FALSE),
+                    colnames
+                  )
                 )
-              )
-            );
+              );
 
-          stop("I could not parse the attributes into a data frame. At present, ",
-               "I require that all attributes are specified for all class ",
-               "instances - you may have omitted one (or more). Sorry! ",
-               "The following columns appear the following number of ",
-               "times: ", vecTxt(paste0(names(colCounts), " (", colCounts, " times)")),
-               ".");
-        });
+            stop("I could not parse the attributes into a data frame. At present, ",
+                 "I require that all attributes are specified for all class ",
+                 "instances - you may have omitted one (or more). Sorry! ",
+                 "The following columns appear the following number of ",
+                 "times: ", vecTxt(paste0(names(colCounts), " (", colCounts, " times)")),
+                 ".\n\nIt is also possible that the `rbind_df_list()` function ",
+                 "used to combine data frames requirs too much recursion. ",
+                 "The error that R gave was:\n\n", e$message, "\n");
+          });
+
+    }
 
     ### Store attributes variables for convenient use later on
     res$convenience <-

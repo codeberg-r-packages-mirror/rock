@@ -7,6 +7,8 @@
 #' @param wrappingArgs Arguments to use for word wrapping
 #' @param prependUIDs Whether to prepend UIDs
 #' @param UIDArgs Arguments to use for prepending UIDs
+#' @param assumedInputEncoding The encoding to assume for the utterances when
+#' not specified.
 #'
 #' @inheritParams wordwrap_source
 #'
@@ -42,11 +44,29 @@ preprocess_source <- function(input,
                               prependUIDs = TRUE,
                               UIDArgs = NULL,
                               preventOverwriting = rock::opts$get("preventOverwriting"),
+                              assumedInputEncoding = "latin1",
                               encoding = rock::opts$get("encoding"),
                               rlWarn = rock::opts$get("rlWarn"),
                               silent = rock::opts$get("silent")) {
 
-  if ((length(input) == 1) && file.exists(input) && (!dir.exists(input))) {
+  if (Encoding(input) == "unknown") {
+    input <- iconv(input, from=assumedInputEncoding, to="UTF-8");
+    Encoding(input) <- assumedInputEncoding;
+  }
+
+  input_chars <-
+    tryCatch(
+      nchar(input),
+      error = function(e) {
+        browser();
+      }
+    );
+
+  if ((length(input) == 1) &&
+      (input_chars > 0) &&
+      (input_chars < 260) &&
+      file.exists(input) &&
+      (!dir.exists(input))) {
     input <- readLines(input,
                        encoding=encoding,
                        warn=rlWarn);
