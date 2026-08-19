@@ -1,6 +1,6 @@
 #' Convenience function to read spreadsheet-like files
 #'
-#' Currently reads spreadsheets from Google Sheets or from `xlsx`, `csv`,
+#' Currently reads spreadsheets from Google Sheets or from `ods`, `xlsx`, `csv`,
 #' or `sav` files.
 #'
 #' @param x The URL or path to a file.
@@ -10,7 +10,7 @@
 #' @param localBackup If not `NULL`, a valid filename to write a local
 #' backup to.
 #' @param exportGoogleSheet If `x` is a URL to a Google Sheet, instead of using
-#' the `googlesheets4` package to download the data, by passing
+#' thr `googlesheets4` package to download the data, by passing
 #' `exportGoogleSheet=TRUE`, an export link will be produced and the data
 #' will be downloaded as Excel spreadsheet.
 #' @param flattenSingleDf Whether to return the result as a data frame if
@@ -24,24 +24,15 @@
 #' `flattenSingleDf` is `TRUE`, a data frame.
 #' @export
 #'
-#' @examples ### Note that this will require an active
-#' ### internet connection! This if statement
-#' ### checks for that.
-#' \donttest{
-#' if (tryCatch({readLines("https://google.com",n=1); TRUE}, error=function(x) FALSE)) {
-#'
-#'   ### Read the example ROCK codebook
-#'   ROCK_codebook <-
-#'     read_spreadsheet(
-#'       paste0(
-#'         "https://docs.google.com/spreadsheets/d/",
-#'         "1gVx5uhYzqcTH6Jq7AYmsLvHSBaYaT-23c7ZhZF4jmps"
-#'       )
-#'     );
-#'
-#'   ### Show a bit
-#'   ROCK_codebook$metadata[1:3, ];
-#' }
+#' @examples \donttest{
+#' ### Note that this example requires an internet connection!
+#' read_spreadsheet(
+#'   paste0(
+#'     "https://docs.google.com/",
+#'     "spreadsheets/d/",
+#'     "1bHDzpCu4CwEa5_3_q_9vH2691XPhCS3e4Aj_HLhw_U8"
+#'   )
+#' );
 #' }
 read_spreadsheet <- function(x,
                              sheet = NULL,
@@ -50,20 +41,40 @@ read_spreadsheet <- function(x,
                              exportGoogleSheet = FALSE,
                              flattenSingleDf = FALSE,
                              xlsxPkg = c("rw_xl", "openxlsx", "XLConnect"),
+                             odsPkg = c("readODS"),
                              failQuietly = FALSE,
                              silent = rock::opts$get("silent")) {
 
+  if (is.data.frame(x)) {
+    msg(
+      "As `x`, you passed a data frame; returning that as is.",
+      silent = silent
+    );
+    return(x);
+  }
+
   xlsxPkgLabels <-
-    c(rw_xl = "readxl and writexl",
-      openxlsx = "openxlsx",
+    c(openxlsx = "openxlsx",
+      rw_xl = "readxl and writexl",
       XLConnect = "XLConnect");
+
+  odsPkgLabels <-
+    c(readODS = "readODS");
 
   gSheetId_extractionRegex <- rock::opts$get("gSheetId_extractionRegex");
   gSheetId_to_exportLink <- rock::opts$get("gSheetId_to_exportLink");
 
+  if (is.data.frame(x)) {
+    msg(
+      "You provided a data frame; returning it.",
+      silent = silent
+    );
+    return(x);
+  }
+
   if (!is.character(x)) {
     stop("As `x`, you must pass a character value (i.e. a single string). ",
-         "Instead, you passed something with class ", vecTxt(class(x)), ".");
+         "Instead, you passed something with class ", vecTxtQ(class(x)), ".");
   }
 
   if (!(length(x) == 1)) {
@@ -176,7 +187,7 @@ read_spreadsheet <- function(x,
 
     extension <- tools::file_ext(x);
 
-    fileToRead <- tempfile(fileext = extension);
+    fileToRead <- tempfile(fileext = paste0(".", extension));
 
     downloadResult <- utils::download.file(x,
                                            fileToRead,
@@ -191,9 +202,9 @@ read_spreadsheet <- function(x,
     } else {
 
       downloaded <- TRUE;
-      extension <- tools::file_ext(fileToRead);
+      extension <-tools::file_ext(fileToRead);
 
-      msg("Succesfully downloaded the file.\n",
+      msg("Succesfully downloaded the file with extension '", extension, "'.\n",
           silent=silent);
 
     }
@@ -228,7 +239,41 @@ read_spreadsheet <- function(x,
 
     extension <- trimws(tolower(extension));
 
-    if (extension == "xlsx") {
+    if (extension == "ods") {
+
+      msg("The extension of the file is `ods`, and you specified {",
+          odsPkgLabels[odsPkg],
+          "} as the package to use to read Open Document Spreadsheet files, so ",
+          "starting to read the data with those parameters.\n",
+          silent=silent);
+
+      if (odsPkg == "readODS") {
+
+        if (requireNamespace("readODS", quietly = TRUE)) {
+
+          sheetNames <- readODS::list_ods_sheets(fileToRead);
+
+          res <-
+            lapply(
+              sheetNames,
+              readODS::read_ods,
+              path = fileToRead,
+              col_types = NA,
+              progress = FALSE
+            );
+          names(res) <- sheetNames;
+
+        } else {
+
+          stop("To read Open Document Spreadsheets (`.ods`), the {readODS} package ",
+               "has to be installed. You can install it with:\n\n",
+               "  install.packages('readODS');\n");
+
+        }
+
+      }
+
+    } else if (extension == "xlsx") {
 
       msg("The extension of the file is `xlsx`, and you specified {",
           xlsxPkgLabels[xlsxPkg],
@@ -361,7 +406,7 @@ read_spreadsheet <- function(x,
         "spreadsheet (or those spreadsheets).\n",
         silent=silent);
 
-    if (all(sheet %in% names(res))) {
+    if (is.numeric(sheet) || (all(sheet %in% names(res)))) {
       res <- res[sheet];
       msg("Selected sheet(s) ", vecTxtQ(sheet), "!\n",
           silent = silent);
@@ -394,7 +439,7 @@ read_spreadsheet <- function(x,
         "), so attempting to save a local backup.\n",
         silent = silent);
 
-    if (exists("downloadResult") && !is.null(downloadResult) && (downloadResult == 0)) {
+    if (!is.null(downloadResult) && (downloadResult == 0)) {
 
       msg("A file was downloaded, so just copying that file as local backup.\n",
           silent = silent);

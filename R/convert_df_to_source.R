@@ -651,12 +651,13 @@ convert_df_to_source <- function(data,
               "another filename, set `preventOverwriting` to `FALSE`, or ",
               "pass `NULL` for `attributesFile`.");
     } else {
-      con <- file(description=attributesFile,
-                  open="w",
-                  encoding=encoding);
-      writeLines(text=allAttributes_as_yaml,
-                 con=con);
-      close(con);
+      writeTxtFile(
+        x = allAttributes_as_yaml,
+        output = attributesFile,
+        encoding = encoding,
+        preventOverwriting = preventOverwriting,
+        silent = silent
+      );
     }
 
   }
@@ -830,7 +831,8 @@ attributeList_to_yaml <- function(attributeList,
       unlist(
         strsplit(
           yaml::as.yaml(
-            attributeList
+            attributeList,
+            indent.mapping.sequence = TRUE
           ),
           "\n",
           fixed = TRUE

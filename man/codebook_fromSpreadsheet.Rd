@@ -19,7 +19,7 @@ codebook_fromSpreadsheet(
 backup to.}
 
 \item{exportGoogleSheet}{If \code{x} is a URL to a Google Sheet, instead of using
-the \code{googlesheets4} package to download the data, by passing
+thr \code{googlesheets4} package to download the data, by passing
 \code{exportGoogleSheet=TRUE}, an export link will be produced and the data
 will be downloaded as Excel spreadsheet.}
 

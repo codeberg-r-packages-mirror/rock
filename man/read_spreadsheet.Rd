@@ -12,6 +12,7 @@ read_spreadsheet(
   exportGoogleSheet = FALSE,
   flattenSingleDf = FALSE,
   xlsxPkg = c("rw_xl", "openxlsx", "XLConnect"),
+  odsPkg = c("readODS"),
   failQuietly = FALSE,
   silent = rock::opts$get("silent")
 )
@@ -28,7 +29,7 @@ check for presence. A named list of vectors.}
 backup to.}
 
 \item{exportGoogleSheet}{If \code{x} is a URL to a Google Sheet, instead of using
-the \code{googlesheets4} package to download the data, by passing
+thr \code{googlesheets4} package to download the data, by passing
 \code{exportGoogleSheet=TRUE}, an export link will be produced and the data
 will be downloaded as Excel spreadsheet.}
 
@@ -47,27 +48,18 @@ A list of dataframes, or, if only one data frame was loaded and
 \code{flattenSingleDf} is \code{TRUE}, a data frame.
 }
 \description{
-Currently reads spreadsheets from Google Sheets or from \code{xlsx}, \code{csv},
+Currently reads spreadsheets from Google Sheets or from \code{ods}, \code{xlsx}, \code{csv},
 or \code{sav} files.
 }
 \examples{
-### Note that this will require an active
-### internet connection! This if statement
-### checks for that.
 \donttest{
-if (tryCatch({readLines("https://google.com",n=1); TRUE}, error=function(x) FALSE)) {
-
-  ### Read the example ROCK codebook
-  ROCK_codebook <-
-    read_spreadsheet(
-      paste0(
-        "https://docs.google.com/spreadsheets/d/",
-        "1gVx5uhYzqcTH6Jq7AYmsLvHSBaYaT-23c7ZhZF4jmps"
-      )
-    );
-
-  ### Show a bit
-  ROCK_codebook$metadata[1:3, ];
-}
+### Note that this example requires an internet connection!
+read_spreadsheet(
+  paste0(
+    "https://docs.google.com/",
+    "spreadsheets/d/",
+    "1bHDzpCu4CwEa5_3_q_9vH2691XPhCS3e4Aj_HLhw_U8"
+  )
+);
 }
 }
