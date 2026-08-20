@@ -49,7 +49,10 @@
 #' will also be affected by this, and will probably become invalid!
 #' @param removeTrailingNewlines Whether to remove trailing newline characters
 #' (i.e. at the end of a character value in a character vector);
-#' @param encoding The encoding of the source(s).
+#' @param encoding,inputEncoding,outputEncoding The encoding of the source(s). Specifying
+#' `encoding` uses the same encoding for both reading the source(s) and writing them;
+#' alternatively, `inputEncoding` and `outputEncoding` can be used to export with
+#' a different encoding.
 #' @param silent Whether to suppress the warning about not editing the cleaned source.
 #'
 #' @return A character vector for `clean_source`, or a list of character vectors,
@@ -108,13 +111,15 @@ clean_source <- function(input,
                          utteranceSplits = rock::opts$get("utteranceSplits"),
                          preventOverwriting = rock::opts$get("preventOverwriting"),
                          encoding = rock::opts$get("encoding"),
+                         inputEncoding = encoding,
+                         outputEncoding = encoding,
                          silent = rock::opts$get("silent")) {
 
   utteranceMarker <- rock::opts$get("utteranceMarker");
 
   if ((length(input) == 1) && file.exists(input) && (!dir.exists(input))) {
     res <- readLines(input,
-                     encoding=encoding,
+                     encoding=inputEncoding,
                      warn=rlWarn);
 
     if (removeNewlines) {
@@ -204,12 +209,16 @@ clean_source <- function(input,
     return(res);
   } else {
 
+    if (!inputEcoding == exportEncoding) {
+      res <- iconv(res, inputEcoding, exportEncoding);
+    }
+
     writingResult <-
       writeTxtFile(
         x = res,
         output = output,
         preventOverwriting = preventOverwriting,
-        encoding = encoding,
+        encoding = exportEncoding,
         silent = silent
       );
 
