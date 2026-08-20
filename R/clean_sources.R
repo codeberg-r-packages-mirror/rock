@@ -19,6 +19,8 @@ clean_sources <- function(input,
                           utteranceSplits = rock::opts$get(utteranceSplits),
                           preventOverwriting = rock::opts$get(preventOverwriting),
                           encoding = rock::opts$get(encoding),
+                          inputEncoding = encoding,
+                          outputEncoding = encoding,
                           silent=rock::opts$get(silent)) {
 
   utteranceMarker <- rock::opts$get(utteranceMarker);
@@ -104,6 +106,8 @@ clean_sources <- function(input,
                  preventOverwriting=preventOverwriting,
                  removeNewlines=removeNewlines,
                  encoding=encoding,
+                 inputEncoding = inputEncoding,
+                 outputEncoding = outputEncoding,
                  silent=silent);
     res <-
       c(res,

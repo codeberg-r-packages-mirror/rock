@@ -42,6 +42,8 @@ clean_sources(
   utteranceSplits = rock::opts$get(utteranceSplits),
   preventOverwriting = rock::opts$get(preventOverwriting),
   encoding = rock::opts$get(encoding),
+  inputEncoding = encoding,
+  outputEncoding = encoding,
   silent = rock::opts$get(silent)
 )
 
