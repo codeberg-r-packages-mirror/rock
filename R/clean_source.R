@@ -209,8 +209,8 @@ clean_source <- function(input,
     return(res);
   } else {
 
-    if (!inputEncoding == exportEncoding) {
-      res <- iconv(res, inputEncoding, exportEncoding);
+    if (!inputEncoding == outputEncoding) {
+      res <- iconv(res, inputEncoding, outputEncoding);
     }
 
     writingResult <-
@@ -218,7 +218,7 @@ clean_source <- function(input,
         x = res,
         output = output,
         preventOverwriting = preventOverwriting,
-        encoding = exportEncoding,
+        encoding = outputEncoding,
         silent = silent
       );
 
