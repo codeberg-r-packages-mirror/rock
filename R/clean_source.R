@@ -210,7 +210,7 @@ clean_source <- function(input,
   } else {
 
     if (!inputEncoding == exportEncoding) {
-      res <- iconv(res, inputEcoding, exportEncoding);
+      res <- iconv(res, inputEncoding, exportEncoding);
     }
 
     writingResult <-
