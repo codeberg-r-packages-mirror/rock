@@ -22,6 +22,8 @@ clean_source(
   utteranceSplits = rock::opts$get("utteranceSplits"),
   preventOverwriting = rock::opts$get("preventOverwriting"),
   encoding = rock::opts$get("encoding"),
+  inputEncoding = encoding,
+  outputEncoding = encoding,
   silent = rock::opts$get("silent")
 )
 
@@ -109,7 +111,10 @@ the \code{utteranceMarker} ROCK setting.}
 
 \item{preventOverwriting}{Whether to prevent overwriting of output files.}
 
-\item{encoding}{The encoding of the source(s).}
+\item{encoding, inputEncoding, outputEncoding}{The encoding of the source(s). Specifying
+\code{encoding} uses the same encoding for both reading the source(s) and writing them;
+alternatively, \code{inputEncoding} and \code{outputEncoding} can be used to export with
+a different encoding.}
 
 \item{silent}{Whether to suppress the warning about not editing the cleaned source.}
 

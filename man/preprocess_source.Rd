@@ -14,6 +14,7 @@ preprocess_source(
   prependUIDs = TRUE,
   UIDArgs = NULL,
   preventOverwriting = rock::opts$get("preventOverwriting"),
+  assumedInputEncoding = "latin1",
   encoding = rock::opts$get("encoding"),
   rlWarn = rock::opts$get("rlWarn"),
   silent = rock::opts$get("silent")
@@ -43,6 +44,9 @@ case, every file will be written to the same directory it was read from.}
 \item{UIDArgs}{Arguments to use for prepending UIDs}
 
 \item{preventOverwriting}{Whether to prevent overwriting of output files.}
+
+\item{assumedInputEncoding}{The encoding to assume for the utterances when
+not specified.}
 
 \item{encoding}{The encoding of the source(s).}
 

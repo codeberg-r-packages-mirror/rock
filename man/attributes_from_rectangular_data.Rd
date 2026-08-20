@@ -12,7 +12,9 @@ attributes_from_df(
   colsToInclude = names(x),
   output = NULL,
   delimiterString = rock::opts$get("delimiterString"),
-  attributeContainer = rock::opts$get("attributeContainers")[1]
+  attributeContainer = rock::opts$get("attributeContainers")[1],
+  silent = rock::opts$get("silent"),
+  encoding = rock::opts$get("encoding")
 )
 
 attributes_from_spreadsheet(
@@ -23,7 +25,9 @@ attributes_from_spreadsheet(
   sheet = 1,
   output = NULL,
   delimiterString = rock::opts$get("delimiterString"),
-  attributeContainer = rock::opts$get("attributeContainers")[1]
+  attributeContainer = rock::opts$get("attributeContainers")[1],
+  silent = rock::opts$get("silent"),
+  encoding = rock::opts$get("encoding")
 )
 }
 \arguments{

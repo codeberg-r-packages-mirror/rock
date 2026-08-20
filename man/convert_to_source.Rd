@@ -35,6 +35,7 @@ convert_df_to_source(
   prependUIDs = TRUE,
   UIDArgs = NULL,
   preventOverwriting = rock::opts$get(preventOverwriting),
+  assumedInputEncoding = "latin1",
   encoding = rock::opts$get(encoding),
   silent = rock::opts$get(silent)
 )
@@ -57,6 +58,7 @@ convert_csv_to_source(
   ciid_separator = "=",
   attributesFile = NULL,
   preventOverwriting = rock::opts$get(preventOverwriting),
+  assumedInputEncoding = "latin1",
   encoding = rock::opts$get(encoding),
   silent = rock::opts$get(silent)
 )
@@ -79,6 +81,7 @@ convert_csv2_to_source(
   ciid_separator = "=",
   attributesFile = NULL,
   preventOverwriting = rock::opts$get(preventOverwriting),
+  assumedInputEncoding = "latin1",
   encoding = rock::opts$get(encoding),
   silent = rock::opts$get(silent)
 )
@@ -101,6 +104,7 @@ convert_xlsx_to_source(
   ciid_separator = "=",
   attributesFile = NULL,
   preventOverwriting = rock::opts$get(preventOverwriting),
+  assumedInputEncoding = "latin1",
   encoding = rock::opts$get(encoding),
   silent = rock::opts$get(silent)
 )
@@ -123,6 +127,7 @@ convert_sav_to_source(
   ciid_separator = "=",
   attributesFile = NULL,
   preventOverwriting = rock::opts$get(preventOverwriting),
+  assumedInputEncoding = "latin1",
   encoding = rock::opts$get(encoding),
   silent = rock::opts$get(silent)
 )
@@ -223,7 +228,10 @@ arguments to pass when calling it as a named list passed in  \code{UIDArgs}.}
 
 \item{preventOverwriting}{Whether to prevent overwriting of output files.}
 
-\item{encoding}{The encoding of the source(s).}
+\item{assumedInputEncoding}{The encoding to assume for the utterances when
+not specified.}
+
+\item{encoding}{The encoding of the source(s), used when writing to disk.}
 
 \item{silent}{Whether to suppress the warning about not editing the cleaned source.}
 
