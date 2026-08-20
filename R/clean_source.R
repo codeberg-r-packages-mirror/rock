@@ -209,7 +209,7 @@ clean_source <- function(input,
     return(res);
   } else {
 
-    if (!inputEconding == exportEncoding) {
+    if (!inputEncoding == exportEncoding) {
       res <- iconv(res, inputEcoding, exportEncoding);
     }
 
